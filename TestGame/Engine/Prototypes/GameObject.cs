@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using GameEngineTK.Engine.Prototypes;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
@@ -19,6 +20,7 @@ namespace GameEngineTK.Engine
 		int width;
 		int height;
 		Texture2D texture;
+		TextureHandler vtexture;
 
 		public Params objectParams = new Params();
 
@@ -31,7 +33,18 @@ namespace GameEngineTK.Engine
 			this.Components.Add(new Physics());
 			this.Components.Add(new Animation(texture, width, height));
 
+
 			this.texture = texture;
+			this.width = width;
+			this.height = height;
+		}
+		public GameObject(TextureHandler vtexture, int width, int height)
+		{
+			this.Components.Add(new Transform());
+			this.Components.Add(new Physics());
+			this.Components.Add(new Animation(vtexture.ToTexture2D(), width, height));
+
+			this.vtexture = vtexture;
 			this.width = width;
 			this.height = height;
 		}
@@ -81,6 +94,15 @@ namespace GameEngineTK.Engine
 			set {
 				this.GetComponent<Animation>().SpriteSheet = value;
 				this.texture = value;
+			}
+		}
+
+		public TextureHandler VTexture {
+			get { return this.vtexture; }
+			set
+			{
+				this.GetComponent<Animation>().SpriteSheet = value.ToTexture2D();
+				this.vtexture = value;
 			}
 		}
 
@@ -172,6 +194,7 @@ namespace GameEngineTK.Engine
 
 		public void Draw()
 		{
+			
 			var _t = this.GetComponent<Transform>();
 			if (_t.ScreenPosition().X > -this.Width && _t.ScreenPosition().X < 1920 &&
 				_t.ScreenPosition().Y > -this.Height && _t.ScreenPosition().Y < 1080)

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using GameEngineTK.Engine;
+using GameEngineTK.Engine.Prototypes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -12,20 +13,19 @@ namespace GameEngineTK.Scripts
 	{
 		public static GameObject Player;
 		TextureHandler texture = new TextureHandler(@"C:\Users\HP\source\repos\TestGame\TestGame\Content\player.png");
+		TextureHandler light = new TextureHandler(@"C:\Users\HP\source\repos\TestGame\TestGame\Content\light_right_input.png");
+		Color[] data;
+		Texture2D tex;
 		public override void Start()
 		{
 			//Player = new GameObject(Content.Load<Texture2D>("player"), 32, 32);
 
-			Color[] data = new Color[texture.Width * texture.Height];
-			Texture2D tex = new Texture2D(Script.graphicsDevice, texture.Width, texture.Height);
-			for (int x = 0; x < texture.Width; x++)
-				for (int y = 0; y < texture.Height; y++)
-				{
-					data[texture.Width * y + x] = new Color(texture.GetPixel(x, y).R, texture.GetPixel(x, y).G, texture.GetPixel(x, y).B, texture.GetPixel(x, y).alpha);
-				}
-			tex.SetData(data);
+			data = new Color[texture.Width * texture.Height];
+			tex = new Texture2D(Script.graphicsDevice, texture.Width, texture.Height);
+			Player = new GameObject(texture, 32, 32);
+			
+			
 
-			Player = new GameObject(tex, 32, 32);
 			Player.AddComponent(new BoxCollider());
 		}
 
@@ -33,6 +33,10 @@ namespace GameEngineTK.Scripts
 		{
 			Player.Width = 64;
 			Player.Height = 64;
+
+			Services.GetService<Debug>().text = Player.VTexture.GetPixel(0, 0).ToString();
+
+			
 
 			//Player.RotateTowardObject(CursorScript.Cursor);
 
