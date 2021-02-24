@@ -17,7 +17,7 @@ namespace GameEngineTK.Scripts
 			Services.GetService<ProjectSettings>().ShowColliders = false;
 			Cursor = new GameObject(Content.Load<Texture2D>("CursorSpriteSheet"), 32, 42);
 			Cursor.AddComponent(new Animation(Cursor.Texture, 32, 42));
-			Cursor.GetComponent<Transform>().Parallax = new Vector2(0, 0);			
+			Cursor.GetComponent<Transform>().Parallax = new Vector2(0, 0);
 		}
 
 		public override void Update()
