@@ -13,7 +13,5 @@ namespace GameEngineTK.Engine
 		public static ContentManager Content;
 		public static SpriteBatch ctx;
 		public static GraphicsDevice graphicsDevice;
-		abstract public void Update();
-		abstract public void Start();
 	}
 }

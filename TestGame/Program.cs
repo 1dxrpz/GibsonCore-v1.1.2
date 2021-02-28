@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using GameEngineTK.Engine;
+using GameEngineTK.Engine.Prototypes.Interfaces;
 using GameEngineTK.Scripts;
 
 namespace GameEngineTK
 {
 	public static class Program
 	{
-		static public List<Script> scripts = new List<Script>();
+		static public List<IScriptManager> scripts = new List<IScriptManager>();
 		[STAThread]
 		static void Main()
 		{

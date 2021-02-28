@@ -2,18 +2,20 @@
 using System.Collections.Generic;
 using System.Text;
 using GameEngineTK.Engine;
+using GameEngineTK.Engine.Prototypes.Interfaces;
 using Microsoft.Xna.Framework;
 
 namespace GameEngineTK.Scripts
 {
-	public class CameraScript : Script
+	public class CameraScript : IScriptManager
 	{
-		public override void Start()
+		Debug debug;
+		public void Start()
 		{
-
+			
 		}
 
-		public override void Update()
+		public void Update()
 		{
 			Vector2 pos = PlayerScript.Player.GetComponent<Transform>().Position;
 			Camera.Position = Vector2.Lerp(Camera.Position,

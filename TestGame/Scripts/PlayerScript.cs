@@ -3,20 +3,21 @@ using System.Collections.Generic;
 using System.Text;
 using GameEngineTK.Engine;
 using GameEngineTK.Engine.Prototypes;
+using GameEngineTK.Engine.Prototypes.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 namespace GameEngineTK.Scripts
 {
-	public class PlayerScript : Script
+	public class PlayerScript : IScriptManager
 	{
 		public static GameObject Player;
 		TextureHandler texture = new TextureHandler(@"C:\Users\HP\source\repos\TestGame\TestGame\Content\player.png");
 		TextureHandler light = new TextureHandler(@"C:\Users\HP\source\repos\TestGame\TestGame\Content\light_right_input.png");
 		Color[] data;
 		Texture2D tex;
-		public override void Start()
+		public void Start()
 		{
 			//Player = new GameObject(Content.Load<Texture2D>("player"), 32, 32);
 
@@ -29,12 +30,12 @@ namespace GameEngineTK.Scripts
 			Player.AddComponent(new BoxCollider());
 		}
 
-		public override void Update()
+		public void Update()
 		{
 			Player.Width = 64;
 			Player.Height = 64;
 
-			Services.GetService<Debug>().text = Player.VTexture.GetPixel(0, 0).ToString();
+			Script.Services.GetService<Debug>().text = Player.VTexture.GetPixel(0, 0).ToString();
 
 			
 
