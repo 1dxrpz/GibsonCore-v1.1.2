@@ -21,50 +21,50 @@ namespace GameEngineTK.Engine
 			get
 			{
 				return new Vector2(
-					(float)(1 * Math.Cos(this.Rotation)),
-					(float)(1 * Math.Sin(this.Rotation))
+					(float)(1 * Math.Cos(Rotation)),
+					(float)(1 * Math.Sin(Rotation))
 				);
 			}
 			private set { }
 		}
-		public Vector2 Backward { get { return -this.Forward; } }
+		public Vector2 Backward { get { return -Forward; } }
 		public Vector2 Top
 		{
 			get
 			{ return new Vector2(
-					(float)(1 * Math.Sin(this.Rotation)),
-					(float)(-1 * Math.Cos(this.Rotation))
+					(float)(1 * Math.Sin(Rotation)),
+					(float)(-1 * Math.Cos(Rotation))
 				);
 			}
 		}
 		public Vector2 Bottom
 		{
-			get { return -this.Top; }
+			get { return -Top; }
 		}
 		
 		public void Translate(Vector2 pos)
 		{
-			this.Position += pos;
+			Position += pos;
 		}
 		public void Translate(float _x, float _y)
 		{
-			this.Position += new Vector2(_x, _y);
+			Position += new Vector2(_x, _y);
 		}
 		public void TranslateX(float _x)
 		{
-			this.Position += new Vector2(_x, 0);
+			Position += new Vector2(_x, 0);
 		}
 		public void TranslateY(float _y)
 		{
-			this.Position += new Vector2(0, _y);
+			Position += new Vector2(0, _y);
 		}
 		public Vector2 ScreenPosition()
 		{
-			return ((this.Position) - Camera.Position * this.Parallax);
+			return ((Position) - Camera.Position * Parallax);
 		}
 		public void Update()
 		{
-			this.Position += this.Velocity;
+			Position += Velocity;
 		}
 	}
 }

@@ -1,7 +1,9 @@
-﻿using Microsoft.Xna.Framework;
+﻿using GameEngineTK.Engine.Prototypes.Interfaces;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 
 namespace GameEngineTK.Engine
@@ -41,17 +43,19 @@ namespace GameEngineTK.Engine
 		private double now = 0;
 		public double msgFrequency = .2f;
 		public string msg = "";
+		public string text = "";
+		public List<string> DebugLines = new List<string>();
 		public void Update(GameTime gameTime)
 		{
 			now = gameTime.TotalGameTime.TotalSeconds;
 			elapsed = (double)(now - last);
 			if (elapsed > msgFrequency)
 			{
-				msg = " Fps: " + (frames / elapsed).ToString()
-					+ "\n Elapsed time: " + elapsed.ToString()
+				msg = " Fps: " + Math.Round(frames / elapsed).ToString()
+					+ "\n Elapsed time: " + Math.Round(elapsed, 4).ToString()
 					+ "\n Updates: " + updates.ToString()
 					+ "\n Frames: " + frames.ToString()
-					+ "\n Update frequency: " + msgFrequency.ToString();
+					+ "\n Update frequency: " + Math.Round(msgFrequency, 4).ToString();
 				//Console.WriteLine(msg);
 				elapsed = 0;
 				frames = 0;
@@ -61,7 +65,22 @@ namespace GameEngineTK.Engine
 			updates++;
 			frames++;
 			FPS = msg;
+
+			text = "";
+			
+
+			foreach (string line in DebugLines)
+			{
+				text += "\n" + line;
+			}
+
+			DebugLines = new List<string>();
 		}
-		public string text = "";
+		public void AddDebugLine(string LineMessage)
+		{
+			StackTrace stackTrace = new StackTrace();
+			DebugLines.Add($"[{stackTrace.GetFrame(1).GetMethod().DeclaringType.Name}]: {LineMessage}");
+			
+		}
 	}
 }
