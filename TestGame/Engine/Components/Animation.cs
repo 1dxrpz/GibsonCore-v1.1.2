@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using GameEngineTK.Engine.Prototypes.Interfaces;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Text;
 
 namespace GameEngineTK.Engine
 {
-	public class Animation : Component
+	public class Animation : IComponentManager
 	{
 		public Texture2D SpriteSheet;
 		public int CurrentFrame = 0;
@@ -16,6 +17,10 @@ namespace GameEngineTK.Engine
 		public int CurrentAnimation = 0;
 		public int AnimationCount = 1;
 		public int AnimationSpeed;
+
+		public Vector2 Position { get; set; }
+		public int Width { get; set; }
+		public int Height { get; set; }
 
 		public Point size;
 
@@ -28,7 +33,7 @@ namespace GameEngineTK.Engine
 			
 		}
 		public Point src;
-		public override void Update()
+		public void Update()
 		{
 			src.X = CurrentFrame * FrameSize.X;
 			src.Y = CurrentAnimation * FrameSize.Y;

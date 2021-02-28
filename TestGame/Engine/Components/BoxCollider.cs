@@ -1,16 +1,22 @@
-﻿using Microsoft.Xna.Framework;
+﻿using GameEngineTK.Engine.Prototypes.Interfaces;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 
 namespace GameEngineTK.Engine
 {
-	public class BoxCollider : Component
+	public class BoxCollider : IComponentManager
 	{
 		static public Texture2D ColliderRenderTexture;
 		static public bool RenderColisionMask = false;
-		
+
+		public Vector2 Position { get; set; }
+		public int Width { get; set; }
+		public int Height { get; set; }
+
 		public Vector2 velocity = new Vector2();
 		public bool OverObject(GameObject obj)
 		{
@@ -57,7 +63,7 @@ namespace GameEngineTK.Engine
 				this.Position.X < _obj.Position.X + _obj.Width - 5;
 		}
 		
-		public override void Update()
+		public void Update()
 		{
 			
 		}

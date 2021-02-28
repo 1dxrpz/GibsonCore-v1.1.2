@@ -1,4 +1,5 @@
 ﻿using GameEngineTK.Engine.Prototypes;
+using GameEngineTK.Engine.Prototypes.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -106,16 +107,16 @@ namespace GameEngineTK.Engine
 			}
 		}
 
-		private List<Component> Components = new List<Component>();
+		private List<IComponentManager> Components = new List<IComponentManager>();
 
-		public bool AddComponent(Component c)
+		public bool AddComponent(IComponentManager c)
 		{
 			if (this.HasComponent(c))
 				return false;
 			Components.Add(c);
 			return true;
 		}
-		public bool RemoveComponent(Component c)
+		public bool RemoveComponent(IComponentManager c)
 		{
 			if (!this.HasComponent(c))
 				return false;
@@ -127,15 +128,17 @@ namespace GameEngineTK.Engine
 		{
 			for (int i = 0; i < this.Components.Count; i++)
 				if (this.Components[i] is T) return (T)Convert.ChangeType(this.Components[i], typeof(T));
-			return (T)Convert.ChangeType(new Component(), typeof(T));
+			throw new ArgumentException($"{this} does not contain {nameof(T)} component");
 		}
+		[Obsolete("This method deprecated; missing components throw an exception")]
 		public bool HasComponent<T>()
 		{
 			for (int i = 0; i < this.Components.Count; i++)
 				if (this.Components[i] is T) return true;
 			return false;
 		}
-		public bool HasComponent(Component obj)
+		[Obsolete("This method deprecated; missing components throw an exception")]
+		public bool HasComponent(IComponentManager obj)
 		{
 			for (int i = 0; i < this.Components.Count; i++)
 				if (this.Components[i].Equals(obj)) return true;
@@ -196,15 +199,15 @@ namespace GameEngineTK.Engine
 		{
 			
 			var _t = this.GetComponent<Transform>();
-			if (_t.ScreenPosition().X > -this.Width && _t.ScreenPosition().X < 1920 &&
-				_t.ScreenPosition().Y > -this.Height && _t.ScreenPosition().Y < 1080)
+			if (_t.ScreenPosition().X > -Width && _t.ScreenPosition().X < 1920 &&
+				_t.ScreenPosition().Y > -Height && _t.ScreenPosition().Y < 1080)
 			{
 				if (Components.Count > 0)
 					Components.ForEach(v =>
 					{
 						v.Update();
-						v.Width = this.width;
-						v.Height = this.height;
+						v.Width = width;
+						v.Height = height;
 						v.Position = this.GetComponent<Transform>().Position;
 					});
 				if (this.HasComponent<Animation>())
@@ -212,18 +215,18 @@ namespace GameEngineTK.Engine
 					Animation an = this.GetComponent<Animation>();
 
 					Script.ctx.Draw(an.SpriteSheet, new Rectangle(_t.ScreenPosition().ToPoint(), an.size),
-						new Rectangle(an.src, an.FrameSize), Color.White, this.GetComponent<Transform>().Rotation, this.OriginPosition, Flip, 0);
+						new Rectangle(an.src, an.FrameSize), Color.White, this.GetComponent<Transform>().Rotation, OriginPosition, Flip, 0);
 				}
-				else if (this.objectParams.isVisible)
+				else if (objectParams.isVisible)
 				{
-					Script.ctx.Draw(this.texture, new Rectangle(_t.ScreenPosition().ToPoint(), new Point(this.Width, this.Height)),
-						new Rectangle(0, 0, this.texture.Width, this.texture.Height), Color.White, this.GetComponent<Transform>().Rotation, this.OriginPosition, Flip, 0);
+					Script.ctx.Draw(texture, new Rectangle(_t.ScreenPosition().ToPoint(), new Point(Width, Height)),
+						new Rectangle(0, 0, texture.Width, texture.Height), Color.White, this.GetComponent<Transform>().Rotation, OriginPosition, Flip, 0);
 				}
 				if (this.HasComponent<BoxCollider>())
 				{
-					var bc = this.GetComponent<BoxCollider>();
+					BoxCollider bc = this.GetComponent<BoxCollider>();
 					bc.velocity = this.GetComponent<Transform>().Velocity;
-					bc.Position -= this.OriginPosition * 2;
+					bc.Position -= OriginPosition * 2;
 					if (BoxCollider.RenderColisionMask)
 						Script.ctx.Draw(BoxCollider.ColliderRenderTexture, new Rectangle(World.ScreenPosition(bc.Position).ToPoint(), new Point(bc.Width, bc.Height)), Color.White);
 				}

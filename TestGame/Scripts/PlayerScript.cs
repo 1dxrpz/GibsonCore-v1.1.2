@@ -27,7 +27,7 @@ namespace GameEngineTK.Scripts
 			
 			
 
-			Player.AddComponent(new BoxCollider());
+			//Player.AddComponent(new BoxCollider());
 		}
 
 		public void Update()
@@ -37,7 +37,7 @@ namespace GameEngineTK.Scripts
 
 			Script.Services.GetService<Debug>().text = Player.VTexture.GetPixel(0, 0).ToString();
 
-			
+			var a = Player.GetComponent<BoxCollider>();
 
 			//Player.RotateTowardObject(CursorScript.Cursor);
 
