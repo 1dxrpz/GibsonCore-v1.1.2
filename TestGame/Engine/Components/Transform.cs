@@ -1,15 +1,20 @@
-﻿using Microsoft.Xna.Framework;
+﻿using GameEngineTK.Engine.Prototypes.Interfaces;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace GameEngineTK.Engine
 {
-	public class Transform : Component
+	public class Transform : IComponentManager
 	{
 		public Vector2 Velocity;
 		public float Rotation;
 		public Vector2 Parallax = new Vector2(1, 1);
+
+		public Vector2 Position { get; set; }
+		public int Width { get; set; }
+		public int Height { get; set; }
 
 		public Vector2 Forward
 		{
@@ -43,25 +48,23 @@ namespace GameEngineTK.Engine
 		}
 		public void Translate(float _x, float _y)
 		{
-			this.Position.X += _x;
-			this.Position.Y += _y;
+			this.Position += new Vector2(_x, _y);
 		}
 		public void TranslateX(float _x)
 		{
-			this.Position.X += _x;
+			this.Position += new Vector2(_x, 0);
 		}
 		public void TranslateY(float _y)
 		{
-			this.Position.Y += _y;
+			this.Position += new Vector2(0, _y);
 		}
 		public Vector2 ScreenPosition()
 		{
 			return ((this.Position) - Camera.Position * this.Parallax);
 		}
-		public override void Update()
+		public void Update()
 		{
 			this.Position += this.Velocity;
-			base.Update();
 		}
 	}
 }
