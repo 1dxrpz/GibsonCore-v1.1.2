@@ -7,6 +7,10 @@ using System;
 using System.Collections.Generic;
 using GameEngineTK.Engine;
 using GameEngineTK.Scripts;
+using PerlinNoise;
+using PerlinNoise.Filters;
+using PerlinNoise.Transformers;
+using System.Threading.Tasks;
 
 namespace GameEngineTK
 {
@@ -15,7 +19,7 @@ namespace GameEngineTK
 		GraphicsDeviceManager _graphics;
 		SpriteBatch ctx;
 		SpriteFont font;
-		Texture2D cursor_image;
+		//Texture2D cursor_image;
 
 		public Game1()
 		{
@@ -44,54 +48,88 @@ namespace GameEngineTK
 			Program.scripts.ForEach(v => { v.Start(); });
 		}
 		
-		GameObject tiles;
-		//GameObject Cursor;
-		GameObject Player;
-		GameObject Ground;
+		//GameObject tiles;
+		//GameObject Ground;
 
 		double a = 0;
 
-		Song song;
+		//Song song;
 
-		Texture2D pl;
+		//Texture2D pl;
+		NoiseField<float> perlinNoise;
+		Texture2D noiseTexture;
+		public void GenerateNoiseTexture()
+		{
+			PerlinNoiseGenerator gen = new PerlinNoiseGenerator();
+			gen.Interpolation = InterpolationAlgorithms.CosineInterpolation;
+
+			gen.OctaveCount = 10;
+			gen.Persistence = .5f;
+
+			//perlinNoise = gen.GeneratePerlinNoise(512, 512);
+			perlinNoise = gen.GeneratePerlinNoise(Window.ClientBounds.Width, Window.ClientBounds.Height);
+
+
+			LinearGradientColorFilter filter = new LinearGradientColorFilter();
+			Texture2DTransformer transformer = new Texture2DTransformer(_graphics.GraphicsDevice);
+
+			//filter.AddColorPoint(0.0f, 0.40f, Color.Blue);
+			//filter.AddColorPoint(0.4f, 0.50f, Color.Yellow);
+			//filter.AddColorPoint(0.50f, 0.70f, Color.Green);
+			//filter.AddColorPoint(0.70f, 0.90f, Color.SaddleBrown);
+			//filter.AddColorPoint(0.90f, 1.00f, Color.White);
+
+			filter.StartColor = Color.White;
+			filter.EndColor = Color.Black;
+			filter.StartPercentage = .4f;
+
+			noiseTexture = transformer.Transform(filter.Filter(perlinNoise));
+		}
 		protected override void LoadContent()
 		{
-			
-			
+			GenerateNoiseTexture();
+
 			BoxCollider.ColliderRenderTexture = Content.Load<Texture2D>("SolidWall");
 
 			ctx = new SpriteBatch(GraphicsDevice);
 			font = Content.Load<SpriteFont>("font");
-			cursor_image = Content.Load<Texture2D>("cursor");
+			//cursor_image = Content.Load<Texture2D>("cursor");
 
-			pl = Content.Load<Texture2D>("player");
+			//pl = Content.Load<Texture2D>("player");
 
-			tiles = new GameObject(Content.Load<Texture2D>("SpriteSheet"), 128, 128);
+			//tiles = new GameObject(Content.Load<Texture2D>("SpriteSheet"), 128, 128);
+			//
+			//Color[] data = new Color[32 * 32];
+			//for (int i = 0; i < data.Length; i++)
+			//{
+			//	data[i] = Color.White;
+			//}
+			//Texture2D tex = new Texture2D(_graphics.GraphicsDevice, 32, 32);
+			//tex.SetData(data);
 
-			Color[] data = new Color[32 * 32];
-			for (int i = 0; i < data.Length; i++)
-			{
-				data[i] = Color.White;
-			}
-			Texture2D tex = new Texture2D(_graphics.GraphicsDevice, 32, 32);
-			tex.SetData(data);
+			//Player = new GameObject(Content.Load<Texture2D>("player"), 32, 32);
+			//Ground = new GameObject(Content.Load<Texture2D>("ground"), 32, 32);
 
-			Player = new GameObject(Content.Load<Texture2D>("player"), 32, 32);
-			Ground = new GameObject(Content.Load<Texture2D>("ground"), 32, 32);
+			//song = Content.Load<Song>("Effect");
 
-			song = Content.Load<Song>("Effect");
-
-			tiles.AddComponent(new Animation(tiles.Texture, 64, 64));
-			Player.AddComponent(new BoxCollider());
-			Ground.AddComponent(new BoxCollider());
+			//tiles.AddComponent(new Animation(tiles.Texture, 64, 64));
+			//Player.AddComponent(new BoxCollider());
+			//Ground.AddComponent(new BoxCollider());
 		}
 
-		int b = 0;
-
-		ButtonState click = Mouse.GetState().LeftButton;
-
+		bool generated = false;
 		protected override void Update(GameTime gameTime)
-		{
+		{	
+			if (Keyboard.GetState().IsKeyDown(Keys.F) && !generated)
+			{
+				Task.Run(GenerateNoiseTexture);
+				generated = true;
+			}
+			else if (Keyboard.GetState().IsKeyUp(Keys.F))
+			{
+				generated = false;
+			}
+			
 			var settings = Services.GetService<ProjectSettings>();
 			var debug = Services.GetService<Debug>();
 			
@@ -103,51 +141,16 @@ namespace GameEngineTK
 			this.TargetElapsedTime = TimeSpan.FromMilliseconds(1000 / settings.MaxFPS);
 			_graphics.ApplyChanges();
 			Time.deltaTime = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-
-			/*
-			a += .02 * Time.deltaTime / 10;
-
-			if (Mouse.GetState().LeftButton != click)
-			{
-				if (Mouse.GetState().LeftButton != ButtonState.Released)
-					b++;
-				click = Mouse.GetState().LeftButton;
-			}
-			ctx.DrawString(font, "" + b, new Vector2(10, 340), Color.Aqua);
-
-			Animation til = tiles.GetComponent<Animation>();
-
-			til.CurrentFrame = (int)a % 6;
-			til.CurrentAnimation = 0;
-			til.AnimationCount = 2;
-			til.FrameCount = 6;
-			til.FrameSize = new Point(32, 32);
-
-			tiles.objectParams.isDraggable = true;
-
-			Ground.GetComponent<Transform>().Position = new Vector2(0, 200);
-
-			Ground.Width = 128;
-			Ground.Height = 128;
-
-			var bc = Player.GetComponent<BoxCollider>();
-
-			if ((pt.Velocity.X > 0 && bc.IsTouchingLeft(Ground)) || (pt.Velocity.X < 0 && bc.IsTouchingRight(Ground))) pt.Velocity.X = 0;
-			if ((pt.Velocity.Y > 0 && bc.IsTouchingTop(Ground)) || (pt.Velocity.Y < 0 && bc.IsTouchingBottom(Ground))) pt.Velocity.Y = 0;
-
-			
-			//pt.Translate(pt.Forward * Time.deltaTime * .25f);
-			//Player.RotateClockwise(.01f * Time.deltaTime);
-
-			Player.OriginPosition = new Vector2(Player.Width / 4, Player.Height / 4);
-			Ground.OriginPosition = new Vector2(0, 0);
-
-			tiles.Draw(ctx);
-			Ground.Draw(ctx);
-			*/
+			base.Update(gameTime);
+		}
+		protected override void Draw(GameTime gameTime)
+		{
+			var settings = Services.GetService<ProjectSettings>();
+			var debug = Services.GetService<Debug>();
 			GraphicsDevice.Clear(Color.Black);
 			ctx.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp);
 			debug.Update(gameTime);
+			ctx.Draw(noiseTexture, new Vector2(0, 0), Color.White);
 			if (debug.Enabled)
 			{
 				ctx.DrawString(font, debug.FPS, new Vector2(0, 0), Color.Gold);
@@ -157,11 +160,6 @@ namespace GameEngineTK
 			}
 			Program.scripts.ForEach(v => { v.Update(); });
 			ctx.End();
-			base.Update(gameTime);
-		}
-		protected override void Draw(GameTime gameTime)
-		{
-
 			base.Draw(gameTime);
 
 		}

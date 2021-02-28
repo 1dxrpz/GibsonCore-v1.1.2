@@ -9,6 +9,6 @@ namespace GameEngineTK.Engine.Components
 	{
 		TextureHandler texture;
 
-		VolumetricLight[] LightSources
+		//VolumetricLight[] LightSources
 	}
 }
