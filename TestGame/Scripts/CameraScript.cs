@@ -17,7 +17,7 @@ namespace GameEngineTK.Scripts
 
 		public void Update()
 		{
-
+			Script.Services.GetService<Debug>().AddDebugLine(ConfigReader.Parse("OVconfigs/project.ovconfig")["author"]);
 			Vector2 pos = PlayerScript.Player.GetComponent<Transform>().Position;
 			Camera.Position = Vector2.Lerp(Camera.Position,
 				pos - (new Vector2(1920 / 2 - PlayerScript.Player.Width / 4, 1080 / 2 - PlayerScript.Player.Height / 4)),

@@ -15,18 +15,16 @@ namespace GameEngineTK.Scripts
 		public static GameObject Player;
 		TextureHandler texture = new TextureHandler(@"C:\Users\HP\source\repos\TestGame\TestGame\Content\player.png");
 		TextureHandler light = new TextureHandler(@"C:\Users\HP\source\repos\TestGame\TestGame\Content\light_right_input.png");
+		
+		
 		Color[] data;
 		Texture2D tex;
 		public void Start()
 		{
 			//Player = new GameObject(Content.Load<Texture2D>("player"), 32, 32);
-
 			data = new Color[texture.Width * texture.Height];
 			tex = new Texture2D(Script.graphicsDevice, texture.Width, texture.Height);
 			Player = new GameObject(texture, 32, 32);
-			
-			
-
 			Player.AddComponent(new BoxCollider());
 		}
 

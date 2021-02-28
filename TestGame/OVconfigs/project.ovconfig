@@ -1,0 +1,11 @@
+﻿#	-=-
+#	OVConfig - Object Value Configuration file
+#	stay tuned; read more on https://kennethgibson.site/
+#	
+#	default params: Folders; EngineSettings; version; name; etc
+#	-=-
+
+author: Kenneth Gibson
+name: Game Engine
+version: 1.01
+info: ...
