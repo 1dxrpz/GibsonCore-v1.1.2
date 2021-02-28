@@ -87,7 +87,7 @@ namespace GameEngineTK
 		}
 		protected override void LoadContent()
 		{
-			GenerateNoiseTexture();
+			this.GenerateNoiseTexture();
 
 			BoxCollider.ColliderRenderTexture = Content.Load<Texture2D>("SolidWall");
 
@@ -156,7 +156,7 @@ namespace GameEngineTK
 				ctx.DrawString(font, debug.FPS, new Vector2(0, 0), Color.Gold);
 				ctx.DrawString(font, DateTimeOffset.Now.ToUnixTimeMilliseconds().ToString(), new Vector2(10, 100), Color.Gold);
 				ctx.DrawString(font, "DeltaTime: " + Time.deltaTime, new Vector2(10, 120), Color.Aqua);
-				ctx.DrawString(font, "[Debug.Text]: " + debug.text, new Vector2(10, 140), Color.White);
+				ctx.DrawString(font, " - Debug.Text\n[scope]: message " + debug.text, new Vector2(400, 0), Color.White);
 			}
 			Program.scripts.ForEach(v => { v.Update(); });
 			ctx.End();

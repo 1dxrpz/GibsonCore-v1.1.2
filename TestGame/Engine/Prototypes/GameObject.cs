@@ -18,10 +18,10 @@ namespace GameEngineTK.Engine
 	}
 	public class GameObject
 	{
-		int width;
-		int height;
-		Texture2D texture;
-		TextureHandler vtexture;
+		private int width;
+		private int height;
+		private Texture2D texture;
+		private TextureHandler vtexture;
 
 		public Params objectParams = new Params();
 
@@ -30,9 +30,9 @@ namespace GameEngineTK.Engine
 		/// </summary>
 		public GameObject(Texture2D texture, int width, int height)
 		{
-			this.Components.Add(new Transform());
-			this.Components.Add(new Physics());
-			this.Components.Add(new Animation(texture, width, height));
+			Components.Add(new Transform());
+			Components.Add(new Physics());
+			Components.Add(new Animation(texture, width, height));
 
 
 			this.texture = texture;
@@ -41,9 +41,9 @@ namespace GameEngineTK.Engine
 		}
 		public GameObject(TextureHandler vtexture, int width, int height)
 		{
-			this.Components.Add(new Transform());
-			this.Components.Add(new Physics());
-			this.Components.Add(new Animation(vtexture.ToTexture2D(), width, height));
+			Components.Add(new Transform());
+			Components.Add(new Physics());
+			Components.Add(new Animation(vtexture.ToTexture2D(), width, height));
 
 			this.vtexture = vtexture;
 			this.width = width;
@@ -54,18 +54,18 @@ namespace GameEngineTK.Engine
 		/// </summary>
 		public int Width
 		{
-			get { return this.width; }
+			get { return width; }
 			set {
 				this.GetComponent<Animation>().size.X = value;
-				this.width = value;
+				width = value;
 			}
 		}
 		public int Height
 		{
-			get { return this.height; }
+			get { return height; }
 			set {
 				this.GetComponent<Animation>().size.Y = value;
-				this.height = value;
+				height = value;
 			}
 		}
 
@@ -91,23 +91,23 @@ namespace GameEngineTK.Engine
 		public SpriteEffects Flip = default;
 
 		public Texture2D Texture {
-			get { return this.texture; }
+			get { return texture; }
 			set {
 				this.GetComponent<Animation>().SpriteSheet = value;
-				this.texture = value;
+				texture = value;
 			}
 		}
 
 		public TextureHandler VTexture {
-			get { return this.vtexture; }
+			get { return vtexture; }
 			set
 			{
 				this.GetComponent<Animation>().SpriteSheet = value.ToTexture2D();
-				this.vtexture = value;
+				vtexture = value;
 			}
 		}
 
-		private List<IComponentManager> Components = new List<IComponentManager>();
+		private readonly List<IComponentManager> Components = new List<IComponentManager>();
 
 		public bool AddComponent(IComponentManager c)
 		{
@@ -126,34 +126,34 @@ namespace GameEngineTK.Engine
 
 		public T GetComponent<T>()
 		{
-			for (int i = 0; i < this.Components.Count; i++)
-				if (this.Components[i] is T) return (T)Convert.ChangeType(this.Components[i], typeof(T));
+			for (int i = 0; i < Components.Count; i++)
+				if (Components[i] is T) return (T)Convert.ChangeType(Components[i], typeof(T));
 			throw new ArgumentException($"{this} does not contain {nameof(T)} component");
 		}
 		[Obsolete("This method deprecated; missing components throw an exception")]
 		public bool HasComponent<T>()
 		{
-			for (int i = 0; i < this.Components.Count; i++)
-				if (this.Components[i] is T) return true;
+			for (int i = 0; i < Components.Count; i++)
+				if (Components[i] is T) return true;
 			return false;
 		}
 		[Obsolete("This method deprecated; missing components throw an exception")]
 		public bool HasComponent(IComponentManager obj)
 		{
-			for (int i = 0; i < this.Components.Count; i++)
-				if (this.Components[i].Equals(obj)) return true;
+			for (int i = 0; i < Components.Count; i++)
+				if (Components[i].Equals(obj)) return true;
 			return false;
 		}
 
 		// MAKE FUNCTIONS COMPONENT
 		public bool OnObjectClicked()
 		{
-			var MouseDown = this.objectParams.MouseDown;
+			bool MouseDown = objectParams.MouseDown;
 			if (Mouse.GetState().LeftButton == ButtonState.Pressed && MouseDown)
 				return false;
 			else
 			{
-				if (!MouseDown && this.isHover() && Mouse.GetState().LeftButton == ButtonState.Pressed)
+				if (!MouseDown && this.IsHover() && Mouse.GetState().LeftButton == ButtonState.Pressed)
 					MouseDown = true;
 			}
 			return MouseDown;
@@ -161,21 +161,21 @@ namespace GameEngineTK.Engine
 		public Vector2 OriginPosition = new Vector2();
 		
 		// REWRITE TO TRANSFORM FIELD
-		public bool onObjectDragging()
+		public bool OnObjectDragging()
 		{
-			if (this.isHover() && Mouse.GetState().LeftButton == ButtonState.Released)
-				this.objectParams.onHover = true;
+			if (this.IsHover() && Mouse.GetState().LeftButton == ButtonState.Released)
+				objectParams.onHover = true;
 			else if (Mouse.GetState().LeftButton == ButtonState.Released)
-				this.objectParams.onHover = false;
-			return this.objectParams.onHover && Mouse.GetState().LeftButton == ButtonState.Pressed && this.objectParams.isVisible;
+				objectParams.onHover = false;
+			return objectParams.onHover && Mouse.GetState().LeftButton == ButtonState.Pressed && objectParams.isVisible;
 		}
-		public bool isHover()
+		public bool IsHover()
 		{
 			Vector2 pos = this.GetComponent<Transform>().Position;
 			return Mouse.GetState().X > pos.X &&
-				Mouse.GetState().X < pos.X + this.width &&
+				Mouse.GetState().X < pos.X + width &&
 				Mouse.GetState().Y > pos.Y &&
-				Mouse.GetState().Y < pos.Y + this.height && this.objectParams.isVisible;
+				Mouse.GetState().Y < pos.Y + height && objectParams.isVisible;
 		}
 
 		// MAKE FUNCTIONS COMPONENT
@@ -184,7 +184,7 @@ namespace GameEngineTK.Engine
 		public float Distance(GameObject obj)
 		{
 			Vector2 opos = obj.GetComponent<Transform>().Position - obj.OriginPosition;
-			Vector2 pos = this.GetComponent<Transform>().Position - this.OriginPosition;
+			Vector2 pos = this.GetComponent<Transform>().Position - OriginPosition;
 			return (float) Math.Sqrt((pos.X - opos.X) * (pos.X - opos.X) + (pos.Y - opos.Y) * (pos.Y - opos.Y));
 		}
 		public float VDistance(GameObject obj)
@@ -197,8 +197,8 @@ namespace GameEngineTK.Engine
 
 		public void Draw()
 		{
-			
-			var _t = this.GetComponent<Transform>();
+
+			Transform _t = this.GetComponent<Transform>();
 			if (_t.ScreenPosition().X > -Width && _t.ScreenPosition().X < 1920 &&
 				_t.ScreenPosition().Y > -Height && _t.ScreenPosition().Y < 1080)
 			{
