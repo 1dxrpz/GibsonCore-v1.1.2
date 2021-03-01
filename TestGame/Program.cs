@@ -14,6 +14,7 @@ namespace GameEngineTK
 		{
 			using (var game = new Game1())
 			{
+				scripts.Add(new NoiseScript());
 				scripts.Add(new PlayerScript());
 				scripts.Add(new CameraScript());
 				scripts.Add(new CursorScript());

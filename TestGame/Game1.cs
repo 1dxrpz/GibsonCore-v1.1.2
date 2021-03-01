@@ -26,7 +26,7 @@ namespace GameEngineTK
 			_graphics = new GraphicsDeviceManager(this);
 			Content.RootDirectory = "Content";
 			_graphics.PreferredBackBufferHeight = 1080;
-			//_graphics.PreferredBackBufferWidth = 1920;
+			_graphics.PreferredBackBufferWidth = 1920;
 			_graphics.SynchronizeWithVerticalRetrace = default;
 			base.IsFixedTimeStep = default;
 			BoxCollider.RenderColisionMask = default;
@@ -40,10 +40,10 @@ namespace GameEngineTK
 			base.Initialize();
 			Services.AddService<ProjectSettings>(new ProjectSettings());
 			Services.AddService<Debug>(new Debug());
-			Script.Services = this.Services;
-			Script.Content = Content;
-			Script.ctx = ctx;
-			Script.graphicsDevice = this.GraphicsDevice;
+			ScriptManager.Services = this.Services;
+			ScriptManager.Content = Content;
+			ScriptManager.ctx = ctx;
+			ScriptManager.graphicsDevice = this.GraphicsDevice;
 			//MediaPlayer.Play(song);
 			Program.scripts.ForEach(v => { v.Start(); });
 		}
@@ -51,43 +51,12 @@ namespace GameEngineTK
 		//GameObject tiles;
 		//GameObject Ground;
 
-		double a = 0;
-
 		//Song song;
 
 		//Texture2D pl;
-		NoiseField<float> perlinNoise;
-		Texture2D noiseTexture;
-		public void GenerateNoiseTexture()
-		{
-			PerlinNoiseGenerator gen = new PerlinNoiseGenerator();
-			gen.Interpolation = InterpolationAlgorithms.CosineInterpolation;
-
-			gen.OctaveCount = 10;
-			gen.Persistence = .5f;
-
-			//perlinNoise = gen.GeneratePerlinNoise(512, 512);
-			perlinNoise = gen.GeneratePerlinNoise(Window.ClientBounds.Width, Window.ClientBounds.Height);
-
-
-			LinearGradientColorFilter filter = new LinearGradientColorFilter();
-			Texture2DTransformer transformer = new Texture2DTransformer(_graphics.GraphicsDevice);
-
-			//filter.AddColorPoint(0.0f, 0.40f, Color.Blue);
-			//filter.AddColorPoint(0.4f, 0.50f, Color.Yellow);
-			//filter.AddColorPoint(0.50f, 0.70f, Color.Green);
-			//filter.AddColorPoint(0.70f, 0.90f, Color.SaddleBrown);
-			//filter.AddColorPoint(0.90f, 1.00f, Color.White);
-
-			filter.StartColor = Color.White;
-			filter.EndColor = Color.Black;
-			filter.StartPercentage = .4f;
-
-			noiseTexture = transformer.Transform(filter.Filter(perlinNoise));
-		}
+		
 		protected override void LoadContent()
 		{
-			this.GenerateNoiseTexture();
 
 			BoxCollider.ColliderRenderTexture = Content.Load<Texture2D>("SolidWall");
 
@@ -117,22 +86,11 @@ namespace GameEngineTK
 			//Ground.AddComponent(new BoxCollider());
 		}
 
-		bool generated = false;
 		protected override void Update(GameTime gameTime)
-		{	
-			if (Keyboard.GetState().IsKeyDown(Keys.F) && !generated)
-			{
-				Task.Run(GenerateNoiseTexture);
-				generated = true;
-			}
-			else if (Keyboard.GetState().IsKeyUp(Keys.F))
-			{
-				generated = false;
-			}
-			
+		{			
 			var settings = Services.GetService<ProjectSettings>();
 			var debug = Services.GetService<Debug>();
-			
+
 			_graphics.PreferredBackBufferHeight = settings.WindowHeight;
 			_graphics.PreferredBackBufferWidth = settings.WindowWidth;
 			_graphics.SynchronizeWithVerticalRetrace = settings.VSync;
@@ -150,13 +108,12 @@ namespace GameEngineTK
 			GraphicsDevice.Clear(Color.Black);
 			ctx.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp);
 			debug.Update(gameTime);
-			ctx.Draw(noiseTexture, new Vector2(0, 0), Color.White);
 			if (debug.Enabled)
 			{
-				ctx.DrawString(font, debug.FPS, new Vector2(0, 0), Color.Gold);
-				ctx.DrawString(font, DateTimeOffset.Now.ToUnixTimeMilliseconds().ToString(), new Vector2(10, 100), Color.Gold);
-				ctx.DrawString(font, "DeltaTime: " + Time.deltaTime, new Vector2(10, 120), Color.Aqua);
-				ctx.DrawString(font, " - Debug.Text\n[scope]: message " + debug.text, new Vector2(400, 0), Color.White);
+				ctx.DrawString(font, "Project name: " + ConfigReader.Parse("OVconfigs/project.ovconfig")["name"], new Vector2(10, 10), Color.Gray);
+				ctx.DrawString(font, "Author: " + ConfigReader.Parse("OVconfigs/project.ovconfig")["author"], new Vector2(10, 25), Color.Gray);
+				//ctx.DrawString(font, debug.msg, new Vector2(0, 0), Color.Gold);
+				ctx.DrawString(font, " - Debug.Text\n[scope]: message " + debug.text, new Vector2(10, 60), Color.White);
 			}
 			Program.scripts.ForEach(v => { v.Update(); });
 			ctx.End();

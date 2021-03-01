@@ -7,7 +7,7 @@ using System.Text;
 
 namespace GameEngineTK.Engine
 {
-	abstract public class Script
+	abstract public class ScriptManager
 	{
 		public static GameServiceContainer Services;
 		public static ContentManager Content;

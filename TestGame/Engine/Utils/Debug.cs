@@ -25,17 +25,17 @@ namespace GameEngineTK.Engine
 	}
 	public class ProjectSettings
 	{
-		public int MaxFPS = 80;
+		public int MaxFPS = 200;
 		public int WindowHeight = 1080;
 		public int WindowWidth = 1920;
 		public bool VSync = false;
-		public bool FixedTS = false;
+		public bool FixedTS = true;
 		public bool ShowColliders = true;
 	}
 	public class Debug
 	{
 		public bool Enabled = true;
-		public string FPS;
+		public double FPS;
 		private double frames = 0;
 		private double updates = 0;
 		private double elapsed = 0;
@@ -49,9 +49,10 @@ namespace GameEngineTK.Engine
 		{
 			now = gameTime.TotalGameTime.TotalSeconds;
 			elapsed = (double)(now - last);
+			FPS = Math.Round(frames / elapsed);
 			if (elapsed > msgFrequency)
 			{
-				msg = " Fps: " + Math.Round(frames / elapsed).ToString()
+				msg = " Fps: " + FPS.ToString()
 					+ "\n Elapsed time: " + Math.Round(elapsed, 4).ToString()
 					+ "\n Updates: " + updates.ToString()
 					+ "\n Frames: " + frames.ToString()
@@ -64,7 +65,6 @@ namespace GameEngineTK.Engine
 			}
 			updates++;
 			frames++;
-			FPS = msg;
 
 			text = "";
 			

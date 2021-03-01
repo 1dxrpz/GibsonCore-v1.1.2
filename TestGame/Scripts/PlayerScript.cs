@@ -23,7 +23,7 @@ namespace GameEngineTK.Scripts
 		{
 			//Player = new GameObject(Content.Load<Texture2D>("player"), 32, 32);
 			data = new Color[texture.Width * texture.Height];
-			tex = new Texture2D(Script.graphicsDevice, texture.Width, texture.Height);
+			tex = new Texture2D(ScriptManager.graphicsDevice, texture.Width, texture.Height);
 			Player = new GameObject(texture, 32, 32);
 			Player.AddComponent(new BoxCollider());
 		}
@@ -37,7 +37,7 @@ namespace GameEngineTK.Scripts
 
 			//Player.RotateTowardObject(CursorScript.Cursor);
 
-			Script.Services.GetService<Debug>().AddDebugLine("test");
+			ScriptManager.Services.GetService<Debug>().AddDebugLine("test");
 
 			Transform pt = Player.GetComponent<Transform>();
 

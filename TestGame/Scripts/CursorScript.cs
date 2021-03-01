@@ -16,8 +16,8 @@ namespace GameEngineTK.Scripts
 		int b = 0;
 		public void Start()
 		{
-			Script.Services.GetService<ProjectSettings>().ShowColliders = false;
-			Cursor = new GameObject(Script.Content.Load<Texture2D>("CursorSpriteSheet"), 32, 42);
+			ScriptManager.Services.GetService<ProjectSettings>().ShowColliders = false;
+			Cursor = new GameObject(ScriptManager.Content.Load<Texture2D>("CursorSpriteSheet"), 32, 42);
 			Cursor.AddComponent(new Animation(Cursor.Texture, 32, 42));
 			Cursor.GetComponent<Transform>().Parallax = new Vector2(0, 0);
 		}

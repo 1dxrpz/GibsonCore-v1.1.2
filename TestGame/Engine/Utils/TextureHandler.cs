@@ -32,7 +32,7 @@ namespace GameEngineTK.Engine.Prototypes
 		}
 		public Microsoft.Xna.Framework.Graphics.Texture2D ToTexture2D()
 		{
-			var _t = new Microsoft.Xna.Framework.Graphics.Texture2D(Script.graphicsDevice, this.Width, this.Height);
+			var _t = new Microsoft.Xna.Framework.Graphics.Texture2D(ScriptManager.graphicsDevice, this.Width, this.Height);
 			var _data = new Microsoft.Xna.Framework.Color[this.Width * this.Height];
 			for (int y = 0; y < this.Height; y++)
 				for (int x = 0; x < this.Width; x++)
