@@ -214,12 +214,12 @@ namespace GameEngineTK.Engine
 				{
 					Animation an = this.GetComponent<Animation>();
 
-					Script.ctx.Draw(an.SpriteSheet, new Rectangle(_t.ScreenPosition().ToPoint(), an.size),
+					ScriptManager.ctx.Draw(an.SpriteSheet, new Rectangle(_t.ScreenPosition().ToPoint(), an.size),
 						new Rectangle(an.src, an.FrameSize), Color.White, this.GetComponent<Transform>().Rotation, OriginPosition, Flip, 0);
 				}
 				else if (objectParams.isVisible)
 				{
-					Script.ctx.Draw(texture, new Rectangle(_t.ScreenPosition().ToPoint(), new Point(Width, Height)),
+					ScriptManager.ctx.Draw(texture, new Rectangle(_t.ScreenPosition().ToPoint(), new Point(Width, Height)),
 						new Rectangle(0, 0, texture.Width, texture.Height), Color.White, this.GetComponent<Transform>().Rotation, OriginPosition, Flip, 0);
 				}
 				if (this.HasComponent<BoxCollider>())
@@ -228,7 +228,7 @@ namespace GameEngineTK.Engine
 					bc.velocity = this.GetComponent<Transform>().Velocity;
 					bc.Position -= OriginPosition * 2;
 					if (BoxCollider.RenderColisionMask)
-						Script.ctx.Draw(BoxCollider.ColliderRenderTexture, new Rectangle(World.ScreenPosition(bc.Position).ToPoint(), new Point(bc.Width, bc.Height)), Color.White);
+						ScriptManager.ctx.Draw(BoxCollider.ColliderRenderTexture, new Rectangle(World.ScreenPosition(bc.Position).ToPoint(), new Point(bc.Width, bc.Height)), Color.White);
 				}
 			}
 		}
