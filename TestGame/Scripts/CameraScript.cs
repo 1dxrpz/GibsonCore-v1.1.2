@@ -17,6 +17,7 @@ namespace GameEngineTK.Scripts
 		
 		public void Update()
 		{
+			//ScriptManager.Services.GetService<ProjectSettings>()
 			debug = ScriptManager.Services.GetService<Debug>();
 			debug.AddDebugLine($"FPS: {debug.FPS}");
 			Vector2 pos = PlayerScript.Player.GetComponent<Transform>().Position;

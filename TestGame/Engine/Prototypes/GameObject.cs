@@ -16,7 +16,7 @@ namespace GameEngineTK.Engine
 		public bool MouseDown = false;
 		public bool onHover = false;
 	}
-	public class GameObject
+	public class GameObject : IGameInstances
 	{
 		private int width;
 		private int height;

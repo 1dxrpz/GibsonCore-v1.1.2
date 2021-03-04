@@ -37,8 +37,6 @@ namespace GameEngineTK.Scripts
 
 			//Player.RotateTowardObject(CursorScript.Cursor);
 
-			ScriptManager.Services.GetService<Debug>().AddDebugLine("test");
-
 			Transform pt = Player.GetComponent<Transform>();
 
 			if (Keyboard.GetState().IsKeyDown(Keys.D))
