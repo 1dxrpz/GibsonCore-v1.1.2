@@ -110,8 +110,10 @@ namespace GameEngineTK
 			debug.Update(gameTime);
 			if (debug.Enabled)
 			{
-				ctx.DrawString(font, "Project name: " + ConfigReader.Parse("OVconfigs/project.ovconfig")["name"], new Vector2(10, 10), Color.Gray);
-				ctx.DrawString(font, "Author: " + ConfigReader.Parse("OVconfigs/project.ovconfig")["author"], new Vector2(10, 25), Color.Gray);
+				var config = ConfigReader.Parse("OVconfigs/project");
+				ctx.DrawString(font, "Project name: " + config["name"], new Vector2(10, 10), Color.Gray);
+				ctx.DrawString(font, "Author: " + config["author"], new Vector2(10, 25), Color.Gray);
+				ctx.DrawString(font, "Version: " + config["version"], new Vector2(10, 40), Color.Gray);
 				//ctx.DrawString(font, debug.msg, new Vector2(0, 0), Color.Gold);
 				ctx.DrawString(font, " - Debug.Text\n[scope]: message " + debug.text, new Vector2(10, 60), Color.White);
 			}

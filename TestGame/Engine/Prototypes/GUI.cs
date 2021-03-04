@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using GameEngineTK.Engine.Prototypes.Interfaces;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
@@ -6,10 +7,16 @@ using System.Text;
 
 namespace GameEngineTK.Engine
 {
-	public class GUI
+	public class GUI : IGameInstances
 	{
 		
 		public Rectangle Bounds;
+
+		public void Draw()
+		{
+			throw new NotImplementedException();
+		}
+
 		public bool Hover()
 		{
 			return true;

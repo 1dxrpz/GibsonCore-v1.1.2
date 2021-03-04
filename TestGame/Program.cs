@@ -23,7 +23,7 @@ namespace GameEngineTK
 				game.Window.AllowAltF4 = true;
 				game.IsMouseVisible = false;
 				game.Window.AllowUserResizing = false;
-				game.Window.Title = "Game Engine";
+				game.Window.Title = ConfigReader.Parse("OVconfigs/project")["title"];
 				game.Run();
 			}
 		}

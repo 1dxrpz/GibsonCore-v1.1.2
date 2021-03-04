@@ -17,7 +17,7 @@ namespace GameEngineTK.Engine
 		/// <returns>Dictionary&lt;key, value&gt;();</returns>
 		static public Dictionary<string, string> Parse(string path)
 		{
-			var config = File.ReadAllText(Path.Combine("../../../", path));
+			var config = File.ReadAllText(Path.Combine("../../../", path + ".ovconfig"));
 			List<string> trimmed = new List<string>();
 			Dictionary<string, string> result = new Dictionary<string, string>();
 			var lines = config.Split('\n').ToList();
