@@ -69,7 +69,6 @@ namespace ConsoleApp1
 			{
 				if (value.name == null)
 					value.name = "Layer" + i;
-				Console.WriteLine("aaaaaaaaaaaaaaaa");
 				list[i] = value;
 			}
 		}

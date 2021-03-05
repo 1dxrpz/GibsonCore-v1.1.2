@@ -5,11 +5,9 @@ using GameEngineTK.Engine.Prototypes.Interfaces;
 
 namespace GameEngineTK.Engine.Rendering
 {
-	public class Layer : RenderingInstance<Layout>, IRenderingInstance<IGameInstances>
+	public class Theatre : IRenderingInstance<Scene>
 	{
-		private List<IGameInstances> objects = new List<IGameInstances>();
-
-		public IGameInstances this[int i]
+		public Scene this[int i]
 		{
 			get
 			{
@@ -22,7 +20,7 @@ namespace GameEngineTK.Engine.Rendering
 			}
 		}
 
-		public IGameInstances this[string name]
+		public Scene this[string name]
 		{
 			get
 			{
@@ -35,7 +33,7 @@ namespace GameEngineTK.Engine.Rendering
 			}
 		}
 
-		public List<IGameInstances> Objects
+		public List<Scene> Objects
 		{
 			get
 			{
@@ -43,7 +41,46 @@ namespace GameEngineTK.Engine.Rendering
 			}
 		}
 
-		public void Add(IGameInstances instance)
+		public bool IsVisible
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+
+			set
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		public Theatre parent
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+
+			set
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		public string name
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+
+			set
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		public void Add(Scene instance)
 		{
 			throw new NotImplementedException();
 		}
@@ -53,7 +90,7 @@ namespace GameEngineTK.Engine.Rendering
 			throw new NotImplementedException();
 		}
 
-		public void Remove(IGameInstances instance)
+		public void Remove(Scene instance)
 		{
 			throw new NotImplementedException();
 		}
