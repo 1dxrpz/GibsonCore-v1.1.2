@@ -4,19 +4,13 @@ using System.Text;
 
 namespace GameEngineTK.Engine.Prototypes.Interfaces
 {
-	public interface IRenderingInstance<T>
+	public interface IRenderingInstance<C>
 	{
-		[Obsolete("Use DObjects instead;")]
-		List<T> Objects { get; }
-		//Dictionary<string, T> DObjects { get; }
-		//public string name { get; set; }
-		public IRenderingInstance<T> parent { get; set; }
-		public bool IsVisible { get; set; }
-		public void Add(T instance);
+		public void Add(C instance);
 		public void Add(string name);
-		public T this[int i] { get; set; }
-		public T this[string name] { get; set; }
-		public void Remove(T instance);
+		public C this[int i] { get; set; }
+		public C this[string name] { get; set; }
+		public void Remove(C instance);
 		public void SetOrder();
 		public void Render();
 	}

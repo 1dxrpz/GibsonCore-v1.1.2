@@ -5,26 +5,22 @@ using GameEngineTK.Engine.Prototypes.Interfaces;
 
 namespace GameEngineTK.Engine.Rendering
 {
-	class Scene : IRenderingInstance<Layout>
+	public class Scene : RenderingInstance<Theatre>, IRenderingInstance<Layout>
 	{
-		public List<Layout> Objects
-		{
-			get
-			{
-				throw new NotImplementedException();
-			}
+		private List<Layout> Objects = new List<Layout>();
 
-		}
 		public Layout this[int i]
 		{
 			get
 			{
-				throw new NotImplementedException();
+				return Objects[i];
 			}
 
 			set
 			{
-				throw new NotImplementedException();
+				if (value.name == null)
+					value.name = "Layer" + i;
+				Objects[i] = value;
 			}
 		}
 
@@ -32,38 +28,12 @@ namespace GameEngineTK.Engine.Rendering
 		{
 			get
 			{
-				throw new NotImplementedException();
+				return Objects.Find(v => v.name == name);
 			}
 
 			set
 			{
-				throw new NotImplementedException();
-			}
-		}
-
-		public bool IsVisible
-		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-
-			set
-			{
-				throw new NotImplementedException();
-			}
-		}
-
-		public IRenderingInstance<Layout> parent
-		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-
-			set
-			{
-				throw new NotImplementedException();
+				Objects[Objects.FindIndex(v => v.name == name)] = value;
 			}
 		}
 
@@ -79,7 +49,10 @@ namespace GameEngineTK.Engine.Rendering
 
 		public void Add(string name)
 		{
-			throw new NotImplementedException();
+			Layout t = new Layout();
+			t.name = name;
+			t.parent = this;
+			Objects.Add(t);
 		}
 
 		public void Remove(IGameInstances i)
