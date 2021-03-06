@@ -14,7 +14,7 @@ namespace GameEngineTK.Engine.Utils
 		static extern bool AllocConsole();
 		public void Start()
 		{
-			if (ConfigReader.Parse("project")["EnableConsole"] == "true")
+			if (ConfigReader.Parse("project").ContainsKey("EnableConsole") ? ConfigReader.Parse("project")["EnableConsole"] == "true" : false)
 				AllocConsole();
 
 			foreach (var i in Theatre.GetObjects)

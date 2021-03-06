@@ -55,11 +55,10 @@ namespace GameEngineTK
 		
 		protected override void LoadContent()
 		{
-
 			BoxCollider.ColliderRenderTexture = Content.Load<Texture2D>("SolidWall");
 
 			ctx = new SpriteBatch(GraphicsDevice);
-			font = Content.Load<SpriteFont>("font");
+			font = Content.Load<SpriteFont>("consolas");
 			//cursor_image = Content.Load<Texture2D>("cursor");
 
 			//pl = Content.Load<Texture2D>("player");
@@ -83,7 +82,6 @@ namespace GameEngineTK
 			//Player.AddComponent(new BoxCollider());
 			//Ground.AddComponent(new BoxCollider());
 		}
-
 		protected override void Update(GameTime gameTime)
 		{			
 			ProjectSettings settings = Services.GetService<ProjectSettings>();
@@ -108,9 +106,9 @@ namespace GameEngineTK
 			if (debug.Enabled)
 			{
 				var config = ConfigReader.Parse("project");			// wth why
-				ctx.DrawString(font, "Project name: " + config["name"], new Vector2(10, 10), Color.Gray);
-				ctx.DrawString(font, "Author: " + config["author"], new Vector2(10, 25), Color.Gray);
-				ctx.DrawString(font, "Version: " + config["version"], new Vector2(10, 40), Color.Gray);
+				ctx.DrawString(font, "Project name: " + (config.ContainsKey("name") ? config["name"] : "Unnamed Project"), new Vector2(10, 10), Color.Gray);
+				ctx.DrawString(font, "Author: " + (config.ContainsKey("author") ? config["author"] : "Unknown author"), new Vector2(10, 25), Color.Gray);
+				ctx.DrawString(font, "Version: " + (config.ContainsKey("version") ? "v.1.00" : config["version"]), new Vector2(10, 40), Color.Gray);
 				ctx.DrawString(font, " - Debug.Text\n[scope]: message " + debug.text, new Vector2(10, 60), Color.White);
 			}
 			Program.scripts.ForEach(v => { v.Update(); });

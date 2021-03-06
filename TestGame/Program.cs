@@ -15,20 +15,22 @@ namespace GameEngineTK
 		{
 			using (var game = new Game1())
 			{
-				
-				
+				var config = ConfigReader.Parse("project");
+
+
 				scripts.Add(new NoiseScript());
 				scripts.Add(new PlayerScript());
 				scripts.Add(new CameraScript());
 				scripts.Add(new CursorScript());
-
+				
+				
 				scripts.Add(new RenderingScript());
 				scripts.Add(new ConsoleInterractions());
 				game.Window.IsBorderless = false;
 				game.Window.AllowAltF4 = true;
 				game.IsMouseVisible = false;
 				game.Window.AllowUserResizing = true;
-				game.Window.Title = ConfigReader.Parse("project")["title"];
+				game.Window.Title = config.ContainsKey("title") ? config["title"] : "Unnamed Game";
 				game.Run();
 			}
 		}
