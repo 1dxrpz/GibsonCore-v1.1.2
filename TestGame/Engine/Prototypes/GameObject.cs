@@ -1,5 +1,6 @@
 ﻿using GameEngineTK.Engine.Prototypes;
 using GameEngineTK.Engine.Prototypes.Interfaces;
+using GameEngineTK.Engine.Rendering;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -28,6 +29,16 @@ namespace GameEngineTK.Engine
 		/// <summary>
 		/// Creates new GameObject instance
 		/// </summary>
+		public GameObject()
+		{
+			texture = null;
+			width = 32;
+			height = 32;
+
+			Components.Add(new Transform());
+			Components.Add(new Physics());
+			Components.Add(new Animation(texture, width, height));
+		}
 		public GameObject(Texture2D texture, int width, int height)
 		{
 			Components.Add(new Transform());
@@ -107,6 +118,36 @@ namespace GameEngineTK.Engine
 			}
 		}
 
+		private Layer ParentLayer;
+		private string InstanceName;
+
+		public Layer parent
+		{
+			get
+			{
+				return ParentLayer;
+			}
+
+			set
+			{
+				ParentLayer = value;
+			}
+		}
+
+		public string name
+		{
+			get
+			{
+				return InstanceName;
+			}
+
+			set
+			{
+				
+				InstanceName = value;
+			}
+		}
+
 		private readonly List<IComponentManager> Components = new List<IComponentManager>();
 
 		public bool AddComponent(IComponentManager c)
@@ -128,7 +169,7 @@ namespace GameEngineTK.Engine
 		{
 			for (int i = 0; i < Components.Count; i++)
 				if (Components[i] is T) return (T)Convert.ChangeType(Components[i], typeof(T));
-			throw new ArgumentException($"{this} does not contain {nameof(T)} component");
+			throw new Exception($"{this} does not contain {nameof(T)} component");
 		}
 		[Obsolete("This method deprecated; missing components throw an exception")]
 		public bool HasComponent<T>()

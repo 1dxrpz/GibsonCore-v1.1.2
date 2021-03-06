@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using System.Text;
 using GameEngineTK.Engine;
 using GameEngineTK.Engine.Prototypes.Interfaces;
+using GameEngineTK.Engine.Rendering;
 using Microsoft.Xna.Framework;
 
 namespace GameEngineTK.Scripts
 {
+	
 	public class CameraScript : IScriptManager
 	{
+		
 		Debug debug;
 		public void Start()
 		{
