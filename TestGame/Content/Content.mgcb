@@ -37,6 +37,13 @@
 /processorParam:TextureFormat=Color
 /build:CursorSpriteSheet.png;CursorSpriteSheet
 
+#begin File.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:File.spritefont;consolas.spritefont
+
 #begin font.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor

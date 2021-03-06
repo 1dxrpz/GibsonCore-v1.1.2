@@ -30,6 +30,7 @@ namespace GameEngineTK.Scripts
 			Layout l1 = secondScene["c"];
 
 			l1.Add("test");
+			l1.Add("test1");
 
 		}
 		public void Update()
