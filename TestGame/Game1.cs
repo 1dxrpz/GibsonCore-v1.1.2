@@ -16,21 +16,19 @@ namespace GameEngineTK
 {
 	public class Game1 : Game
 	{
-		GraphicsDeviceManager _graphics;
-		SpriteBatch ctx;
-		SpriteFont font;
+		private readonly GraphicsDeviceManager _graphics;
+		private SpriteBatch ctx;
+		private SpriteFont font;
 		//Texture2D cursor_image;
 
 		public Game1()
 		{
 			_graphics = new GraphicsDeviceManager(this);
 			Content.RootDirectory = "Content";
-			_graphics.PreferredBackBufferHeight = 1080;
-			_graphics.PreferredBackBufferWidth = 1920;
 			_graphics.SynchronizeWithVerticalRetrace = default;
 			base.IsFixedTimeStep = default;
 			BoxCollider.RenderColisionMask = default;
-			this.TargetElapsedTime = TimeSpan.FromMilliseconds(1000 / 60);
+			TargetElapsedTime = TimeSpan.FromMilliseconds(1000 / 60);
 
 		}
 
@@ -40,10 +38,10 @@ namespace GameEngineTK
 			base.Initialize();
 			Services.AddService<ProjectSettings>(new ProjectSettings());
 			Services.AddService<Debug>(new Debug());
-			ScriptManager.Services = this.Services;
+			ScriptManager.Services = Services;
 			ScriptManager.Content = Content;
 			ScriptManager.ctx = ctx;
-			ScriptManager.graphicsDevice = this.GraphicsDevice;
+			ScriptManager.graphicsDevice = GraphicsDevice;
 			//MediaPlayer.Play(song);
 			Program.scripts.ForEach(v => { v.Start(); });
 		}
@@ -88,33 +86,31 @@ namespace GameEngineTK
 
 		protected override void Update(GameTime gameTime)
 		{			
-			var settings = Services.GetService<ProjectSettings>();
-			var debug = Services.GetService<Debug>();
+			ProjectSettings settings = Services.GetService<ProjectSettings>();
 
 			_graphics.PreferredBackBufferHeight = settings.WindowHeight;
 			_graphics.PreferredBackBufferWidth = settings.WindowWidth;
 			_graphics.SynchronizeWithVerticalRetrace = settings.VSync;
 			base.IsFixedTimeStep = settings.FixedTS;
 			BoxCollider.RenderColisionMask = settings.ShowColliders;
-			this.TargetElapsedTime = TimeSpan.FromMilliseconds(1000 / settings.MaxFPS);
+			TargetElapsedTime = TimeSpan.FromMilliseconds(1000 / settings.MaxFPS);
 			_graphics.ApplyChanges();
 			Time.deltaTime = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
 			base.Update(gameTime);
 		}
 		protected override void Draw(GameTime gameTime)
 		{
-			var settings = Services.GetService<ProjectSettings>();
-			var debug = Services.GetService<Debug>();
+			ProjectSettings settings = Services.GetService<ProjectSettings>();
+			Debug debug = Services.GetService<Debug>();
 			GraphicsDevice.Clear(Color.Black);
 			ctx.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp);
 			debug.Update(gameTime);
 			if (debug.Enabled)
 			{
-				var config = ConfigReader.Parse("OVconfigs/project");
+				var config = ConfigReader.Parse("project");			// wth why
 				ctx.DrawString(font, "Project name: " + config["name"], new Vector2(10, 10), Color.Gray);
 				ctx.DrawString(font, "Author: " + config["author"], new Vector2(10, 25), Color.Gray);
 				ctx.DrawString(font, "Version: " + config["version"], new Vector2(10, 40), Color.Gray);
-				//ctx.DrawString(font, debug.msg, new Vector2(0, 0), Color.Gold);
 				ctx.DrawString(font, " - Debug.Text\n[scope]: message " + debug.text, new Vector2(10, 60), Color.White);
 			}
 			Program.scripts.ForEach(v => { v.Update(); });

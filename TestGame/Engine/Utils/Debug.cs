@@ -26,15 +26,15 @@ namespace GameEngineTK.Engine
 	public class ProjectSettings
 	{
 		public int MaxFPS = 200;
-		public int WindowHeight = 1080;
-		public int WindowWidth = 1920;
+		public int WindowHeight = 400;
+		public int WindowWidth = 400;
 		public bool VSync = false;
 		public bool FixedTS = true;
 		public bool ShowColliders = true;
 	}
 	public class Debug
 	{
-		public bool Enabled = true;
+		public bool Enabled = bool.Parse(ConfigReader.Parse("project")["EnableDebug"]);
 		public double FPS;
 		private double frames = 0;
 		private double updates = 0;

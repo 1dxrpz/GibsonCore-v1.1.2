@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using GameEngineTK.Engine;
 using GameEngineTK.Engine.Prototypes.Interfaces;
+using GameEngineTK.Engine.Utils;
 using GameEngineTK.Scripts;
 
 namespace GameEngineTK
@@ -14,16 +15,20 @@ namespace GameEngineTK
 		{
 			using (var game = new Game1())
 			{
+				
+				
 				scripts.Add(new NoiseScript());
 				scripts.Add(new PlayerScript());
 				scripts.Add(new CameraScript());
 				scripts.Add(new CursorScript());
 
-				game.Window.IsBorderless = true;
+				scripts.Add(new RenderingScript());
+				scripts.Add(new ConsoleInterractions());
+				game.Window.IsBorderless = false;
 				game.Window.AllowAltF4 = true;
 				game.IsMouseVisible = false;
-				game.Window.AllowUserResizing = false;
-				game.Window.Title = ConfigReader.Parse("OVconfigs/project")["title"];
+				game.Window.AllowUserResizing = true;
+				game.Window.Title = ConfigReader.Parse("project")["title"];
 				game.Run();
 			}
 		}

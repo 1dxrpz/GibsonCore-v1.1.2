@@ -7,7 +7,7 @@ using System.Text;
 
 namespace GameEngineTK.Engine
 {
-	public class GUI : IGameInstances
+	public class GUI //: IGameInstances
 	{
 		
 		public Rectangle Bounds;

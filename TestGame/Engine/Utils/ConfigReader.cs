@@ -13,11 +13,11 @@ namespace GameEngineTK.Engine
 		/// <para>Parse ovconfig values</para>
 		/// <para>usage: config_name["value"]; </para>
 		/// </summary>
-		/// <param name="path">Config source</param>
+		/// <param name="name">Config name</param>
 		/// <returns>Dictionary&lt;key, value&gt;();</returns>
-		static public Dictionary<string, string> Parse(string path)
+		static public Dictionary<string, string> Parse(string name)
 		{
-			var config = File.ReadAllText(Path.Combine("../../../", path + ".ovconfig"));
+			var config = File.ReadAllText(Path.Combine("../../../configs/", name + ".ovconfig"));
 			List<string> trimmed = new List<string>();
 			Dictionary<string, string> result = new Dictionary<string, string>();
 			var lines = config.Split('\n').ToList();

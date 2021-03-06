@@ -5,104 +5,50 @@ using GameEngineTK.Engine.Prototypes.Interfaces;
 
 namespace GameEngineTK.Engine.Rendering
 {
-	public class Theatre : IRenderingInstance<Scene>
+	static public class Theatre
 	{
-		public Scene this[int i]
-		{
+		static private List<Scene> Objects = new List<Scene>();
+		static public int ObjectsCount {
 			get
 			{
-				throw new NotImplementedException();
-			}
-
-			set
-			{
-				throw new NotImplementedException();
+				return Objects.Count;
 			}
 		}
-
-		public Scene this[string name]
+		static public List<Scene> GetObjects { get { return Objects; } }
+		static public void Add(Scene instance)
 		{
-			get
+			if (instance.name == null)
 			{
-				throw new NotImplementedException();
+				instance.name = "Scene" + Objects.Count;
 			}
-
-			set
-			{
-				throw new NotImplementedException();
-			}
+			if (Objects.FindIndex(v => v.name == instance.name) != - 1)
+				throw new Exception($"Scene {instance.name} already exists");
+			Objects.Add(instance);
 		}
-
-		public List<Scene> Objects
+		static public void Add(string name)
 		{
-			get
-			{
-				throw new NotImplementedException();
-			}
+			Scene t = new Scene();
+			if (Objects.FindIndex(v => v.name == name) != -1)
+				throw new ArgumentException($"Scene {name} already exists");
+			t.name = name;
+			Objects.Add(t);
 		}
-
-		public bool IsVisible
+		static public void Remove(string name)
 		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-
-			set
-			{
-				throw new NotImplementedException();
-			}
+			Objects.Remove(Objects.Find(v => v.name == name));
 		}
-
-		public Theatre parent
+		static public void Remove(Scene instance)
 		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-
-			set
-			{
-				throw new NotImplementedException();
-			}
+			Objects.Remove(instance);
 		}
-
-		public string name
+		static public void Render()
 		{
-			get
-			{
-				throw new NotImplementedException();
-			}
 
-			set
-			{
-				throw new NotImplementedException();
-			}
 		}
-
-		public void Add(Scene instance)
+		static public void InsertObject(int i, Scene l)
 		{
-			throw new NotImplementedException();
-		}
-
-		public void Add(string name)
-		{
-			throw new NotImplementedException();
-		}
-
-		public void Remove(Scene instance)
-		{
-			throw new NotImplementedException();
-		}
-
-		public void Render()
-		{
-			throw new NotImplementedException();
-		}
-
-		public void SetOrder()
-		{
-			throw new NotImplementedException();
+			Objects.Remove(l);
+			Objects.Insert(i, l);	
 		}
 	}
 }
