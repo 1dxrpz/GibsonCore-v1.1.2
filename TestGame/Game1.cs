@@ -58,7 +58,7 @@ namespace GameEngineTK
 			BoxCollider.ColliderRenderTexture = Content.Load<Texture2D>("SolidWall");
 
 			ctx = new SpriteBatch(GraphicsDevice);
-			font = Content.Load<SpriteFont>("consolas");
+			font = Content.Load<SpriteFont>("font");
 			//cursor_image = Content.Load<Texture2D>("cursor");
 
 			//pl = Content.Load<Texture2D>("player");

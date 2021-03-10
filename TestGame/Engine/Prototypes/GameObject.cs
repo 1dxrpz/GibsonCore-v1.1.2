@@ -1,4 +1,5 @@
 ﻿using GameEngineTK.Engine.Prototypes;
+using GameEngineTK.Engine.Prototypes.Enums;
 using GameEngineTK.Engine.Prototypes.Interfaces;
 using GameEngineTK.Engine.Rendering;
 using Microsoft.Xna.Framework;
@@ -12,7 +13,7 @@ namespace GameEngineTK.Engine
 {
 	public class Params
 	{
-		public bool isVisible = true;
+		public VisibleState isVisible = VisibleState.Visible;
 		public bool isDraggable = false;
 		public bool MouseDown = false;
 		public bool onHover = false;
@@ -37,14 +38,13 @@ namespace GameEngineTK.Engine
 
 			Components.Add(new Transform());
 			Components.Add(new Physics());
-			Components.Add(new Animation(texture, width, height));
+			Components.Add(new Animation(texture));
 		}
 		public GameObject(Texture2D texture, int width, int height)
 		{
 			Components.Add(new Transform());
 			Components.Add(new Physics());
-			Components.Add(new Animation(texture, width, height));
-
+			Components.Add(new Animation(texture));
 
 			this.texture = texture;
 			this.width = width;
@@ -54,7 +54,7 @@ namespace GameEngineTK.Engine
 		{
 			Components.Add(new Transform());
 			Components.Add(new Physics());
-			Components.Add(new Animation(vtexture.ToTexture2D(), width, height));
+			Components.Add(new Animation(vtexture.ToTexture2D()));
 
 			this.vtexture = vtexture;
 			this.width = width;
@@ -99,8 +99,6 @@ namespace GameEngineTK.Engine
 		}
 		// REWRITE TO TRANSFORM FIELD
 
-		public SpriteEffects Flip = default;
-
 		public Texture2D Texture {
 			get { return texture; }
 			set {
@@ -108,7 +106,6 @@ namespace GameEngineTK.Engine
 				texture = value;
 			}
 		}
-
 		public TextureHandler VTexture {
 			get { return vtexture; }
 			set
@@ -120,7 +117,6 @@ namespace GameEngineTK.Engine
 
 		private Layer ParentLayer;
 		private string InstanceName;
-
 		public Layer parent
 		{
 			get
@@ -133,7 +129,6 @@ namespace GameEngineTK.Engine
 				ParentLayer = value;
 			}
 		}
-
 		public string name
 		{
 			get
@@ -148,6 +143,8 @@ namespace GameEngineTK.Engine
 			}
 		}
 
+		public SpriteEffects Flip = SpriteEffects.None;
+		
 		private readonly List<IComponentManager> Components = new List<IComponentManager>();
 
 		public bool AddComponent(IComponentManager c)
@@ -159,7 +156,7 @@ namespace GameEngineTK.Engine
 		}
 		public bool RemoveComponent(IComponentManager c)
 		{
-			if (!this.HasComponent(c))
+			if (!HasComponent(c))
 				return false;
 			Components.Remove(c);
 			return true;
@@ -181,9 +178,28 @@ namespace GameEngineTK.Engine
 		[Obsolete("This method deprecated; missing components throw an exception")]
 		public bool HasComponent(IComponentManager obj)
 		{
-			for (int i = 0; i < Components.Count; i++)
-				if (Components[i].Equals(obj)) return true;
-			return false;
+			return Components.Contains(obj);
+		}
+
+		private readonly List<VisualEffect> Effects = new List<VisualEffect>();
+
+		public bool AddEffect(VisualEffect e)
+		{
+			if (HasEffect(e))
+				return false;
+			Effects.Add(e);
+			return true;
+		}
+		public bool RemoveEffect(VisualEffect e)
+		{
+			if (!HasEffect(e))
+				return false;
+			Effects.Remove(e);
+			return true;
+		}
+		public bool HasEffect(VisualEffect e)
+		{
+			return Effects.Contains(e);
 		}
 
 		// MAKE FUNCTIONS COMPONENT
@@ -208,7 +224,7 @@ namespace GameEngineTK.Engine
 				objectParams.onHover = true;
 			else if (Mouse.GetState().LeftButton == ButtonState.Released)
 				objectParams.onHover = false;
-			return objectParams.onHover && Mouse.GetState().LeftButton == ButtonState.Pressed && objectParams.isVisible;
+			return objectParams.onHover && Mouse.GetState().LeftButton == ButtonState.Pressed && objectParams.isVisible == VisibleState.Visible;
 		}
 		public bool IsHover()
 		{
@@ -216,7 +232,7 @@ namespace GameEngineTK.Engine
 			return Mouse.GetState().X > pos.X &&
 				Mouse.GetState().X < pos.X + width &&
 				Mouse.GetState().Y > pos.Y &&
-				Mouse.GetState().Y < pos.Y + height && objectParams.isVisible;
+				Mouse.GetState().Y < pos.Y + height && objectParams.isVisible == VisibleState.Visible;
 		}
 
 		// MAKE FUNCTIONS COMPONENT
@@ -235,22 +251,16 @@ namespace GameEngineTK.Engine
 			return Vector2.Distance(opos, pos);
 		}
 		// TEST THIS OPTION FOR OPTIMISATION ISSUES
-
+		
 		public void Draw()
 		{
-
+			if (Components.Count > 0) Components.ForEach(v => { v.Parent = this; v.Update(); });
 			Transform _t = this.GetComponent<Transform>();
 			if (_t.ScreenPosition().X > -Width && _t.ScreenPosition().X < 1920 &&
 				_t.ScreenPosition().Y > -Height && _t.ScreenPosition().Y < 1080)
 			{
-				if (Components.Count > 0)
-					Components.ForEach(v =>
-					{
-						v.Update();
-						v.Width = width;
-						v.Height = height;
-						v.Position = this.GetComponent<Transform>().Position;
-					});
+				
+
 				if (this.HasComponent<Animation>())
 				{
 					Animation an = this.GetComponent<Animation>();
@@ -258,10 +268,16 @@ namespace GameEngineTK.Engine
 					ScriptManager.ctx.Draw(an.SpriteSheet, new Rectangle(_t.ScreenPosition().ToPoint(), an.size),
 						new Rectangle(an.src, an.FrameSize), Color.White, this.GetComponent<Transform>().Rotation, OriginPosition, Flip, 0);
 				}
-				else if (objectParams.isVisible)
+				else if (objectParams.isVisible == VisibleState.Visible)
 				{
-					ScriptManager.ctx.Draw(texture, new Rectangle(_t.ScreenPosition().ToPoint(), new Point(Width, Height)),
-						new Rectangle(0, 0, texture.Width, texture.Height), Color.White, this.GetComponent<Transform>().Rotation, OriginPosition, Flip, 0);
+					ScriptManager.ctx.Draw(
+						texture,
+						new Rectangle(_t.ScreenPosition().ToPoint(),
+						new Point(Width, Height)),
+						new Rectangle(0, 0, texture.Width, texture.Height),
+						Color.White,
+						this.GetComponent<Transform>().Rotation,
+						OriginPosition, Flip, 0);
 				}
 				if (this.HasComponent<BoxCollider>())
 				{
@@ -272,7 +288,9 @@ namespace GameEngineTK.Engine
 						ScriptManager.ctx.Draw(BoxCollider.ColliderRenderTexture, new Rectangle(World.ScreenPosition(bc.Position).ToPoint(), new Point(bc.Width, bc.Height)), Color.White);
 				}
 			}
-		}
 
+
+
+		}
 	}
 }

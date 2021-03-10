@@ -9,6 +9,8 @@ namespace GameEngineTK.Engine
 {
 	public class Animation : IComponentManager
 	{
+		private IGameInstances parent;
+
 		public Texture2D SpriteSheet;
 		public int CurrentFrame = 0;
 		public int FrameCount = 1;
@@ -22,19 +24,35 @@ namespace GameEngineTK.Engine
 		public int Width { get; set; }
 		public int Height { get; set; }
 
+		public IGameInstances Parent
+		{
+			get
+			{
+				return parent;
+			}
+
+			set
+			{
+				parent = value;
+			}
+		}
+
 		public Point size;
 
-		public Animation(Texture2D texture, int width, int height)
+		public Animation(Texture2D texture)
 		{
 			this.SpriteSheet = texture;
-			this.size.X = width;
-			this.size.Y = height;
+			this.size.X = Width;
+			this.size.Y = Height;
 			this.FrameSize = new Point(texture.Width, texture.Height);
 			
 		}
 		public Point src;
 		public void Update()
 		{
+			Width = parent.Width;
+			Height = parent.Height;
+			size = new Point(Width, Height);
 			src.X = CurrentFrame * FrameSize.X;
 			src.Y = CurrentAnimation * FrameSize.Y;
 		}
