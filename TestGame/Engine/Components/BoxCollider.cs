@@ -10,12 +10,26 @@ namespace GameEngineTK.Engine
 {
 	public class BoxCollider : IComponentManager
 	{
+		private IGameInstances parent;
 		static public Texture2D ColliderRenderTexture;
 		static public bool RenderColisionMask = false;
 
 		public Vector2 Position { get; set; }
 		public int Width { get; set; }
 		public int Height { get; set; }
+
+		public IGameInstances Parent
+		{
+			get
+			{
+				return parent;
+			}
+
+			set
+			{
+				parent = value;
+			}
+		}
 
 		public Vector2 velocity = new Vector2();
 		public bool OverObject(GameObject obj)
