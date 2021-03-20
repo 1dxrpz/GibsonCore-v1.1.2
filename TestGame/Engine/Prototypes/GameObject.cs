@@ -2,6 +2,7 @@
 using GameEngineTK.Engine.Prototypes.Enums;
 using GameEngineTK.Engine.Prototypes.Interfaces;
 using GameEngineTK.Engine.Rendering;
+using GameEngineTK.Engine.Utils;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;

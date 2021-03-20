@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
 
-namespace GameEngineTK.Engine.Prototypes
+namespace GameEngineTK.Engine.Utils
 {
 	public class TextureHandler
 	{

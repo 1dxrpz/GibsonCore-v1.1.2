@@ -13,24 +13,7 @@ namespace GameEngineTK.Scripts
 			Scene secondScene = new Scene();
 			Scene thirdScene = new Scene();
 
-			firstScene.Add("a");
-			secondScene.Add("b");
-
-			Layout l = new Layout();
-
-			secondScene.Add(l);
-			l.name = "c";
-
-			secondScene.Add(firstScene["a"]);
-			firstScene.Remove("a");
-
-			secondScene["a"].SetOrder(0);
-			secondScene["c"].SetOrder(1);
-
-			Layout l1 = secondScene["c"];
-
-			l1.Add("test");
-			l1.Add("test1");
+			//firstScene.Add(secondScene);
 
 		}
 		public void Update()

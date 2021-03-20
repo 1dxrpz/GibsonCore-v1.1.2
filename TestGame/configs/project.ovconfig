@@ -7,7 +7,7 @@
 
 # Main info
 
-author: Kenneth Gibsob
+author: Kenneth Gibson
 name: Gibson Game Engine
 version: v.1.01c89e354f
 info: https://kennethgibson.site/
@@ -17,3 +17,8 @@ title: Test Game
 
 EnableConsole: true
 EnableDebug: true
+
+# var config = ConfigReader.Parse(string path)
+# config.GetBool(string value);
+# config.GetInt(string value);
+# config.GetDouble(string value);

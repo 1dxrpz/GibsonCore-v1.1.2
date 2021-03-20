@@ -105,7 +105,7 @@ namespace GameEngineTK
 			debug.Update(gameTime);
 			if (debug.Enabled)
 			{
-				var config = ConfigReader.Parse("project");			// wth why
+				var config = ConfigReader.Parse("project");
 				ctx.DrawString(font, "Project name: " + (config.ContainsKey("name") ? config["name"] : "Unnamed Project"), new Vector2(10, 10), Color.Gray);
 				ctx.DrawString(font, "Author: " + (config.ContainsKey("author") ? config["author"] : "Unknown author"), new Vector2(10, 25), Color.Gray);
 				ctx.DrawString(font, "Version: " + (config.ContainsKey("version") ? "v.1.00" : config["version"]), new Vector2(10, 40), Color.Gray);
