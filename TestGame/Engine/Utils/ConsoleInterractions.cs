@@ -14,9 +14,15 @@ namespace GameEngineTK.Engine.Utils
 		static extern bool AllocConsole();
 		public void Start()
 		{
-			if (ConfigReader.Parse("project").ContainsKey("EnableConsole") ? ConfigReader.Parse("project")["EnableConsole"] == "true" : false)
+			if (ConfigReader.Parse("project").ContainsKey("EnableConsole") ? ConfigReader.Parse("project").GetBool("EnableConsole") : false)
 				AllocConsole();
 
+			foreach (var i in Theatre.Scenes)
+			{
+				Console.WriteLine($"- > [{i.GetType().Name}]\t[{i.IsVisible}]\t{i.Name}");
+			}
+
+			/*
 			foreach (var i in Theatre.GetObjects)
 			{
 				Console.WriteLine($"- > [{i.GetType().Name}] {i.name}");
@@ -33,6 +39,7 @@ namespace GameEngineTK.Engine.Utils
 					}
 				}
 			}
+			*/
 		}
 		void ConsoleExecutor()
 		{

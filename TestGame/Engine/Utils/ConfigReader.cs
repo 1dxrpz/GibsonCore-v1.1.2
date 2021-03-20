@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 namespace GameEngineTK.Engine
 {
 	[Serializable]
-	public class ConfigReader
+	static public class ConfigReader
 	{
 		/// <summary>
 		/// <para>Parse ovconfig values</para>
@@ -32,6 +32,18 @@ namespace GameEngineTK.Engine
 			foreach (var t in trimmed)
 				result.Add(t.Split(':', 2)[0].Trim(), t.Split(':', 2)[1].Trim());
 			return result;
+		}
+		static public int GetInt(this Dictionary<string, string> config, string value)
+		{
+			return int.Parse(config[value]);
+		}
+		static public bool GetBool(this Dictionary<string, string> config, string value)
+		{
+			return bool.Parse(config[value]);
+		}
+		static public double GetDouble(this Dictionary<string, string> config, string value)
+		{
+			return double.Parse(config[value]);
 		}
 	}
 }
