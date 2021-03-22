@@ -6,6 +6,7 @@ using GameEngineTK.Engine;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
 using GameEngineTK.Engine.Prototypes.Interfaces;
+using GameEngineTK.Engine.Components;
 
 namespace GameEngineTK.Scripts
 {
@@ -17,13 +18,15 @@ namespace GameEngineTK.Scripts
 		public void Start()
 		{
 			ScriptManager.Services.GetService<ProjectSettings>().ShowColliders = false;
-			Cursor = new GameObject(ScriptManager.Content.Load<Texture2D>("CursorSpriteSheet"), 32, 42);
-			Cursor.AddComponent(new Animation(Cursor.Texture));
+			Cursor = new GameObject(ScriptManager.Content.Load<Texture2D>("CursorSpriteSheet"));//, 32, 42);
+			Cursor.AddComponent(new Sprite());
+			Cursor.GetComponent<Sprite>().Texture = Cursor.VTexture;
 			Cursor.GetComponent<Transform>().Parallax = new Vector2(0, 0);
 		}
 
 		public void Update()
 		{
+			/*
 			if (Mouse.GetState().LeftButton != click)
 			{
 				if (Mouse.GetState().LeftButton != ButtonState.Released)
@@ -33,6 +36,7 @@ namespace GameEngineTK.Scripts
 			Cursor.GetComponent<Animation>().CurrentFrame = Mouse.GetState().LeftButton == ButtonState.Pressed ? 1 : 0;
 			Cursor.GetComponent<Animation>().FrameCount = 2;
 			Cursor.GetComponent<Animation>().FrameSize = new Point(16, 21);
+			*/
 			Cursor.GetComponent<Transform>().Position = Mouse.GetState().Position.ToVector2();
 			Cursor.GetComponent<Transform>().Parallax = new Vector2(0, 0);
 			Cursor.Draw();
