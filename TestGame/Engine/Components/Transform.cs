@@ -8,7 +8,7 @@ namespace GameEngineTK.Engine
 {
 	public class Transform : IComponentManager
 	{
-		private GameObject parent;
+		private IGameInstances parent;
 		public Vector2 Velocity;
 		public float Rotation;
 		public Vector2 Parallax = new Vector2(1, 1);
@@ -43,7 +43,7 @@ namespace GameEngineTK.Engine
 			get { return -Top; }
 		}
 
-		public GameObject Parent
+		public IGameInstances Parent
 		{
 			get
 			{

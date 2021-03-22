@@ -25,7 +25,7 @@ namespace GameEngineTK.Scripts
 			debug.AddDebugLine($"FPS: {debug.FPS}");
 			Vector2 pos = PlayerScript.Player.GetComponent<Transform>().Position;
 			Camera.Position = Vector2.Lerp(Camera.Position,
-				pos - (new Vector2(1920 / 2 - PlayerScript.Player.GetComponent<Transform>().Width / 4, 1080 / 2 - PlayerScript.Player.GetComponent<Transform>().Height / 4)),
+				pos - (new Vector2(1920 / 2 - PlayerScript.Player.Width / 4, 1080 / 2 - PlayerScript.Player.Height / 4)),
 				.005f * Time.deltaTime);
 		}
 	}

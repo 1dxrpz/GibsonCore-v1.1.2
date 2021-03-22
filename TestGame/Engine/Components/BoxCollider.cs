@@ -10,7 +10,7 @@ namespace GameEngineTK.Engine
 {
 	public class BoxCollider : IComponentManager
 	{
-		private GameObject parent;
+		private IGameInstances parent;
 		static public Texture2D ColliderRenderTexture;
 		static public bool RenderColisionMask = false;
 
@@ -18,7 +18,7 @@ namespace GameEngineTK.Engine
 		public int Width { get; set; }
 		public int Height { get; set; }
 
-		public GameObject Parent
+		public IGameInstances Parent
 		{
 			get
 			{

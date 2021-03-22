@@ -51,7 +51,7 @@ namespace GameEngineTK.Scripts
 		{
 			this.GenerateNoiseTexture();
 			// Here's your Initialize code
-			noise = new GameObject(noiseTexture);
+			noise = new GameObject(noiseTexture, 500, 500);
 			noise.GetComponent<Transform>().Position = new Vector2(500, 0);
 		}
 		/// <summary>

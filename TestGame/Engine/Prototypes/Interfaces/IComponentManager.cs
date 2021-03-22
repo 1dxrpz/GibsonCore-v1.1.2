@@ -7,7 +7,7 @@ namespace GameEngineTK.Engine.Prototypes.Interfaces
 {
 	public interface IComponentManager
 	{
-		public GameObject Parent { get; set; }
+		public IGameInstances Parent { get; set; }
 		public Vector2 Position { get; set; }
 		public int Width { get; set; }
 		public int Height { get; set; }
