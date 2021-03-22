@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using GameEngineTK.Engine;
-using GameEngineTK.Engine.Components;
 using GameEngineTK.Engine.Prototypes;
 using GameEngineTK.Engine.Prototypes.Interfaces;
 using GameEngineTK.Engine.Utils;
@@ -26,31 +25,20 @@ namespace GameEngineTK.Scripts
 			//Player = new GameObject(Content.Load<Texture2D>("player"), 32, 32);
 			data = new Color[texture.Width * texture.Height];
 			tex = new Texture2D(ScriptManager.graphicsDevice, texture.Width, texture.Height);
-			Player = new GameObject();
-			//Player.AddComponent(new BoxCollider());
-			Player.AddComponent(new Sprite());
-			//Player.AddComponent(new Renderer());
-			Player.GetComponent<Sprite>().Texture = texture;
-			//Console.WriteLine(1);
-			Player.init();
+			Player = new GameObject(texture, 32, 32);
+			Player.AddComponent(new BoxCollider());
 		}
 
 		public void Update()
 		{
-			//var a = Player.GetComponent<BoxCollider>();
+			Player.Width = 64;
+			Player.Height = 64;
+
+			var a = Player.GetComponent<BoxCollider>();
 
 			//Player.RotateTowardObject(CursorScript.Cursor);
 
-			ScriptManager.Services.GetService<Debug>().AddDebugLine("dt: " + Time.deltaTime);
-
 			Transform pt = Player.GetComponent<Transform>();
-
-			pt.Width = 64;
-			pt.Height = 64;
-
-			Player.OriginPosition = new Vector2(32, 32);
-
-			Console.WriteLine(pt.Width);
 
 			if (Keyboard.GetState().IsKeyDown(Keys.D))
 			{
@@ -73,7 +61,7 @@ namespace GameEngineTK.Scripts
 				pt.Velocity.Y = -.25f * Time.deltaTime;
 			else
 				pt.Velocity.Y = 0;
-			
+
 			Player.Draw();
 		}
 	}

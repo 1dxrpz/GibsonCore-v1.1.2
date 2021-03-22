@@ -83,8 +83,7 @@ namespace GameEngineTK
 			//Ground.AddComponent(new BoxCollider());
 		}
 		protected override void Update(GameTime gameTime)
-		{
-			
+		{			
 			ProjectSettings settings = Services.GetService<ProjectSettings>();
 
 			_graphics.PreferredBackBufferHeight = settings.WindowHeight;
@@ -94,6 +93,7 @@ namespace GameEngineTK
 			BoxCollider.RenderColisionMask = settings.ShowColliders;
 			TargetElapsedTime = TimeSpan.FromMilliseconds(1000 / settings.MaxFPS);
 			_graphics.ApplyChanges();
+			Time.deltaTime = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
 			base.Update(gameTime);
 		}
 		protected override void Draw(GameTime gameTime)
@@ -103,7 +103,6 @@ namespace GameEngineTK
 			GraphicsDevice.Clear(Color.Black);
 			ctx.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp);
 			debug.Update(gameTime);
-			Time.deltaTime = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
 			if (debug.Enabled)
 			{
 				var config = ConfigReader.Parse("project");

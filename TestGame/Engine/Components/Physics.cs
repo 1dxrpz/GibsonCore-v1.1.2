@@ -8,7 +8,7 @@ namespace GameEngineTK.Engine
 {
 	public class Physics : IComponentManager
 	{
-		private GameObject parent;
+		private IGameInstances parent;
 		public Vector2 Velocity = new Vector2();
 		public Vector2 Acceleration = new Vector2();
 		public bool isEnabled = false;
@@ -17,7 +17,7 @@ namespace GameEngineTK.Engine
 		public int Width { get; set; }
 		public int Height { get; set; }
 
-		public GameObject Parent
+		public IGameInstances Parent
 		{
 			get
 			{

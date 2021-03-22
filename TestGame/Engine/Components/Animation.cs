@@ -9,7 +9,7 @@ namespace GameEngineTK.Engine
 {
 	public class Animation : IComponentManager
 	{
-		private GameObject parent;
+		private IGameInstances parent;
 
 		public Texture2D SpriteSheet;
 		public int CurrentFrame = 0;
@@ -24,7 +24,7 @@ namespace GameEngineTK.Engine
 		public int Width { get; set; }
 		public int Height { get; set; }
 
-		public GameObject Parent
+		public IGameInstances Parent
 		{
 			get
 			{
@@ -50,8 +50,8 @@ namespace GameEngineTK.Engine
 		public Point src;
 		public void Update()
 		{
-			Width = parent.GetComponent<Transform>().Width;
-			Height = parent.GetComponent<Transform>().Height;
+			Width = parent.Width;
+			Height = parent.Height;
 			size = new Point(Width, Height);
 			src.X = CurrentFrame * FrameSize.X;
 			src.Y = CurrentAnimation * FrameSize.Y;

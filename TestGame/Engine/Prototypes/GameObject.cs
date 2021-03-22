@@ -1,5 +1,4 @@
-﻿using GameEngineTK.Engine.Components;
-using GameEngineTK.Engine.Prototypes;
+﻿using GameEngineTK.Engine.Prototypes;
 using GameEngineTK.Engine.Prototypes.Enums;
 using GameEngineTK.Engine.Prototypes.Interfaces;
 using GameEngineTK.Engine.Rendering;
@@ -20,8 +19,10 @@ namespace GameEngineTK.Engine
 		public bool MouseDown = false;
 		public bool onHover = false;
 	}
-	public class GameObject
+	public class GameObject : IGameInstances
 	{
+		private int width;
+		private int height;
 		private Texture2D texture;
 		private TextureHandler vtexture;
 
@@ -33,23 +34,51 @@ namespace GameEngineTK.Engine
 		public GameObject()
 		{
 			texture = null;
+			width = 32;
+			height = 32;
 
 			Components.Add(new Transform());
-			Components.Add(new Renderer());
+			Components.Add(new Physics());
+			Components.Add(new Animation(texture));
 		}
-		public GameObject(Texture2D texture)
+		public GameObject(Texture2D texture, int width, int height)
 		{
 			Components.Add(new Transform());
-			Components.Add(new Renderer());
+			Components.Add(new Physics());
+			Components.Add(new Animation(texture));
 
 			this.texture = texture;
+			this.width = width;
+			this.height = height;
 		}
-		public GameObject(TextureHandler vtexture)
+		public GameObject(TextureHandler vtexture, int width, int height)
 		{
 			Components.Add(new Transform());
-			Components.Add(new Renderer());
+			Components.Add(new Physics());
+			Components.Add(new Animation(vtexture.ToTexture2D()));
 
 			this.vtexture = vtexture;
+			this.width = width;
+			this.height = height;
+		}
+		/// <summary>
+		/// Texture origin position
+		/// </summary>
+		public int Width
+		{
+			get { return width; }
+			set {
+				this.GetComponent<Animation>().size.X = value;
+				width = value;
+			}
+		}
+		public int Height
+		{
+			get { return height; }
+			set {
+				this.GetComponent<Animation>().size.Y = value;
+				height = value;
+			}
 		}
 
 		// REWRITE TO TRANSFORM FIELD
@@ -137,10 +166,7 @@ namespace GameEngineTK.Engine
 		public T GetComponent<T>()
 		{
 			for (int i = 0; i < Components.Count; i++)
-			{
-				if (Components[i] is T)
-					return (T)Components[i];
-			}
+				if (Components[i] is T) return (T)Convert.ChangeType(Components[i], typeof(T));
 			throw new Exception($"{this} does not contain {nameof(T)} component");
 		}
 		[Obsolete("This method deprecated; missing components throw an exception")]
@@ -203,12 +229,11 @@ namespace GameEngineTK.Engine
 		}
 		public bool IsHover()
 		{
-			Transform _t = this.GetComponent<Transform>();
-			Vector2 pos = _t.Position;
+			Vector2 pos = this.GetComponent<Transform>().Position;
 			return Mouse.GetState().X > pos.X &&
-				Mouse.GetState().X < pos.X + _t.Width &&
+				Mouse.GetState().X < pos.X + width &&
 				Mouse.GetState().Y > pos.Y &&
-				Mouse.GetState().Y < pos.Y + _t.Width && objectParams.isVisible == VisibleState.Visible;
+				Mouse.GetState().Y < pos.Y + height && objectParams.isVisible == VisibleState.Visible;
 		}
 
 		// MAKE FUNCTIONS COMPONENT
@@ -227,13 +252,46 @@ namespace GameEngineTK.Engine
 			return Vector2.Distance(opos, pos);
 		}
 		// TEST THIS OPTION FOR OPTIMISATION ISSUES
-		public void init()
-		{
-			if (Components.Count > 0) Components.ForEach(v => { v.Parent = this; v.Update(); });
-		}
+		
 		public void Draw()
 		{
-			if (Components.Count > 0) Components.ForEach(v => { v.Update(); });
+			if (Components.Count > 0) Components.ForEach(v => { v.Parent = this; v.Update(); });
+			Transform _t = this.GetComponent<Transform>();
+			if (_t.ScreenPosition().X > -Width && _t.ScreenPosition().X < 1920 &&
+				_t.ScreenPosition().Y > -Height && _t.ScreenPosition().Y < 1080)
+			{
+				
+
+				if (this.HasComponent<Animation>())
+				{
+					Animation an = this.GetComponent<Animation>();
+
+					ScriptManager.ctx.Draw(an.SpriteSheet, new Rectangle(_t.ScreenPosition().ToPoint(), an.size),
+						new Rectangle(an.src, an.FrameSize), Color.White, this.GetComponent<Transform>().Rotation, OriginPosition, Flip, 0);
+				}
+				else if (objectParams.isVisible == VisibleState.Visible)
+				{
+					ScriptManager.ctx.Draw(
+						texture,
+						new Rectangle(_t.ScreenPosition().ToPoint(),
+						new Point(Width, Height)),
+						new Rectangle(0, 0, texture.Width, texture.Height),
+						Color.White,
+						this.GetComponent<Transform>().Rotation,
+						OriginPosition, Flip, 0);
+				}
+				if (this.HasComponent<BoxCollider>())
+				{
+					BoxCollider bc = this.GetComponent<BoxCollider>();
+					bc.velocity = this.GetComponent<Transform>().Velocity;
+					bc.Position -= OriginPosition * 2;
+					if (BoxCollider.RenderColisionMask)
+						ScriptManager.ctx.Draw(BoxCollider.ColliderRenderTexture, new Rectangle(World.ScreenPosition(bc.Position).ToPoint(), new Point(bc.Width, bc.Height)), Color.White);
+				}
+			}
+
+
+
 		}
 	}
 }
