@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
 
+
 namespace GameEngineTK.Engine.Utils
 {
 	public class TextureHandler
@@ -18,7 +19,7 @@ namespace GameEngineTK.Engine.Utils
 		}
 		public TextureHandler(string path)
 		{
-			texture_bmp = new Bitmap(path);
+			texture_bmp = new Bitmap(@"..\..\..\.." + path);
 			this.Width = texture_bmp.Width;
 			this.Height = texture_bmp.Height;
 		}

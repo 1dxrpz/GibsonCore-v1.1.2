@@ -16,38 +16,31 @@ namespace GameEngineTK.Engine.Utils
 		{
 			if (ConfigReader.Parse("project").ContainsKey("EnableConsole") ? ConfigReader.Parse("project").GetBool("EnableConsole") : false)
 				AllocConsole();
-
+			Task.Run(ConsoleExecutor);
+		}
+		void ConsoleExecutor()
+		{
+			Console.Clear();
 			foreach (var i in Theatre.Scenes)
 			{
-				Console.WriteLine($"- > [{i.GetType().Name}]\t[{i.IsVisible}]\t{i.Name}");
-			}
-
-			/*
-			foreach (var i in Theatre.GetObjects)
-			{
 				Console.WriteLine($"- > [{i.GetType().Name}] {i.name}");
-				foreach (var t in i.GetObjects)
+				foreach (var t in i.Objects)
 				{
 					Console.WriteLine($"\t└ [{t.GetType().Name}] {t.name}");
-					foreach (var l in t.GetObjects)
+					foreach (var l in t.Objects)
 					{
 						Console.WriteLine($"\t\t└ [{l.GetType().Name}] {l.name}");
-						foreach (var n in l.GetObjects)
+						foreach (var n in l.Objects)
 						{
 							Console.WriteLine($"\t\t\t└ [{n.GetType().Name}] {n.name}");
 						}
 					}
 				}
 			}
-			*/
-		}
-		void ConsoleExecutor()
-		{
-			
 		}
 		public void Update()
 		{
-			Task.Run(ConsoleExecutor);
+			
 		}
 	}
 }

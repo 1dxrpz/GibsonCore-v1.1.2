@@ -20,7 +20,7 @@ namespace GameEngineTK.Engine
 		public bool MouseDown = false;
 		public bool onHover = false;
 	}
-	public class GameObject
+	public class GameObject : IGameInstances
 	{
 		private Texture2D texture;
 		private TextureHandler vtexture;
@@ -89,7 +89,7 @@ namespace GameEngineTK.Engine
 
 		private Layer ParentLayer;
 		private string InstanceName;
-		public Layer parent
+		public Layer Parent
 		{
 			get
 			{
@@ -227,13 +227,9 @@ namespace GameEngineTK.Engine
 			return Vector2.Distance(opos, pos);
 		}
 		// TEST THIS OPTION FOR OPTIMISATION ISSUES
-		public void init()
-		{
-			if (Components.Count > 0) Components.ForEach(v => { v.Parent = this; v.Update(); });
-		}
 		public void Draw()
 		{
-			if (Components.Count > 0) Components.ForEach(v => { v.Update(); });
+			if (Components.Count > 0) Components.ForEach(v => { if (v.Parent != this) v.Parent = this; v.Update(); });
 		}
 	}
 }

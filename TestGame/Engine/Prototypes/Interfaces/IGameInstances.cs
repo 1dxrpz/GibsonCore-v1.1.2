@@ -8,10 +8,7 @@ namespace GameEngineTK.Engine.Prototypes.Interfaces
 {
 	public interface IGameInstances
 	{
-		public TextureHandler texture { get; set; }
-		public int Width { get; set; }
-		public int Height { get; set; }
-		public Layer parent { get; set; }
+		Layer Parent { get; set; }
 		public string name { get; set; }
 		public void Draw();
 	}
