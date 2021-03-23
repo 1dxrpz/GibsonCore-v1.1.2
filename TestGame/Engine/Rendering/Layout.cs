@@ -84,5 +84,10 @@ namespace GameEngineTK.Engine.Rendering
 		{
 			Objects.Remove(l);
 		}
+		public void MoveTo(int index)
+		{
+			Parent.Objects[Parent.Objects.FindIndex(v => v == this)] = Parent.Objects[index];
+			Parent.Objects[index] = this;
+		}
 	}
 }

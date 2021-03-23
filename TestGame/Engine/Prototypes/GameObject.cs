@@ -36,6 +36,8 @@ namespace GameEngineTK.Engine
 
 			Components.Add(new Transform());
 			Components.Add(new Renderer());
+			EnsureDefaults();
+
 		}
 		public GameObject(Texture2D texture)
 		{
@@ -43,6 +45,7 @@ namespace GameEngineTK.Engine
 			Components.Add(new Renderer());
 
 			this.texture = texture;
+			EnsureDefaults();
 		}
 		public GameObject(TextureHandler vtexture)
 		{
@@ -50,6 +53,15 @@ namespace GameEngineTK.Engine
 			Components.Add(new Renderer());
 
 			this.vtexture = vtexture;
+			EnsureDefaults();
+		}
+		public void EnsureDefaults()
+		{
+			var config = ConfigReader.Parse("project");
+			if (config.ContainsKey("EnsureDefaults") && ConfigReader.GetBool(config, "EnsureDefaults"))
+			{
+				ScriptManager.DefaultLayer.Add(this);
+			}
 		}
 
 		// REWRITE TO TRANSFORM FIELD
@@ -127,6 +139,11 @@ namespace GameEngineTK.Engine
 			{
 				visible = value;
 			}
+		}
+		public void MoveTo(int index)
+		{
+			Parent.Objects[Parent.Objects.FindIndex(v => v == this)] = Parent.Objects[index];
+			Parent.Objects[index] = this;
 		}
 
 		public SpriteEffects Flip = SpriteEffects.None;
@@ -241,6 +258,10 @@ namespace GameEngineTK.Engine
 			return Vector2.Distance(opos, pos);
 		}
 		// TEST THIS OPTION FOR OPTIMISATION ISSUES
+		public void init()
+		{
+			
+		}
 		public void Draw()
 		{
 			if (Components.Count > 0) Components.ForEach(v => { if (v.Parent != this) v.Parent = this; v.Update(); });

@@ -28,8 +28,8 @@ namespace GameEngineTK.Engine
 		public int MaxFPS = 900;
 		public int WindowHeight = 1080;
 		public int WindowWidth = 1920;
-		public bool VSync = true;
-		public bool FixedTS = false;
+		public bool VSync = false;
+		public bool FixedTS = true;
 		public bool ShowColliders = true;
 	}
 	public class Debug

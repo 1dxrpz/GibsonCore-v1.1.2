@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using GameEngineTK.Engine.Rendering;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -13,5 +14,9 @@ namespace GameEngineTK.Engine
 		public static ContentManager Content;
 		public static SpriteBatch ctx;
 		public static GraphicsDevice graphicsDevice;
+		public static Scene DefaultScene;
+		public static Layout DefaultLayout;
+		public static Layer DefaultLayer;
 	}
+
 }
