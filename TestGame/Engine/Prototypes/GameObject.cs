@@ -114,6 +114,20 @@ namespace GameEngineTK.Engine
 				InstanceName = value;
 			}
 		}
+		private VisibleState visible = VisibleState.Visible;
+
+		public VisibleState isVisible
+		{
+			get
+			{
+				return visible;
+			}
+
+			set
+			{
+				visible = value;
+			}
+		}
 
 		public SpriteEffects Flip = SpriteEffects.None;
 		

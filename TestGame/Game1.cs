@@ -11,6 +11,9 @@ using PerlinNoise;
 using PerlinNoise.Filters;
 using PerlinNoise.Transformers;
 using System.Threading.Tasks;
+using GameEngineTK.Engine.Rendering;
+using GameEngineTK.Engine.Prototypes.Interfaces;
+using GameEngineTK.Engine.Prototypes.Enums;
 
 namespace GameEngineTK
 {
@@ -19,8 +22,6 @@ namespace GameEngineTK
 		private readonly GraphicsDeviceManager _graphics;
 		private SpriteBatch ctx;
 		private SpriteFont font;
-		//Texture2D cursor_image;
-
 		public Game1()
 		{
 			_graphics = new GraphicsDeviceManager(this);
@@ -46,41 +47,12 @@ namespace GameEngineTK
 			Program.scripts.ForEach(v => { v.Start(); });
 		}
 		
-		//GameObject tiles;
-		//GameObject Ground;
-
-		//Song song;
-
-		//Texture2D pl;
-		
 		protected override void LoadContent()
 		{
 			BoxCollider.ColliderRenderTexture = Content.Load<Texture2D>("SolidWall");
 
 			ctx = new SpriteBatch(GraphicsDevice);
 			font = Content.Load<SpriteFont>("font");
-			//cursor_image = Content.Load<Texture2D>("cursor");
-
-			//pl = Content.Load<Texture2D>("player");
-
-			//tiles = new GameObject(Content.Load<Texture2D>("SpriteSheet"), 128, 128);
-			//
-			//Color[] data = new Color[32 * 32];
-			//for (int i = 0; i < data.Length; i++)
-			//{
-			//	data[i] = Color.White;
-			//}
-			//Texture2D tex = new Texture2D(_graphics.GraphicsDevice, 32, 32);
-			//tex.SetData(data);
-
-			//Player = new GameObject(Content.Load<Texture2D>("player"), 32, 32);
-			//Ground = new GameObject(Content.Load<Texture2D>("ground"), 32, 32);
-
-			//song = Content.Load<Song>("Effect");
-
-			//tiles.AddComponent(new Animation(tiles.Texture, 64, 64));
-			//Player.AddComponent(new BoxCollider());
-			//Ground.AddComponent(new BoxCollider());
 		}
 		protected override void Update(GameTime gameTime)
 		{
@@ -113,6 +85,23 @@ namespace GameEngineTK
 				ctx.DrawString(font, " - Debug.Text\n[scope]: message " + debug.text, new Vector2(10, 60), Color.White);
 			}
 			Program.scripts.ForEach(v => { v.Update(); });
+			foreach(Scene scene in Theatre.Scenes)
+			{
+				if (scene.isVisible == VisibleState.Visible)
+				foreach (Layout layout in scene.Objects)
+				{
+					if (layout.isVisible == VisibleState.Visible)
+					foreach (Layer layer in layout.Objects)
+					{
+						if (layer.isVisible == VisibleState.Visible)
+						foreach (IGameInstances instance in layer.Objects)
+						{
+							if (instance.isVisible == VisibleState.Visible)
+							instance.Draw();
+						}
+					}
+				}
+			}
 			ctx.End();
 			base.Draw(gameTime);
 

@@ -6,6 +6,7 @@ using GameEngineTK.Engine;
 using GameEngineTK.Engine.Components;
 using GameEngineTK.Engine.Prototypes;
 using GameEngineTK.Engine.Prototypes.Interfaces;
+using GameEngineTK.Engine.Rendering;
 using GameEngineTK.Engine.Utils;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -28,6 +29,14 @@ namespace GameEngineTK.Scripts
 			Prop = new GameObject();
 			Prop.AddComponent(new Sprite());
 			Prop.GetComponent<Sprite>().Texture = prop;
+			Scene scene = new Scene();
+			Layout layout = new Layout();
+			Layer layer = new Layer();
+
+			scene.Add(layout);
+			layout.Add(layer);
+			layer.Add(Player);
+			layer.Add(Prop);
 		}
 
 		public void Update()
@@ -77,8 +86,6 @@ namespace GameEngineTK.Scripts
 			else
 				pt.Velocity.Y = 0;
 			
-			Player.Draw();
-			Prop.Draw();
 		}
 	}
 }
