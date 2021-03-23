@@ -5,6 +5,7 @@ using System.Text;
 using GameEngineTK.Engine;
 using GameEngineTK.Engine.Components;
 using GameEngineTK.Engine.Prototypes;
+using GameEngineTK.Engine.Prototypes.Enums;
 using GameEngineTK.Engine.Prototypes.Interfaces;
 using GameEngineTK.Engine.Rendering;
 using GameEngineTK.Engine.Utils;
@@ -21,6 +22,7 @@ namespace GameEngineTK.Scripts
 		TextureHandler texture = new TextureHandler(@"\TestGame\Content\Knight.png");
 		TextureHandler prop = new TextureHandler(@"\TestGame\Content\Prop.png");
 
+
 		public void Start()
 		{
 			Player = new GameObject();
@@ -29,14 +31,6 @@ namespace GameEngineTK.Scripts
 			Prop = new GameObject();
 			Prop.AddComponent(new Sprite());
 			Prop.GetComponent<Sprite>().Texture = prop;
-			Scene scene = new Scene();
-			Layout layout = new Layout();
-			Layer layer = new Layer();
-
-			scene.Add(layout);
-			layout.Add(layer);
-			layer.Add(Player);
-			layer.Add(Prop);
 		}
 
 		public void Update()
@@ -51,6 +45,9 @@ namespace GameEngineTK.Scripts
 
 			pt.Width = 64 * 2;
 			pt.Height = 64 * 2;
+
+			prt.Width = 150;
+			prt.Height = 150;
 
 			Player.GetComponent<Animation>().FrameCount = 8;
 			Player.GetComponent<Animation>().FrameSize = new Point(32, 32);

@@ -8,7 +8,8 @@ using Microsoft.Xna.Framework.Graphics;
 using GameEngineTK.Engine.Prototypes.Interfaces;
 using GameEngineTK.Engine.Components;
 using GameEngineTK.Engine.Utils;
-
+using GameEngineTK.Engine.Rendering;
+using GameEngineTK.Engine.Prototypes.Enums;
 
 namespace GameEngineTK.Scripts
 {
@@ -27,6 +28,7 @@ namespace GameEngineTK.Scripts
 			Cursor.GetComponent<Transform>().Parallax = new Vector2(0, 0);
 			Cursor.GetComponent<Transform>().Width = 32;
 			Cursor.GetComponent<Transform>().Height = 42;
+
 		}
 
 		public void Update()
@@ -49,7 +51,6 @@ namespace GameEngineTK.Scripts
 
 			Cursor.GetComponent<Transform>().Position = Mouse.GetState().Position.ToVector2();
 			Cursor.GetComponent<Transform>().Parallax = new Vector2(0, 0);
-			Cursor.Draw();
 		}
 		
 	}

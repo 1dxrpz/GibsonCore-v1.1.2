@@ -23,7 +23,7 @@ namespace GameEngineTK
 				scripts.Add(new CameraScript());
 				scripts.Add(new CursorScript());
 				scripts.Add(new ConsoleInterractions());
-				game.Window.IsBorderless = false;
+				game.Window.IsBorderless = true;
 				game.Window.AllowAltF4 = true;
 				game.IsMouseVisible = false;
 				game.Window.AllowUserResizing = true;

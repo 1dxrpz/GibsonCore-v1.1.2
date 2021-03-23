@@ -89,5 +89,10 @@ namespace GameEngineTK.Engine.Rendering
 		{
 			Objects.Remove(l);
 		}
+		public void MoveTo(int index)
+		{
+			Theatre.Scenes[Theatre.Scenes.FindIndex(v => v == this)] = Theatre.Scenes[index];
+			Theatre.Scenes[index] = this;
+		}
 	}
 }

@@ -44,6 +44,15 @@ namespace GameEngineTK
 			ScriptManager.ctx = ctx;
 			ScriptManager.graphicsDevice = GraphicsDevice;
 			//MediaPlayer.Play(song);
+			var config = ConfigReader.Parse("project");
+			if (config.ContainsKey("EnsureDefaults") && ConfigReader.GetBool(config, "EnsureDefaults"))
+			{
+				ScriptManager.DefaultScene = new Scene("DefaultScene");
+				ScriptManager.DefaultLayout = new Layout("DefaultLayout");
+				ScriptManager.DefaultLayer = new Layer("DefaultLayer");
+				ScriptManager.DefaultScene.Add(ScriptManager.DefaultLayout);
+				ScriptManager.DefaultLayout.Add(ScriptManager.DefaultLayer);
+			}
 			Program.scripts.ForEach(v => { v.Start(); });
 		}
 		
