@@ -21,10 +21,7 @@ namespace GameEngineTK
 				//scripts.Add(new NoiseScript());
 				scripts.Add(new PlayerScript());
 				scripts.Add(new CameraScript());
-				//scripts.Add(new CursorScript());
-				
-				
-				//scripts.Add(new RenderingScript());
+				scripts.Add(new CursorScript());
 				scripts.Add(new ConsoleInterractions());
 				game.Window.IsBorderless = false;
 				game.Window.AllowAltF4 = true;

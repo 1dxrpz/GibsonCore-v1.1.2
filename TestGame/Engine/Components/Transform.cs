@@ -8,14 +8,35 @@ namespace GameEngineTK.Engine
 {
 	public class Transform : IComponentManager
 	{
+		private int width = 32, height = 32;
 		private GameObject parent;
 		public Vector2 Velocity;
 		public float Rotation;
 		public Vector2 Parallax = new Vector2(1, 1);
 
 		public Vector2 Position { get; set; }
-		public int Width { get; set; }
-		public int Height { get; set; }
+		public int Width
+		{
+			get
+			{
+				return width;
+			}
+			set
+			{
+				width = value;
+			}
+		}
+		public int Height
+		{
+			get
+			{
+				return height;
+			}
+			set
+			{
+				height = value;
+			}
+		}
 
 		public Vector2 Forward
 		{
