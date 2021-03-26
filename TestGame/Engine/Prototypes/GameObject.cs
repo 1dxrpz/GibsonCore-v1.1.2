@@ -83,22 +83,6 @@ namespace GameEngineTK.Engine
 		}
 		// REWRITE TO TRANSFORM FIELD
 
-		public Texture2D Texture {
-			get { return texture; }
-			set {
-				this.GetComponent<Animation>().SpriteSheet = value;
-				texture = value;
-			}
-		}
-		public TextureHandler VTexture {
-			get { return vtexture; }
-			set
-			{
-				this.GetComponent<Animation>().SpriteSheet = value.ToTexture2D();
-				vtexture = value;
-			}
-		}
-
 		private Layer ParentLayer;
 		private string InstanceName;
 		public Layer Parent
@@ -144,6 +128,11 @@ namespace GameEngineTK.Engine
 		{
 			Parent.Objects[Parent.Objects.FindIndex(v => v == this)] = Parent.Objects[index];
 			Parent.Objects[index] = this;
+		}
+		public void MoveToLayer(Layer layer)
+		{
+			Parent.Remove(this);
+			layer.Add(this);
 		}
 
 		public SpriteEffects Flip = SpriteEffects.None;
@@ -260,11 +249,11 @@ namespace GameEngineTK.Engine
 		// TEST THIS OPTION FOR OPTIMISATION ISSUES
 		public void init()
 		{
-			
+			if (Components.Count > 0) Components.ForEach(v => { if (v.Parent != this) v.Parent = this; v.init(); });
 		}
 		public void Draw()
 		{
-			if (Components.Count > 0) Components.ForEach(v => { if (v.Parent != this) v.Parent = this; v.Update(); });
+			if (Components.Count > 0) Components.ForEach(v => { v.Update(); });
 		}
 	}
 }

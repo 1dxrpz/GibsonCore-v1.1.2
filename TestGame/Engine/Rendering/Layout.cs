@@ -7,6 +7,7 @@ namespace GameEngineTK.Engine.Rendering
 {
 	public class Layout
 	{
+		
 		public VisibleState isVisible = VisibleState.Visible;
 		public List<Layer> Objects = new List<Layer>();
 

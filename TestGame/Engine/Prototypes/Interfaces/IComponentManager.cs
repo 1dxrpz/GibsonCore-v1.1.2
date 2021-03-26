@@ -12,5 +12,6 @@ namespace GameEngineTK.Engine.Prototypes.Interfaces
 		public int Width { get; set; }
 		public int Height { get; set; }
 		public void Update();
+		public void init();
 	}
 }

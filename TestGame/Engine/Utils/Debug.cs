@@ -8,13 +8,13 @@ using System.Text;
 
 namespace GameEngineTK.Engine
 {
-	public static class World
+	public static class Positioning
 	{
-		static public Vector2 ScreenPosition(Vector2 pos)
+		static public Vector2 ScreenPosition(this Vector2 pos)
 		{
 			return pos - Camera.Position;
 		}
-		static public Vector2 WorldPosition(Vector2 pos)
+		static public Vector2 WorldPosition(this Vector2 pos)
 		{
 			return pos + Camera.Position;
 		}    

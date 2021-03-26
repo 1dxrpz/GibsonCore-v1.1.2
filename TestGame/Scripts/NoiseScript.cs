@@ -68,7 +68,7 @@ namespace GameEngineTK.Scripts
 			{
 				generated = false;
 			}
-			noise.GetComponent<Animation>().SpriteSheet = noiseTexture;
+			noise.GetComponent<AnimatedSprite>().animation.SpriteSheet = noiseTexture;
 			noise.Draw();
 			// Here's your Update code
 		}

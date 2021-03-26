@@ -81,5 +81,10 @@ namespace GameEngineTK.Engine
 		{
 			
 		}
+
+		public void init()
+		{
+			
+		}
 	}
 }

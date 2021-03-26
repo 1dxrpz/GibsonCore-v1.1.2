@@ -38,6 +38,7 @@ namespace GameEngineTK.Engine.Components
 				position = position;
 			}
 		}
+		public Vector2 Origin;
 		public int Width
 		{
 			get
@@ -63,6 +64,11 @@ namespace GameEngineTK.Engine.Components
 			}
 		}
 
+		public void init()
+		{
+			Origin = new Vector2(width, height) / 2;
+		}
+
 		public void Update()
 		{
 			
@@ -73,12 +79,21 @@ namespace GameEngineTK.Engine.Components
 			{
 				if (Parent.objectParams.isVisible == VisibleState.Visible)
 				{
-					if (Parent.HasComponent<Animation>())
+					if (Parent.HasComponent<AnimatedSprite>())
 					{
-						Animation an = Parent.GetComponent<Animation>();
+						AnimatedSprite an = Parent.GetComponent<AnimatedSprite>();
 
-						ScriptManager.ctx.Draw(an.SpriteSheet, new Rectangle(_t.ScreenPosition().ToPoint(), an.size),
-							new Rectangle(an.src, an.FrameSize), Color.White, Parent.GetComponent<Transform>().Rotation, Parent.OriginPosition, Parent.Flip, 0);
+						ScriptManager.ctx.Draw(an.animation.SpriteSheet, new Rectangle(_t.ScreenPosition().ToPoint(), an.size),
+							new Rectangle(an.src, an.animation.FrameSize),
+							Color.White, Parent.GetComponent<Transform>().Rotation, Origin, Parent.Flip, 0);
+					}
+					else if (Parent.HasComponent<BufferedAnimatedSprite>())
+					{
+						BufferedAnimatedSprite an = Parent.GetComponent<BufferedAnimatedSprite>();
+
+						ScriptManager.ctx.Draw(an.animation.SpriteSheet, new Rectangle(_t.ScreenPosition().ToPoint(), an.size),
+							new Rectangle(an.src, an.animation.FrameSize),
+							Color.White, Parent.GetComponent<Transform>().Rotation, Origin, Parent.Flip, 0);
 					}
 					else if (Parent.HasComponent<Sprite>())
 					{
@@ -90,7 +105,7 @@ namespace GameEngineTK.Engine.Components
 							new Rectangle(0, 0, _s.Texture.Width, _s.Texture.Height),
 							Color.White,
 							Parent.GetComponent<Transform>().Rotation,
-							Parent.OriginPosition, Parent.Flip, 0);
+							Origin, Parent.Flip, 0);
 					}
 				}
 
@@ -101,7 +116,11 @@ namespace GameEngineTK.Engine.Components
 					bc.velocity = Parent.GetComponent<Transform>().Velocity;
 					bc.Position -= Parent.OriginPosition * 2;
 					if (BoxCollider.RenderColisionMask)
-						ScriptManager.ctx.Draw(BoxCollider.ColliderRenderTexture, new Rectangle(World.ScreenPosition(bc.Position).ToPoint(), new Point(bc.Width, bc.Height)), Color.White);
+						ScriptManager.ctx.Draw(BoxCollider.ColliderRenderTexture,
+							new Rectangle(
+								bc.Position.ScreenPosition().ToPoint(),
+								new Point(bc.Width, bc.Height)
+							), Color.White);
 				}
 			}
 			
