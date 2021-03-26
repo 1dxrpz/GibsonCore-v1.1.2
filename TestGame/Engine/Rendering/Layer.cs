@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Text;
 using GameEngineTK.Engine.Prototypes.Enums;
 using GameEngineTK.Engine.Prototypes.Interfaces;
+using Microsoft.Xna.Framework;
 
 namespace GameEngineTK.Engine.Rendering
 {
 	public class Layer
 	{
+		public Vector2 Parallax = Vector2.One;
 		public VisibleState isVisible = VisibleState.Visible;
 
 		public List<IGameInstances> Objects = new List<IGameInstances>();

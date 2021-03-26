@@ -7,6 +7,10 @@ using Microsoft.Xna.Framework;
 
 namespace GameEngineTK.Engine.Components
 {
+	class BufferedSprite
+	{
+
+	}
 	class Sprite : IComponentManager
 	{
 		private int width, height;
@@ -68,6 +72,11 @@ namespace GameEngineTK.Engine.Components
 		{
 			width = parent.GetComponent<Transform>().Width;
 			height = parent.GetComponent<Transform>().Height;
+		}
+
+		public void init()
+		{
+			
 		}
 	}
 }

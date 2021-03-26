@@ -13,5 +13,6 @@ namespace GameEngineTK.Engine.Prototypes.Interfaces
 		Layer Parent { get; set; }
 		public string name { get; set; }
 		public void Draw();
+		public void init();
 	}
 }

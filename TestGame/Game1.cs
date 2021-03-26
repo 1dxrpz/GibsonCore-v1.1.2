@@ -54,6 +54,25 @@ namespace GameEngineTK
 				ScriptManager.DefaultLayout.Add(ScriptManager.DefaultLayer);
 			}
 			Program.scripts.ForEach(v => { v.Start(); });
+			
+			foreach (Scene scene in Theatre.Scenes)
+			{
+				if (scene.isVisible == VisibleState.Visible)
+					foreach (Layout layout in scene.Objects)
+					{
+						if (layout.isVisible == VisibleState.Visible)
+							foreach (Layer layer in layout.Objects)
+							{
+								if (layer.isVisible == VisibleState.Visible)
+									foreach (IGameInstances instance in layer.Objects)
+									{
+										if (instance.isVisible == VisibleState.Visible)
+											instance.init();
+									}
+							}
+					}
+			}
+			
 		}
 		
 		protected override void LoadContent()

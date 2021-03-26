@@ -1,4 +1,5 @@
-﻿using GameEngineTK.Engine.Prototypes.Interfaces;
+﻿using GameEngineTK.Engine.Components;
+using GameEngineTK.Engine.Prototypes.Interfaces;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ namespace GameEngineTK.Engine
 		private GameObject parent;
 		public Vector2 Velocity;
 		public float Rotation;
-		public Vector2 Parallax = new Vector2(1, 1);
+		private Vector2 Parallax;
 
 		public Vector2 Position { get; set; }
 		public int Width
@@ -100,6 +101,13 @@ namespace GameEngineTK.Engine
 		public void Update()
 		{
 			Position += Velocity;
+			Parallax = parent.Parent.Parallax;
+			
+		}
+
+		public void init()
+		{
+			
 		}
 	}
 }

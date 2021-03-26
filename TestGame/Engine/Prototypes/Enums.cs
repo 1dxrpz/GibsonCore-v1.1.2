@@ -16,6 +16,11 @@ namespace GameEngineTK.Engine.Prototypes.Enums
 		Inverse,
 		Desaturate
 	}
+	public enum EnableState
+	{
+		Disabled,
+		Enabled
+	}
 }
 /*
  
