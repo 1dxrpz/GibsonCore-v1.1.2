@@ -9,16 +9,16 @@ using Microsoft.Xna.Framework;
 namespace GameEngineTK.Scripts
 {
 	
-	public class CameraScript : IScriptManager
+	public class CameraScript : DxScript
 	{
 		
 		Debug debug;
-		public void Start()
+		public override void Start()
 		{
 			
 		}
-		
-		public void Update()
+
+		public override void Update()
 		{
 			//ScriptManager.Services.GetService<ProjectSettings>()
 			debug = ScriptManager.Services.GetService<Debug>();

@@ -49,6 +49,7 @@ namespace GameEngineTK.Scripts
 		bool generated = false;
 		public void Start()
 		{
+			GameManager.UpdateEvent += Update;
 			this.GenerateNoiseTexture();
 			// Here's your Initialize code
 			noise = new GameObject(noiseTexture);

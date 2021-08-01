@@ -15,7 +15,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace GameEngineTK.Scripts
 {
-	public class PlayerScript : IScriptManager
+	public class PlayerScript : DxScript
 	{
 		public static GameObject Player;
 		public static GameObject Prop;
@@ -23,7 +23,7 @@ namespace GameEngineTK.Scripts
 		TextureHandler prop = new TextureHandler(@"\TestGame\Content\Prop.png");
 
 
-		public void Start()
+		public override void Start()
 		{
 			Player = new GameObject();
 			Player.AddComponent(new Animation());
@@ -33,7 +33,7 @@ namespace GameEngineTK.Scripts
 			Prop.GetComponent<Sprite>().Texture = prop;
 		}
 
-		public void Update()
+		public override void Update()
 		{
 			
 			//Player.RotateTowardObject(CursorScript.Cursor);
