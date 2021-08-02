@@ -29,7 +29,7 @@ namespace GameEngineTK
 			_graphics = new GraphicsDeviceManager(this);
 			Content.RootDirectory = "Content";
 			_graphics.SynchronizeWithVerticalRetrace = default;
-			base.IsFixedTimeStep = default;
+			IsFixedTimeStep = default;
 			BoxCollider.RenderColisionMask = default;
 			TargetElapsedTime = TimeSpan.FromMilliseconds(1000 / 60);
 		}
@@ -84,8 +84,9 @@ namespace GameEngineTK
 			GameManager.Draw();
 			//ProjectSettings settings = Services.GetService<ProjectSettings>();
 			
-			//Debug debug = Services.GetService<Debug>();
-			//debug.Update(gameTime);
+			Debug debug = Services.GetService<Debug>();
+			debug.Update(gameTime);
+			Console.WriteLine(debug.FPS);
 
 			GraphicsDevice.Clear(Color.Black);
 			ctx.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp);

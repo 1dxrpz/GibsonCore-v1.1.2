@@ -1,23 +1,13 @@
-﻿using GameEngineTK.Engine.Prototypes.Interfaces;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
+﻿using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
 
 namespace GameEngineTK.Engine
 {
 	public static class World
 	{
-		static public Vector2 ScreenPosition(Vector2 pos)
-		{
-			return pos - Camera.Position;
-		}
-		static public Vector2 WorldPosition(Vector2 pos)
-		{
-			return pos + Camera.Position;
-		}    
+		static public Vector2 ScreenPosition(Vector2 pos) => pos - Camera.Position;
+		static public Vector2 WorldPosition(Vector2 pos) => pos + Camera.Position;
 	}
 	public static class Time
 	{
@@ -52,12 +42,6 @@ namespace GameEngineTK.Engine
 			FPS = Math.Round(frames / elapsed);
 			if (elapsed > msgFrequency)
 			{
-				msg = " Fps: " + FPS.ToString()
-					+ "\n Elapsed time: " + Math.Round(elapsed, 4).ToString()
-					+ "\n Updates: " + updates.ToString()
-					+ "\n Frames: " + frames.ToString()
-					+ "\n Update frequency: " + Math.Round(msgFrequency, 4).ToString();
-				//Console.WriteLine(msg);
 				elapsed = 0;
 				frames = 0;
 				updates = 0;
@@ -67,20 +51,12 @@ namespace GameEngineTK.Engine
 			frames++;
 
 			text = "";
-			
-
 			foreach (string line in DebugLines)
 			{
 				text += "\n" + line;
 			}
 
 			DebugLines = new List<string>();
-		}
-		public void AddDebugLine(string LineMessage)
-		{
-			StackTrace stackTrace = new StackTrace();
-			DebugLines.Add($"[{stackTrace.GetFrame(1).GetMethod().DeclaringType.Name}]: {LineMessage}");
-			
 		}
 	}
 }
