@@ -15,7 +15,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace GameEngineTK.Scripts
 {
-	public class PlayerScript : IScriptManager
+	public class PlayerScript : DxScript
 	{
 		public static GameObject Player;
 		public static GameObject Prop;
@@ -23,7 +23,7 @@ namespace GameEngineTK.Scripts
 		TextureHandler prop = new TextureHandler(@"\TestGame\Content\Prop.png");
 
 
-		public void Start()
+		public override void Start()
 		{
 			Player = new GameObject();
 			Player.AddComponent(new Animation());
@@ -33,13 +33,8 @@ namespace GameEngineTK.Scripts
 			Prop.GetComponent<Sprite>().Texture = prop;
 		}
 
-		public void Update()
+		public override void Update()
 		{
-			
-			//Player.RotateTowardObject(CursorScript.Cursor);
-
-			ScriptManager.Services.GetService<Debug>().AddDebugLine("dt: " + Time.deltaTime);
-
 			Transform pt = Player.GetComponent<Transform>();
 			Transform prt = Prop.GetComponent<Transform>();
 
@@ -52,10 +47,6 @@ namespace GameEngineTK.Scripts
 			Player.GetComponent<Animation>().FrameCount = 8;
 			Player.GetComponent<Animation>().FrameSize = new Point(32, 32);
 			Player.GetComponent<Animation>().AnimationSpeed = 1;
-
-			ScriptManager.Services.GetService<Debug>().AddDebugLine(Player.GetComponent<Animation>().CurrentFrame.ToString());
-			ScriptManager.Services.GetService<Debug>().AddDebugLine(Player.GetComponent<Animation>().FrameCount.ToString());
-			ScriptManager.Services.GetService<Debug>().AddDebugLine(Player.GetComponent<Animation>().counter.ToString());
 
 			Player.OriginPosition = new Vector2(32, 32);
 

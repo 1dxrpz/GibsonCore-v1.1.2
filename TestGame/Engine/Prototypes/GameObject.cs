@@ -27,9 +27,6 @@ namespace GameEngineTK.Engine
 
 		public Params objectParams = new Params();
 
-		/// <summary>
-		/// Creates new GameObject instance
-		/// </summary>
 		public GameObject()
 		{
 			texture = null;
@@ -64,7 +61,7 @@ namespace GameEngineTK.Engine
 			}
 		}
 
-		// REWRITE TO TRANSFORM FIELD
+		#region REWRITE TO TRANSFORM FIELD
 		public void RotateTowardPosition(Vector2 pos)
 		{
 			this.GetComponent<Transform>().Rotation = (float)Math.Atan2(pos.Y - this.GetComponent<Transform>().ScreenPosition().Y, pos.X - this.GetComponent<Transform>().ScreenPosition().X);
@@ -81,7 +78,7 @@ namespace GameEngineTK.Engine
 		{
 			this.GetComponent<Transform>().Rotation -= angle;
 		}
-		// REWRITE TO TRANSFORM FIELD
+		#endregion
 
 		public Texture2D Texture {
 			get { return texture; }
@@ -208,7 +205,7 @@ namespace GameEngineTK.Engine
 			return Effects.Contains(e);
 		}
 
-		// MAKE FUNCTIONS COMPONENT
+		#region MAKE FUNCTIONS COMPONENT
 		public bool OnObjectClicked()
 		{
 			bool MouseDown = objectParams.MouseDown;
@@ -221,9 +218,9 @@ namespace GameEngineTK.Engine
 			}
 			return MouseDown;
 		} // crap
+		#endregion
+
 		public Vector2 OriginPosition = new Vector2();
-		
-		// REWRITE TO TRANSFORM FIELD
 		public bool OnObjectDragging()
 		{
 			if (this.IsHover() && Mouse.GetState().LeftButton == ButtonState.Released)
@@ -242,9 +239,7 @@ namespace GameEngineTK.Engine
 				Mouse.GetState().Y < pos.Y + _t.Width && objectParams.isVisible == VisibleState.Visible;
 		}
 
-		// MAKE FUNCTIONS COMPONENT
-
-		// TEST THIS OPTION FOR OPTIMISATION ISSUES
+		#region TEST THIS OPTION FOR OPTIMISATION ISSUES
 		public float Distance(GameObject obj)
 		{
 			Vector2 opos = obj.GetComponent<Transform>().Position - obj.OriginPosition;
@@ -257,11 +252,8 @@ namespace GameEngineTK.Engine
 			Vector2 pos = this.GetComponent<Transform>().Position;
 			return Vector2.Distance(opos, pos);
 		}
-		// TEST THIS OPTION FOR OPTIMISATION ISSUES
-		public void init()
-		{
-			
-		}
+		#endregion
+
 		public void Draw()
 		{
 			if (Components.Count > 0) Components.ForEach(v => { if (v.Parent != this) v.Parent = this; v.Update(); });

@@ -13,13 +13,13 @@ using GameEngineTK.Engine.Prototypes.Enums;
 
 namespace GameEngineTK.Scripts
 {
-	class CursorScript : IScriptManager
+	class CursorScript : DxScript
 	{
 		TextureHandler cursorTexture = new TextureHandler(@"\TestGame\Content\CursorSpriteSheet.png");
 		public static GameObject Cursor;
 		ButtonState click = Mouse.GetState().LeftButton;
 		int b = 0;
-		public void Start()
+		public override void Start()
 		{
 			ScriptManager.Services.GetService<ProjectSettings>().ShowColliders = false;
 			Cursor = new GameObject(cursorTexture);
@@ -31,7 +31,7 @@ namespace GameEngineTK.Scripts
 
 		}
 
-		public void Update()
+		public override void Update()
 		{
 			/*
 			if (Mouse.GetState().LeftButton != click)

@@ -11,6 +11,11 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="Engine\Utils\Keyboard\**" />
+    <EmbeddedResource Remove="Engine\Utils\Keyboard\**" />
+    <None Remove="Engine\Utils\Keyboard\**" />
+  </ItemGroup>
+  <ItemGroup>
     <TrimmerRootAssembly Include="Microsoft.Xna.Framework.Content.ContentTypeReader" Visible="false" />
   </ItemGroup>
   <ItemGroup>
@@ -19,8 +24,5 @@
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="Content\Content.mgcb" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Engine\Utils\Keyboard\" />
   </ItemGroup>
 </Project>
