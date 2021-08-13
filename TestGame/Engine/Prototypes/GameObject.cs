@@ -20,7 +20,7 @@ namespace GameEngineTK.Engine
 		public bool MouseDown = false;
 		public bool onHover = false;
 	}
-	public class GameObject : IGameInstances
+	public class GameObject : ComponentHandler, IGameInstances
 	{
 		private Texture2D texture;
 		private TextureHandler vtexture;
@@ -29,25 +29,25 @@ namespace GameEngineTK.Engine
 
 		public GameObject()
 		{
+			AddComponent(new Transform());
+			AddComponent(new Renderer());
+			
 			texture = null;
-
-			Components.Add(new Transform());
-			Components.Add(new Renderer());
-			EnsureDefaults();
+			this.EnsureDefaults();
 
 		}
 		public GameObject(Texture2D texture)
 		{
-			Components.Add(new Transform());
-			Components.Add(new Renderer());
+			AddComponent(new Transform());
+			AddComponent(new Renderer());
 
 			this.texture = texture;
-			EnsureDefaults();
+			this.EnsureDefaults();
 		}
 		public GameObject(TextureHandler vtexture)
 		{
-			Components.Add(new Transform());
-			Components.Add(new Renderer());
+			AddComponent(new Transform());
+			AddComponent(new Renderer());
 
 			this.vtexture = vtexture;
 			EnsureDefaults();
@@ -144,45 +144,6 @@ namespace GameEngineTK.Engine
 		}
 
 		public SpriteEffects Flip = SpriteEffects.None;
-		
-		private readonly List<IComponentManager> Components = new List<IComponentManager>();
-
-		public bool AddComponent(IComponentManager c)
-		{
-			if (this.HasComponent(c))
-				return false;
-			Components.Add(c);
-			return true;
-		}
-		public bool RemoveComponent(IComponentManager c)
-		{
-			if (!HasComponent(c))
-				return false;
-			Components.Remove(c);
-			return true;
-		}
-
-		public T GetComponent<T>()
-		{
-			for (int i = 0; i < Components.Count; i++)
-			{
-				if (Components[i] is T)
-					return (T)Components[i];
-			}
-			throw new Exception($"{this} does not contain {nameof(T)} component");
-		}
-		[Obsolete("This method deprecated; missing components throw an exception")]
-		public bool HasComponent<T>()
-		{
-			for (int i = 0; i < Components.Count; i++)
-				if (Components[i] is T) return true;
-			return false;
-		}
-		[Obsolete("This method deprecated; missing components throw an exception")]
-		public bool HasComponent(IComponentManager obj)
-		{
-			return Components.Contains(obj);
-		}
 
 		private readonly List<VisualEffect> Effects = new List<VisualEffect>();
 
@@ -220,7 +181,6 @@ namespace GameEngineTK.Engine
 		} // crap
 		#endregion
 
-		public Vector2 OriginPosition = new Vector2();
 		public bool OnObjectDragging()
 		{
 			if (this.IsHover() && Mouse.GetState().LeftButton == ButtonState.Released)
@@ -256,7 +216,7 @@ namespace GameEngineTK.Engine
 
 		public void Draw()
 		{
-			if (Components.Count > 0) Components.ForEach(v => { if (v.Parent != this) v.Parent = this; v.Update(); });
+			
 		}
 	}
 }

@@ -1,4 +1,5 @@
-﻿using GameEngineTK.Engine.Prototypes.Interfaces;
+﻿using GameEngineTK.Engine.Components;
+using GameEngineTK.Engine.Prototypes.Interfaces;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Text;
 
 namespace GameEngineTK.Engine
 {
-	public class Transform : IComponentManager
+	public class Transform : ComponentInstance
 	{
 		private int width = 32, height = 32;
 		private GameObject parent;
@@ -62,19 +63,6 @@ namespace GameEngineTK.Engine
 		public Vector2 Bottom
 		{
 			get { return -Top; }
-		}
-
-		public GameObject Parent
-		{
-			get
-			{
-				return parent;
-			}
-
-			set
-			{
-				parent = value;
-			}
 		}
 
 		public void Translate(Vector2 pos)

@@ -7,37 +7,11 @@ using Microsoft.Xna.Framework;
 
 namespace GameEngineTK.Engine.Components
 {
-	class Sprite : IComponentManager
+	class Sprite : ComponentInstance
 	{
 		private int width, height;
-		private Vector2 position;
-		private GameObject parent;
-		private TextureHandler texture;
+		public Vector2 OriginPosition = new Vector2();
 
-		public GameObject Parent
-		{
-			get
-			{
-				return parent;
-			}
-
-			set
-			{
-				parent = value;
-			}
-		}
-		public Vector2 Position
-		{
-			get
-			{
-				return position;
-			}
-
-			set
-			{
-				position = position;
-			}
-		}
 		public int Width
 		{
 			get
@@ -64,10 +38,17 @@ namespace GameEngineTK.Engine.Components
 		}
 
 		public TextureHandler Texture;
-		public void Update()
+
+		Transform transform;
+		public Sprite()
 		{
-			width = parent.GetComponent<Transform>().Width;
-			height = parent.GetComponent<Transform>().Height;
+			transform = ParentObject.GetComponent<Transform>();
+		}
+
+		public override void Update()
+		{
+			width = transform.Width;
+			height = transform.Height;
 		}
 	}
 }

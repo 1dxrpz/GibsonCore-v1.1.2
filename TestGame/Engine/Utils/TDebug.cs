@@ -22,7 +22,7 @@ namespace GameEngineTK.Engine
 		public bool FixedTS = true;
 		public bool ShowColliders = true;
 	}
-	public class Debug
+	public class TDebug
 	{
 		public bool Enabled = ConfigReader.Parse("project").ContainsKey("EnableDebug") ? ConfigReader.Parse("project").GetBool("EnableDebug") : false;
 		public double FPS;

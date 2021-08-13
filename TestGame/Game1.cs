@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using GameEngineTK.Engine.Rendering;
 using GameEngineTK.Engine.Prototypes.Interfaces;
 using GameEngineTK.Engine.Prototypes.Enums;
+using System.Diagnostics;
 
 namespace GameEngineTK
 {
@@ -36,11 +37,12 @@ namespace GameEngineTK
 
 		protected override void Initialize()
 		{
+			
 			GameManager = new GameManager();
 			Window.Position = Point.Zero;
 			base.Initialize();
 			Services.AddService<ProjectSettings>(new ProjectSettings());
-			Services.AddService<Debug>(new Debug());
+			Services.AddService<TDebug>(new TDebug());
 			ScriptManager.Services = Services;
 			ScriptManager.Content = Content;
 			ScriptManager.ctx = ctx;
@@ -84,7 +86,7 @@ namespace GameEngineTK
 			GameManager.Draw();
 			//ProjectSettings settings = Services.GetService<ProjectSettings>();
 			
-			Debug debug = Services.GetService<Debug>();
+			TDebug debug = Services.GetService<TDebug>();
 			debug.Update(gameTime);
 			Console.WriteLine(debug.FPS);
 

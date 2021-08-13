@@ -1,16 +1,14 @@
-﻿using GameEngineTK.Engine.Prototypes.Interfaces;
+﻿using GameEngineTK.Engine.Components;
+using GameEngineTK.Engine.Prototypes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Diagnostics;
 
 namespace GameEngineTK.Engine
 {
-	public class Animation : IComponentManager
+	public class Animation : ComponentInstance
 	{
-		private GameObject parent;
-
 		public Texture2D SpriteSheet;
 		public int CurrentFrame = 0;
 		public int FrameCount = 1;
@@ -23,19 +21,6 @@ namespace GameEngineTK.Engine
 		public Vector2 Position { get; set; }
 		public int Width { get; set; }
 		public int Height { get; set; }
-
-		public GameObject Parent
-		{
-			get
-			{
-				return parent;
-			}
-
-			set
-			{
-				parent = value;
-			}
-		}
 
 		public Point size;
 
@@ -55,13 +40,13 @@ namespace GameEngineTK.Engine
 		}
 		public Point src;
 		public double counter = 0;
-		public void Update()
+		public override void Update()
 		{
 			counter = counter <= FrameCount - 1 ? counter + AnimationSpeed / 100 * Time.deltaTime : 0;
 			if (AnimationSpeed != 0)
 				CurrentFrame = (int)Math.Round(counter);
-			Width = parent.GetComponent<Transform>().Width;
-			Height = parent.GetComponent<Transform>().Height;
+			Width = ParentObject.GetComponent<Transform>().Width;
+			Height = ParentObject.GetComponent<Transform>().Height;
 			size = new Point(Width, Height);
 			src.X = CurrentFrame * FrameSize.X;
 			src.Y = CurrentAnimation * FrameSize.Y;

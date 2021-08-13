@@ -22,7 +22,8 @@ namespace GameEngineTK.Scripts
 		TextureHandler texture = new TextureHandler(@"\TestGame\Content\Knight.png");
 		TextureHandler prop = new TextureHandler(@"\TestGame\Content\Prop.png");
 
-
+		Transform pt;
+		Transform prt;
 		public override void Start()
 		{
 			Player = new GameObject();
@@ -31,12 +32,13 @@ namespace GameEngineTK.Scripts
 			Prop = new GameObject();
 			Prop.AddComponent(new Sprite());
 			Prop.GetComponent<Sprite>().Texture = prop;
+			pt = Player.GetComponent<Transform>();
+			prt = Prop.GetComponent<Transform>();
 		}
 
 		public override void Update()
 		{
-			Transform pt = Player.GetComponent<Transform>();
-			Transform prt = Prop.GetComponent<Transform>();
+			
 
 			pt.Width = 64 * 2;
 			pt.Height = 64 * 2;
