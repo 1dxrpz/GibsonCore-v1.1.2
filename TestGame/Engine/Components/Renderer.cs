@@ -1,11 +1,13 @@
-﻿using GameEngineTK.Engine.Prototypes;
+﻿using System;
+using System.Diagnostics;
+using GameEngineTK.Engine.Prototypes;
 using GameEngineTK.Engine.Prototypes.Enums;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace GameEngineTK.Engine.Components
 {
-	class Renderer : DrawInstance
+	internal class Renderer : DrawInstance
 	{
 		private int width, height;
 		
@@ -34,12 +36,17 @@ namespace GameEngineTK.Engine.Components
 			}
 		}
 
-		SpriteFont font;
-
+		Texture2D _texture;
+		Transform _t;
+		public override void Init()
+		{
+			_texture = new Texture2D(ScriptManager.graphicsDevice, 1, 1);
+			Color[] data = new Color[1] { Color.Red };
+			_texture.SetData(data);
+			_t = ParentObject.GetComponent<Transform>();
+		}
 		public override void Draw()
 		{
-			Transform _t = ParentObject.GetComponent<Transform>();
-			
 			if (_t.ScreenPosition().X > -_t.Width && _t.ScreenPosition().X < 1920 &&
 				_t.ScreenPosition().Y > -_t.Height && _t.ScreenPosition().Y < 1080)
 			{
@@ -50,20 +57,28 @@ namespace GameEngineTK.Engine.Components
 						Animation an = ParentObject.GetComponent<Animation>();
 
 						ScriptManager.ctx.Draw(an.SpriteSheet, new Rectangle(_t.ScreenPosition().ToPoint(), an.size),
-							new Rectangle(an.src, an.FrameSize), Color.White, ParentObject.GetComponent<Transform>().Rotation,
+							new Rectangle(an.SourceOffset, an.FrameSize), Color.White, ParentObject.GetComponent<Transform>().Rotation,
 							ParentObject.GetComponent<Animation>().OriginPosition, SpriteEffects.None, 0);
+						ScriptManager.ctx.Draw(
+							_texture,
+							new Rectangle(
+							(_t.ScreenPosition() + ParentObject.GetComponent<Animation>().OriginPosition).ToPoint(), new Point(5, 5)), Color.White);
 					}
 					else if (ParentObject.HasComponent<Sprite>())
 					{
 						Sprite _s = ParentObject.GetComponent<Sprite>();
 						ScriptManager.ctx.Draw(
-							_s.Texture.ToTexture2D(),
+							_s.Texture,
 							new Rectangle(_t.ScreenPosition().ToPoint(),
 							new Point(_s.Width, _s.Height)),
 							new Rectangle(0, 0, _s.Texture.Width, _s.Texture.Height),
 							Color.White,
 							ParentObject.GetComponent<Transform>().Rotation,
 							ParentObject.GetComponent<Sprite>().OriginPosition, SpriteEffects.None, 0);
+						ScriptManager.ctx.Draw(
+							_texture,
+							new Rectangle(
+							(_t.ScreenPosition() + ParentObject.GetComponent<Sprite>().OriginPosition).ToPoint(), new Point(5, 5)), Color.White);
 					}
 				}
 			}

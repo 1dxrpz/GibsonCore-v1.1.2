@@ -17,8 +17,7 @@ namespace GameEngineTK.Scripts
 	{
 		TextureHandler cursorTexture = new TextureHandler(@"\TestGame\Content\CursorSpriteSheet.png");
 		public static GameObject Cursor;
-		ButtonState click = Mouse.GetState().LeftButton;
-		int b = 0;
+		
 		public override void Start()
 		{
 			ScriptManager.Services.GetService<ProjectSettings>().ShowColliders = false;
@@ -33,21 +32,11 @@ namespace GameEngineTK.Scripts
 
 		public override void Update()
 		{
-			/*
-			if (Mouse.GetState().LeftButton != click)
-			{
-				if (Mouse.GetState().LeftButton != ButtonState.Released)
-					b++;
-				click = Mouse.GetState().LeftButton;
-			}
-			*/
 			
 			Cursor.GetComponent<Animation>().FrameCount = 2;
 			Cursor.GetComponent<Animation>().FrameSize = new Point(16, 21);
 			Cursor.GetComponent<Animation>().AnimationSpeed = 0;
 			Cursor.GetComponent<Animation>().CurrentFrame = Mouse.GetState().LeftButton == ButtonState.Pressed ? 1 : 0;
-
-			//ScriptManager.Services.GetService<Debug>().AddDebugLine(Cursor.GetComponent<Animation>().counter.ToString());
 
 			Cursor.GetComponent<Transform>().Position = Mouse.GetState().Position.ToVector2();
 			Cursor.GetComponent<Transform>().Parallax = new Vector2(0, 0);

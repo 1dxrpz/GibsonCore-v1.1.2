@@ -6,11 +6,21 @@ namespace GameEngineTK.Engine
 {
 	public class GameManager
 	{
+		static public Action InitEvent;
 		static public Action UpdateEvent;
 		static public Action DrawEvent;
-		static public Action InitEvent;
-		public void Update() => UpdateEvent?.Invoke();
-		public void Draw() => DrawEvent?.Invoke();
 		public void Init() => InitEvent?.Invoke();
+		private bool _init = false;
+		public void Update()
+		{
+			if (!_init)
+			{
+				//Init();
+				_init = !_init;
+			}
+			else
+				UpdateEvent?.Invoke();
+		}
+		public void Draw() => DrawEvent?.Invoke();
 	}
 }

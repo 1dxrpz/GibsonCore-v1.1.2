@@ -1,19 +1,19 @@
 ﻿using GameEngineTK.Engine.Components;
-using GameEngineTK.Engine.Prototypes.Interfaces;
+using GameEngineTK.Engine.Prototypes.Enums;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace GameEngineTK.Engine
 {
-	public class Transform : ComponentInstance
+	internal class Transform : ComponentInstance
 	{
-		private int width = 32, height = 32;
 		public Vector2 Velocity;
 		public float Rotation;
 		public Vector2 Parallax = new Vector2(1, 1);
 		public Vector2 Position { get; set; }
+
+		private int width = 32, height = 32;
 		public int Width
 		{
 			get
@@ -36,6 +36,8 @@ namespace GameEngineTK.Engine
 				height = value;
 			}
 		}
+
+		public Vector2 Scale = Vector2.One;
 
 		public Vector2 Forward
 		{
@@ -79,16 +81,50 @@ namespace GameEngineTK.Engine
 		{
 			Position += new Vector2(0, _y);
 		}
+
+		
+
+		public bool OnObjectClicked()
+		{
+			bool MouseDown = ParentObject.MouseDown;
+			if (Mouse.GetState().LeftButton == ButtonState.Pressed && MouseDown)
+				return false;
+			else
+			{
+				if (!MouseDown && this.IsHover() && Mouse.GetState().LeftButton == ButtonState.Pressed)
+					MouseDown = true;
+			}
+			return MouseDown;
+		}
+
+		public bool OnObjectDragging()
+		{
+			if (this.IsHover() && Mouse.GetState().LeftButton == ButtonState.Released)
+				ParentObject.onHover = true;
+			else if (Mouse.GetState().LeftButton == ButtonState.Released)
+				ParentObject.onHover = false;
+			return ParentObject.onHover && Mouse.GetState().LeftButton == ButtonState.Pressed && ParentObject.isVisible == VisibleState.Visible;
+		}
+		public bool IsHover()
+		{
+			Transform _t = ParentObject.GetComponent<Transform>();
+			Vector2 pos = _t.Position;
+			return Mouse.GetState().X > pos.X &&
+				Mouse.GetState().X < pos.X + _t.Width &&
+				Mouse.GetState().Y > pos.Y &&
+				Mouse.GetState().Y < pos.Y + _t.Width && ParentObject.isVisible == VisibleState.Visible;
+		}
 		public Vector2 ScreenPosition()
 		{
 			return ((Position) - Camera.Position * Parallax);
 		}
 
+		Transform _parentTransform;
 		public void RotateTowardPosition(Vector2 pos)
 		{
 			ParentObject.GetComponent<Transform>().Rotation = (float)Math.Atan2(
-				pos.Y - ParentObject.GetComponent<Transform>().ScreenPosition().Y,
-				pos.X - ParentObject.GetComponent<Transform>().ScreenPosition().X);
+				pos.Y - _parentTransform.ScreenPosition().Y,
+				pos.X - _parentTransform.ScreenPosition().X);
 		}
 		public void RotateTowardObject(GameObject obj)
 		{
@@ -102,10 +138,13 @@ namespace GameEngineTK.Engine
 		{
 			ParentObject.GetComponent<Transform>().Rotation -= angle;
 		}
-
+		public override void Init()
+		{
+			_parentTransform = ParentObject.GetComponent<Transform>();
+		}
 		public override void Update()
 		{
-			Position += Velocity;
+			//Position += Velocity;
 		}
 	}
 }
