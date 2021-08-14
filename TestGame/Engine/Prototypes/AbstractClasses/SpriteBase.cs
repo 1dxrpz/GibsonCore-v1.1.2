@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using GameEngineTK.Engine.Utils;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework.Graphics;
 
 namespace GameEngineTK.Engine.Components
 {
-	internal abstract class SpriteInstance : ComponentInstance
+	internal abstract class SpriteBase : ComponentBase
 	{
 		private int width, height;
 		public int Width

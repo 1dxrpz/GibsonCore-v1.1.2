@@ -11,7 +11,7 @@ using PerlinNoise.Transformers;
 
 namespace GameEngineTK.Scripts
 {
-	class NoiseScript : IScriptManager
+	class NoiseScript : IScriptableObject
 	{
 		/// <summary>
 		/// Current script's entry point

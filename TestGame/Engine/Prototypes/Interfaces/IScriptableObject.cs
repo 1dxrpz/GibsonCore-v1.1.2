@@ -7,7 +7,7 @@ using System.Text;
 
 namespace GameEngineTK.Engine.Prototypes.Interfaces
 {
-	public interface IScriptManager
+	public interface IScriptableObject
 	{
 		public void Update();
 		public void Start();

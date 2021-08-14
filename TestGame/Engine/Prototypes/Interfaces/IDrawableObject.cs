@@ -4,7 +4,7 @@ using System.Text;
 
 namespace GameEngineTK.Engine.Prototypes.Interfaces
 {
-	public interface IDrawInstance
+	public interface IDrawableObject
 	{
 		public void Draw();
 	}

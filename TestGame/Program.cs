@@ -9,7 +9,7 @@ namespace GameEngineTK
 {
 	public static class Program
 	{
-		static public List<IScriptManager> scripts = new List<IScriptManager>();
+		static public List<IScriptableObject> scripts = new List<IScriptableObject>();
 		[STAThread]
 		static void Main()
 		{

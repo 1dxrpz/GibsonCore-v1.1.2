@@ -4,7 +4,7 @@ using System.Text;
 
 namespace GameEngineTK.Engine.Prototypes.Interfaces
 {
-	public class DxScript : IScriptManager
+	public class DxScript : IScriptableObject
 	{
 		public DxScript()
 		{

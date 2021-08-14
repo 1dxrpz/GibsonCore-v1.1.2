@@ -4,7 +4,7 @@ using VelcroPhysics.Utilities;
 
 namespace GameEngineTK.Engine.Components
 {
-	internal class Physics : ComponentInstance
+	internal class Physics : ComponentBase
 	{
 		public BodyType BodyType
 		{

@@ -7,10 +7,10 @@ using GameEngineTK.Engine.Prototypes.Interfaces;
 
 namespace GameEngineTK.Engine.Components
 {
-	internal abstract class ComponentInstance : IComponentInstance
+	internal abstract class ComponentBase : IComponentObject
 	{
 		public ComponentHandler ParentObject { get; set; }
-		public ComponentInstance()
+		public ComponentBase()
 		{
 			GameManager.UpdateEvent += this.Update;
 		}

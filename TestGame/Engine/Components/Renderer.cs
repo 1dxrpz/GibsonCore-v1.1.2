@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace GameEngineTK.Engine.Components
 {
-	internal class Renderer : DrawInstance
+	internal class Renderer : DrawableBase
 	{
 		private int width, height;
 		
