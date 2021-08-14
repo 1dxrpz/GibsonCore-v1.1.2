@@ -8,7 +8,7 @@ namespace GameEngineTK.Engine.Prototypes.Interfaces
 	public interface IComponentInstance
 	{
 		public ComponentHandler ParentObject { get; set; }
-		public void Update();
 		public void Init();
+		public void Update();
 	}
 }

@@ -5,48 +5,48 @@ using System.Linq;
 
 namespace ConsoleApp1
 {
-	interface IComp
-	{
-
-	}
-	class TestComp1 : IComp { }
-	class TestComp2 : IComp { }
-	class TestComp3 : IComp { }
-	class TestComp4 : IComp { }
-
-	abstract class ComponentHandler
-	{
-		public Dictionary<Type, IComp> Comps = new Dictionary<Type, IComp>();
-
-		public void AddComponent(IComp c)
-		{
-			Comps.Add(c.GetType(), c);
-		}
-		public T FGetComponent<T>()
-		{
-			return (T)Comps[typeof(T)];
-		}
-	}
-
-	class GObject : ComponentHandler
-	{
-		
-		
-	}
-
 	class Program
 	{
 		static void Main(string[] args)
 		{
-			GObject gObject = new GObject();
-			gObject.AddComponent(new TestComp1());
-			gObject.AddComponent(new TestComp2());
-			gObject.AddComponent(new TestComp3());
-			gObject.AddComponent(new TestComp4());
+			while (true)
+			{
+				Console.Clear();
+				Random random = new Random();
+				int[] nums = new int[20];
+				for (int i = 0; i < nums.Length; i++)
+				{
+					nums[i] = random.Next(1, 255);
+				}
 
-			Debug.WriteLine("Hello world");
+				foreach (var item in nums)
+				{
+					Console.WriteLine($"{item}\t\t{GetBinary(item)}");
+				}
+				Console.ReadKey();
+			}
+		}
+		static string GetBinary(int num)
+		{
+			string res = "";
+			int cbyte = 0;
+			while (cbyte < 8)
+			{
+				res = num % 2 + res;
+				num /= 2;
+				cbyte++;
+			}
+			return res;
+		}
+		static void Sort(string[] b)
+		{
+			string[] left = new string[b.Length / 2];
+			string[] right = new string[b.Length / 2];
 
-			Console.WriteLine(gObject.FGetComponent<TestComp1>());
+			for (int i = 0; i < b.Length; i++)
+			{
+
+			}
 		}
 	}
 }

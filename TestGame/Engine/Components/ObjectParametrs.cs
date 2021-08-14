@@ -5,7 +5,7 @@ using GameEngineTK.Engine.Prototypes.Enums;
 
 namespace GameEngineTK.Engine.Components
 {
-	public abstract class ComponentParametrs
+	public abstract class ObjectParametrs
 	{
 		public VisibleState isVisible = VisibleState.Visible;
 		public bool isDraggable = false;

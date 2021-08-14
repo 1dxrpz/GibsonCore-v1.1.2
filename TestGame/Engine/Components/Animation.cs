@@ -7,24 +7,18 @@ using System.Diagnostics;
 
 namespace GameEngineTK.Engine
 {
-	public class Animation : ComponentInstance
+	internal class Animation : SpriteInstance
 	{
 		public Texture2D SpriteSheet;
 		public int CurrentFrame = 0;
 		public int FrameCount = 1;
 		public Point FrameSize;
-
 		public Vector2 OriginPosition = new Vector2();
-
 		public int CurrentAnimation = 0;
 		public int AnimationCount = 1;
 		public double AnimationSpeed = 1.0;
-
-		public Vector2 Position { get; set; }
-		public int Width { get; set; }
-		public int Height { get; set; }
-
 		public Point size;
+		public Point SourceOffset;
 
 		public Animation()
 		{
@@ -40,18 +34,18 @@ namespace GameEngineTK.Engine
 			size.Y = Height;
 			FrameSize = new Point(texture.Width, texture.Height);
 		}
-		public Point src;
-		public double counter = 0;
+
+		private double _counter = 0;
 		public override void Update()
 		{
-			counter = counter <= FrameCount - 1 ? counter + AnimationSpeed / 1000 * Time.deltaTime : 0;
+			_counter = _counter <= FrameCount - 1 ? _counter + AnimationSpeed / 100 * Time.deltaTime : 0;
 			if (AnimationSpeed != 0)
-				CurrentFrame = (int)Math.Round(counter);
+				CurrentFrame = (int)Math.Round(_counter);
 			Width = ParentObject.GetComponent<Transform>().Width;
 			Height = ParentObject.GetComponent<Transform>().Height;
 			size = new Point(Width, Height);
-			src.X = CurrentFrame * FrameSize.X;
-			src.Y = CurrentAnimation * FrameSize.Y;
+			SourceOffset.X = CurrentFrame * FrameSize.X;
+			SourceOffset.Y = CurrentAnimation * FrameSize.Y;
 		}
 	}
 }

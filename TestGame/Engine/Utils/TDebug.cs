@@ -1,13 +1,15 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
+using VelcroPhysics.Dynamics;
 
 namespace GameEngineTK.Engine
 {
-	public static class World
+	public static class TWorld
 	{
 		static public Vector2 ScreenPosition(Vector2 pos) => pos - Camera.Position;
 		static public Vector2 WorldPosition(Vector2 pos) => pos + Camera.Position;
+		static public World World;
 	}
 	public static class Time
 	{

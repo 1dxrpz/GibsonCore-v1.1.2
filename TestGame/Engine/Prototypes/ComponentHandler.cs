@@ -6,13 +6,14 @@ using GameEngineTK.Engine.Prototypes.Interfaces;
 
 namespace GameEngineTK.Engine.Prototypes
 {
-	public abstract class ComponentHandler : ComponentParametrs
+	public abstract class ComponentHandler : ObjectParametrs
 	{
 		public readonly Dictionary<Type, IComponentInstance> Components = new Dictionary<Type, IComponentInstance>();
 		public void AddComponent(IComponentInstance c)
 		{
 			c.ParentObject = this;
 			Components.Add(c.GetType(), c);
+			c.Init();
 		}
 		public void RemoveComponent(IComponentInstance c)
 		{

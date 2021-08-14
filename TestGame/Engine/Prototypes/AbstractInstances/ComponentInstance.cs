@@ -7,17 +7,15 @@ using GameEngineTK.Engine.Prototypes.Interfaces;
 
 namespace GameEngineTK.Engine.Components
 {
-	public abstract class ComponentInstance : IComponentInstance
+	internal abstract class ComponentInstance : IComponentInstance
 	{
 		public ComponentHandler ParentObject { get; set; }
 		public ComponentInstance()
 		{
-			GameManager.InitEvent += this.Init;
 			GameManager.UpdateEvent += this.Update;
 		}
 
 		public virtual void Update() { }
 		public virtual void Init() { }
-
 	}
 }
