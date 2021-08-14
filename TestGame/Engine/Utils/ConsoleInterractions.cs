@@ -8,7 +8,7 @@ using GameEngineTK.Scripts;
 
 namespace GameEngineTK.Engine.Utils
 {
-	class ConsoleInterractions : IScriptManager
+	class ConsoleInterractions : IScriptableObject
 	{
 		[DllImport("kernel32")]
 		static extern bool AllocConsole();

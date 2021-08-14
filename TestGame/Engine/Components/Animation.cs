@@ -7,7 +7,7 @@ using System.Diagnostics;
 
 namespace GameEngineTK.Engine
 {
-	internal class Animation : SpriteInstance
+	internal class Animation : SpriteBase
 	{
 		public Texture2D SpriteSheet;
 		public int CurrentFrame = 0;

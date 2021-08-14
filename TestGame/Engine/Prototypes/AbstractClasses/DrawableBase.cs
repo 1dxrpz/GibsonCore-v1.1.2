@@ -3,9 +3,9 @@ using GameEngineTK.Engine.Prototypes.Interfaces;
 
 namespace GameEngineTK.Engine.Prototypes
 {
-	internal abstract class DrawInstance : ComponentInstance, IDrawInstance
+	internal abstract class DrawableBase : ComponentBase, IDrawableObject
 	{
-		public DrawInstance() => GameManager.DrawEvent += this.Draw;
+		public DrawableBase() => GameManager.DrawEvent += this.Draw;
 		public virtual void Draw() { }
 	}
 }

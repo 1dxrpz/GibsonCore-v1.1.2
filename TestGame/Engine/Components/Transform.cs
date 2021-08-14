@@ -6,7 +6,7 @@ using System;
 
 namespace GameEngineTK.Engine
 {
-	internal class Transform : ComponentInstance
+	internal class Transform : ComponentBase
 	{
 		public Vector2 Velocity;
 		public float Rotation;

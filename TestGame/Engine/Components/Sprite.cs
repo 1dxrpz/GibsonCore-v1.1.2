@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 
 namespace GameEngineTK.Engine.Components
 {
-	class Sprite : SpriteInstance
+	class Sprite : SpriteBase
 	{
 		public Vector2 OriginPosition = new Vector2();
 

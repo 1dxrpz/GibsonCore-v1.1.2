@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework;
 
 namespace GameEngineTK.Engine.Prototypes.Interfaces
 {
-	public interface IComponentInstance
+	public interface IComponentObject
 	{
 		public ComponentHandler ParentObject { get; set; }
 		public void Init();
