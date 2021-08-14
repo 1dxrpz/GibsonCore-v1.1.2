@@ -1,87 +1,52 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace ConsoleApp1
 {
+	interface IComp
+	{
+
+	}
+	class TestComp1 : IComp { }
+	class TestComp2 : IComp { }
+	class TestComp3 : IComp { }
+	class TestComp4 : IComp { }
+
+	abstract class ComponentHandler
+	{
+		public Dictionary<Type, IComp> Comps = new Dictionary<Type, IComp>();
+
+		public void AddComponent(IComp c)
+		{
+			Comps.Add(c.GetType(), c);
+		}
+		public T FGetComponent<T>()
+		{
+			return (T)Comps[typeof(T)];
+		}
+	}
+
+	class GObject : ComponentHandler
+	{
+		
+		
+	}
+
 	class Program
 	{
 		static void Main(string[] args)
 		{
-			Scene scene = new Scene();
+			GObject gObject = new GObject();
+			gObject.AddComponent(new TestComp1());
+			gObject.AddComponent(new TestComp2());
+			gObject.AddComponent(new TestComp3());
+			gObject.AddComponent(new TestComp4());
 
-			scene.Add(new Layout());
-			scene.Add(new Layout());
-			scene.Add(new Layout());
-			scene.Add(new Layout());
+			Debug.WriteLine("Hello world");
 
-			scene[0].name = "1";
-
-			scene.debug();
-		}
-	}
-	class Layout
-	{
-		public Scene parent;
-		public int Order;
-		private string pname;
-		public string name { get
-			{
-				return pname;
-			}
-			set
-			{
-				pname = value;
-			}
-		}
-	}
-	class Scene
-	{
-		private List<Layout> list = new List<Layout>();
-		public void debug()
-		{
-			foreach (var s in list)
-				Console.WriteLine($"type: {s}, name: {s.name}");
-		}
-		public void Add(Layout l)
-		{
-			if (l.name == null)
-			{
-				l.name = "Layout" + list.Count;
-			}
-			l.parent = this;
-			list.Add(l);
-		}
-		public void Add(string n)
-		{
-			Layout t = new Layout();
-			t.name = n;
-			t.parent = this;
-			list.Add(t);
-		}
-		public Layout this[int i]
-		{
-			get
-			{
-				return list[i];
-			}
-			set
-			{
-				if (value.name == null)
-					value.name = "Layer" + i;
-				list[i] = value;
-			}
-		}
-		public Layout this[string n]
-		{
-			get
-			{
-				return list.Find(v => v.name == n);
-			}
-			set
-			{
-				list[list.FindIndex(v => v.name == n)] = value;
-			}
+			Console.WriteLine(gObject.FGetComponent<TestComp1>());
 		}
 	}
 }

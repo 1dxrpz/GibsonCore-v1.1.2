@@ -8,7 +8,7 @@ namespace GameEngineTK.Engine.Prototypes.Interfaces
 	{
 		public DxScript()
 		{
-			GameManager.StartEvent += Start;
+			GameManager.InitEvent += Start;
 			GameManager.UpdateEvent += Update;
 		}
 

@@ -8,9 +8,9 @@ namespace GameEngineTK.Engine
 	{
 		static public Action UpdateEvent;
 		static public Action DrawEvent;
-		static public Action StartEvent;
+		static public Action InitEvent;
 		public void Update() => UpdateEvent?.Invoke();
 		public void Draw() => DrawEvent?.Invoke();
-		public void Start() => StartEvent?.Invoke();
+		public void Init() => InitEvent?.Invoke();
 	}
 }

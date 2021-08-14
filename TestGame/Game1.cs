@@ -1,24 +1,18 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Media;
 using System;
-using System.Collections.Generic;
 using GameEngineTK.Engine;
-using GameEngineTK.Scripts;
-using PerlinNoise;
-using PerlinNoise.Filters;
-using PerlinNoise.Transformers;
-using System.Threading.Tasks;
 using GameEngineTK.Engine.Rendering;
-using GameEngineTK.Engine.Prototypes.Interfaces;
-using GameEngineTK.Engine.Prototypes.Enums;
+using System.Runtime.InteropServices;
 
 namespace GameEngineTK
 {
+	
 	public class Game1 : Game
 	{
+		[DllImport("kernel32.dll")]
+		private static extern bool AllocConsole();
+
 		GameManager GameManager;
 
 		private readonly GraphicsDeviceManager _graphics;
@@ -30,17 +24,18 @@ namespace GameEngineTK
 			Content.RootDirectory = "Content";
 			_graphics.SynchronizeWithVerticalRetrace = default;
 			IsFixedTimeStep = default;
-			BoxCollider.RenderColisionMask = default;
+			//BoxCollider.RenderColisionMask = default;
 			TargetElapsedTime = TimeSpan.FromMilliseconds(1000 / 60);
 		}
 
 		protected override void Initialize()
 		{
+			AllocConsole();
 			GameManager = new GameManager();
 			Window.Position = Point.Zero;
 			base.Initialize();
 			Services.AddService<ProjectSettings>(new ProjectSettings());
-			Services.AddService<Debug>(new Debug());
+			Services.AddService<TDebug>(new TDebug());
 			ScriptManager.Services = Services;
 			ScriptManager.Content = Content;
 			ScriptManager.ctx = ctx;
@@ -55,11 +50,12 @@ namespace GameEngineTK
 				ScriptManager.DefaultScene.Add(ScriptManager.DefaultLayout);
 				ScriptManager.DefaultLayout.Add(ScriptManager.DefaultLayer);
 			}
-			GameManager.Start();
+			//font = Content.Load<SpriteFont>("Arial");
+			GameManager.Init();
 		}
 		protected override void LoadContent()
 		{
-			BoxCollider.ColliderRenderTexture = Content.Load<Texture2D>("SolidWall");
+			//BoxCollider.ColliderRenderTexture = Content.Load<Texture2D>("SolidWall");
 
 			ctx = new SpriteBatch(GraphicsDevice);
 			font = Content.Load<SpriteFont>("font");
@@ -71,7 +67,7 @@ namespace GameEngineTK
 			_graphics.PreferredBackBufferWidth = settings.WindowWidth;
 			_graphics.SynchronizeWithVerticalRetrace = settings.VSync;
 			base.IsFixedTimeStep = settings.FixedTS;
-			BoxCollider.RenderColisionMask = settings.ShowColliders;
+			//BoxCollider.RenderColisionMask = settings.ShowColliders;
 			TargetElapsedTime = TimeSpan.FromMilliseconds(1000 / settings.MaxFPS);
 
 			GameManager.Update();
@@ -81,12 +77,11 @@ namespace GameEngineTK
 		}
 		protected override void Draw(GameTime gameTime)
 		{
-			GameManager.Draw();
 			//ProjectSettings settings = Services.GetService<ProjectSettings>();
 			
-			Debug debug = Services.GetService<Debug>();
+			TDebug debug = Services.GetService<TDebug>();
 			debug.Update(gameTime);
-			Console.WriteLine(debug.FPS);
+			//Console.WriteLine(debug.FPS);
 
 			GraphicsDevice.Clear(Color.Black);
 			ctx.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp);
@@ -100,23 +95,26 @@ namespace GameEngineTK
 			//	ctx.DrawString(font, "Version: " + (config.ContainsKey("version") ? "v.1.00" : config["version"]), new Vector2(10, 40), Color.Gray);
 			//	ctx.DrawString(font, " - Debug.Text\n[scope]: message " + debug.text, new Vector2(10, 60), Color.White);
 			//}
-			foreach(Scene scene in Theatre.Scenes)
-			{
-				if (scene.isVisible == VisibleState.Visible)
-				foreach (Layout layout in scene.Objects)
-				{
-					if (layout.isVisible == VisibleState.Visible)
-					foreach (Layer layer in layout.Objects)
-					{
-						if (layer.isVisible == VisibleState.Visible)
-						foreach (IGameInstances instance in layer.Objects)
-						{
-							if (instance.isVisible == VisibleState.Visible)
-							instance.Draw();
-						}
-					}
-				}
-			}
+
+			GameManager.Draw();
+			ctx.DrawString(font, TDebug.FPS.ToString(), new Vector2(10, 10), Color.White);
+			//foreach (Scene scene in Theatre.Scenes)
+			//{
+			//	if (scene.isVisible == VisibleState.Visible)
+			//	foreach (Layout layout in scene.Objects)
+			//	{
+			//		if (layout.isVisible == VisibleState.Visible)
+			//		foreach (Layer layer in layout.Objects)
+			//		{
+			//			if (layer.isVisible == VisibleState.Visible)
+			//			foreach (IGameInstances instance in layer.Objects)
+			//			{
+			//				if (true)
+			//				instance.Draw();
+			//			}
+			//		}
+			//	}
+			//}
 			ctx.End();
 			base.Draw(gameTime);
 

@@ -1,43 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using GameEngineTK.Engine.Prototypes.Interfaces;
-using GameEngineTK.Engine.Utils;
+﻿using GameEngineTK.Engine.Utils;
 using Microsoft.Xna.Framework;
 
 namespace GameEngineTK.Engine.Components
 {
-	class Sprite : IComponentManager
+	class Sprite : ComponentInstance
 	{
 		private int width, height;
-		private Vector2 position;
-		private GameObject parent;
-		private TextureHandler texture;
+		public Vector2 OriginPosition = new Vector2();
 
-		public GameObject Parent
-		{
-			get
-			{
-				return parent;
-			}
-
-			set
-			{
-				parent = value;
-			}
-		}
-		public Vector2 Position
-		{
-			get
-			{
-				return position;
-			}
-
-			set
-			{
-				position = position;
-			}
-		}
 		public int Width
 		{
 			get
@@ -64,10 +34,11 @@ namespace GameEngineTK.Engine.Components
 		}
 
 		public TextureHandler Texture;
-		public void Update()
+
+		public override void Update()
 		{
-			width = parent.GetComponent<Transform>().Width;
-			height = parent.GetComponent<Transform>().Height;
+			width = ParentObject.GetComponent<Transform>().Width;
+			height = ParentObject.GetComponent<Transform>().Height;
 		}
 	}
 }

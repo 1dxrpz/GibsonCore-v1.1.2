@@ -1,4 +1,5 @@
-﻿using GameEngineTK.Engine.Prototypes.Interfaces;
+﻿using GameEngineTK.Engine.Components;
+using GameEngineTK.Engine.Prototypes.Interfaces;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -6,14 +7,12 @@ using System.Text;
 
 namespace GameEngineTK.Engine
 {
-	public class Transform : IComponentManager
+	public class Transform : ComponentInstance
 	{
 		private int width = 32, height = 32;
-		private GameObject parent;
 		public Vector2 Velocity;
 		public float Rotation;
 		public Vector2 Parallax = new Vector2(1, 1);
-
 		public Vector2 Position { get; set; }
 		public int Width
 		{
@@ -64,19 +63,6 @@ namespace GameEngineTK.Engine
 			get { return -Top; }
 		}
 
-		public GameObject Parent
-		{
-			get
-			{
-				return parent;
-			}
-
-			set
-			{
-				parent = value;
-			}
-		}
-
 		public void Translate(Vector2 pos)
 		{
 			Position += pos;
@@ -97,7 +83,27 @@ namespace GameEngineTK.Engine
 		{
 			return ((Position) - Camera.Position * Parallax);
 		}
-		public void Update()
+
+		public void RotateTowardPosition(Vector2 pos)
+		{
+			ParentObject.GetComponent<Transform>().Rotation = (float)Math.Atan2(
+				pos.Y - ParentObject.GetComponent<Transform>().ScreenPosition().Y,
+				pos.X - ParentObject.GetComponent<Transform>().ScreenPosition().X);
+		}
+		public void RotateTowardObject(GameObject obj)
+		{
+			RotateTowardPosition(obj.GetComponent<Transform>().Position);
+		}
+		public void RotateClockwise(float angle)
+		{
+			ParentObject.GetComponent<Transform>().Rotation += angle;
+		}
+		public void RotateCounterClockwise(float angle)
+		{
+			ParentObject.GetComponent<Transform>().Rotation -= angle;
+		}
+
+		public override void Update()
 		{
 			Position += Velocity;
 		}
