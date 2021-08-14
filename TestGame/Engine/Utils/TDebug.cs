@@ -25,7 +25,7 @@ namespace GameEngineTK.Engine
 	public class TDebug
 	{
 		public bool Enabled = ConfigReader.Parse("project").ContainsKey("EnableDebug") ? ConfigReader.Parse("project").GetBool("EnableDebug") : false;
-		public double FPS;
+		static public double FPS;
 		private double frames = 0;
 		private double updates = 0;
 		private double elapsed = 0;

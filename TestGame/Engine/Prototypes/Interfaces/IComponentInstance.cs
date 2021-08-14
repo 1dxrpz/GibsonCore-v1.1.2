@@ -9,5 +9,6 @@ namespace GameEngineTK.Engine.Prototypes.Interfaces
 	{
 		public ComponentHandler ParentObject { get; set; }
 		public void Update();
+		public void Init();
 	}
 }

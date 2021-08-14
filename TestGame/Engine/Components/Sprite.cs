@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using GameEngineTK.Engine.Prototypes.Interfaces;
-using GameEngineTK.Engine.Utils;
+﻿using GameEngineTK.Engine.Utils;
 using Microsoft.Xna.Framework;
 
 namespace GameEngineTK.Engine.Components
@@ -39,16 +35,10 @@ namespace GameEngineTK.Engine.Components
 
 		public TextureHandler Texture;
 
-		Transform transform;
-		public Sprite()
-		{
-			transform = ParentObject.GetComponent<Transform>();
-		}
-
 		public override void Update()
 		{
-			width = transform.Width;
-			height = transform.Height;
+			width = ParentObject.GetComponent<Transform>().Width;
+			height = ParentObject.GetComponent<Transform>().Height;
 		}
 	}
 }

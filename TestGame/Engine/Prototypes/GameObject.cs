@@ -13,20 +13,19 @@ using System.Text;
 
 namespace GameEngineTK.Engine
 {
-	public class Params
-	{
-		public VisibleState isVisible = VisibleState.Visible;
-		public bool isDraggable = false;
-		public bool MouseDown = false;
-		public bool onHover = false;
-	}
+	/*
+	 * first of all get rid wrong level of abstraction
+	 * 
+	 * remove this abomination from gameobject
+	 */
 	public class GameObject : ComponentHandler, IGameInstances
 	{
 		private Texture2D texture;
 		private TextureHandler vtexture;
 
-		public Params objectParams = new Params();
-
+		/*
+		 * why the hell do you need to call instance with this parametrs
+		 */
 		public GameObject()
 		{
 			AddComponent(new Transform());
@@ -60,25 +59,6 @@ namespace GameEngineTK.Engine
 				ScriptManager.DefaultLayer.Add(this);
 			}
 		}
-
-		#region REWRITE TO TRANSFORM FIELD
-		public void RotateTowardPosition(Vector2 pos)
-		{
-			this.GetComponent<Transform>().Rotation = (float)Math.Atan2(pos.Y - this.GetComponent<Transform>().ScreenPosition().Y, pos.X - this.GetComponent<Transform>().ScreenPosition().X);
-		}
-		public void RotateTowardObject(GameObject obj)
-		{
-			this.RotateTowardPosition(obj.GetComponent<Transform>().Position);
-		}
-		public void RotateClockwise(float angle)
-		{
-			this.GetComponent<Transform>().Rotation += angle;
-		}
-		public void RotateCounterClockwise(float angle)
-		{
-			this.GetComponent<Transform>().Rotation -= angle;
-		}
-		#endregion
 
 		public Texture2D Texture {
 			get { return texture; }
@@ -123,30 +103,18 @@ namespace GameEngineTK.Engine
 				InstanceName = value;
 			}
 		}
-		private VisibleState visible = VisibleState.Visible;
-
-		public VisibleState isVisible
-		{
-			get
-			{
-				return visible;
-			}
-
-			set
-			{
-				visible = value;
-			}
-		}
+		
 		public void MoveTo(int index)
 		{
 			Parent.Objects[Parent.Objects.FindIndex(v => v == this)] = Parent.Objects[index];
 			Parent.Objects[index] = this;
 		}
 
+		// holy shit
 		public SpriteEffects Flip = SpriteEffects.None;
-
 		private readonly List<VisualEffect> Effects = new List<VisualEffect>();
 
+		// WHYY???
 		public bool AddEffect(VisualEffect e)
 		{
 			if (HasEffect(e))
@@ -169,7 +137,7 @@ namespace GameEngineTK.Engine
 		#region MAKE FUNCTIONS COMPONENT
 		public bool OnObjectClicked()
 		{
-			bool MouseDown = objectParams.MouseDown;
+			bool MouseDown = this.MouseDown;
 			if (Mouse.GetState().LeftButton == ButtonState.Pressed && MouseDown)
 				return false;
 			else
@@ -183,11 +151,12 @@ namespace GameEngineTK.Engine
 
 		public bool OnObjectDragging()
 		{
+			
 			if (this.IsHover() && Mouse.GetState().LeftButton == ButtonState.Released)
-				objectParams.onHover = true;
+				onHover = true;
 			else if (Mouse.GetState().LeftButton == ButtonState.Released)
-				objectParams.onHover = false;
-			return objectParams.onHover && Mouse.GetState().LeftButton == ButtonState.Pressed && objectParams.isVisible == VisibleState.Visible;
+				onHover = false;
+			return onHover && Mouse.GetState().LeftButton == ButtonState.Pressed && isVisible == VisibleState.Visible;
 		}
 		public bool IsHover()
 		{
@@ -196,16 +165,17 @@ namespace GameEngineTK.Engine
 			return Mouse.GetState().X > pos.X &&
 				Mouse.GetState().X < pos.X + _t.Width &&
 				Mouse.GetState().Y > pos.Y &&
-				Mouse.GetState().Y < pos.Y + _t.Width && objectParams.isVisible == VisibleState.Visible;
+				Mouse.GetState().Y < pos.Y + _t.Width && isVisible == VisibleState.Visible;
 		}
 
 		#region TEST THIS OPTION FOR OPTIMISATION ISSUES
 		public float Distance(GameObject obj)
 		{
-			Vector2 opos = obj.GetComponent<Transform>().Position - obj.OriginPosition;
-			Vector2 pos = this.GetComponent<Transform>().Position - OriginPosition;
-			return (float) Math.Sqrt((pos.X - opos.X) * (pos.X - opos.X) + (pos.Y - opos.Y) * (pos.Y - opos.Y));
+			return 1;
 		}
+		/*
+		 * the fuck is this
+		 */
 		public float VDistance(GameObject obj)
 		{
 			Vector2 opos = obj.GetComponent<Transform>().Position;

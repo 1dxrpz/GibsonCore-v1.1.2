@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using GameEngineTK.Engine.Components;
 using GameEngineTK.Engine.Prototypes.Interfaces;
 
 namespace GameEngineTK.Engine.Prototypes
 {
-	public abstract class ComponentHandler
+	public abstract class ComponentHandler : ComponentParametrs
 	{
 		public readonly Dictionary<Type, IComponentInstance> Components = new Dictionary<Type, IComponentInstance>();
 		public void AddComponent(IComponentInstance c)
