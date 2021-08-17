@@ -34,8 +34,8 @@ namespace GameEngineTK
 		}
 		protected override void Initialize()
 		{
-			TWorld.World = new World(new Vector2(0, 5f));
-			ConvertUnits.SetDisplayUnitToSimUnitRatio(100f);
+			TWorld.World = new tainicom.Aether.Physics2D.Dynamics.World(new tainicom.Aether.Physics2D.Common.Vector2(0, 100f));
+			ConvertUnits.SetDisplayUnitToSimUnitRatio(1f);
 
 			contentManager = Content;
 			AllocConsole();

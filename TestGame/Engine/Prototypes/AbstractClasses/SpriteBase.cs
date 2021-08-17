@@ -4,7 +4,7 @@ namespace GameEngineTK.Engine.Components
 {
 	internal abstract class SpriteBase : ComponentBase
 	{
-		private int width, height;
+		private int width = 32, height = 32;
 		public int Width
 		{
 			get

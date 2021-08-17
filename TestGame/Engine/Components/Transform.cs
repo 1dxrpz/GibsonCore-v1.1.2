@@ -8,12 +8,27 @@ namespace GameEngineTK.Engine
 {
 	internal class Transform : ComponentBase
 	{
+		public Action<Vector2> PositionChanged;
+
 		public Vector2 Velocity;
 		public float Rotation;
 		public Vector2 Parallax = new Vector2(1, 1);
-		public Vector2 Position { get; set; }
+		public Vector2 Position
+		{
+			get => _position;
+			set
+			{
+				_position = value;
+			}
+		}
+		public void SetPosition(Vector2 pos)
+		{
+			_position = pos;
+			PositionChanged?.Invoke(pos);
+		}
 
-		private int width = 32, height = 32;
+		private Vector2 _position;
+		private int width, height;
 		public int Width
 		{
 			get
@@ -44,8 +59,8 @@ namespace GameEngineTK.Engine
 			get
 			{
 				return new Vector2(
-					(float)(1 * Math.Cos(Rotation)),
-					(float)(1 * Math.Sin(Rotation))
+					(float)(Math.Cos(Rotation)),
+					(float)(Math.Sin(Rotation))
 				);
 			}
 			private set { }
@@ -55,8 +70,8 @@ namespace GameEngineTK.Engine
 		{
 			get
 			{ return new Vector2(
-					(float)(1 * Math.Sin(Rotation)),
-					(float)(-1 * Math.Cos(Rotation))
+					(float)(Math.Sin(Rotation)),
+					(float)(-Math.Cos(Rotation))
 				);
 			}
 		}
@@ -67,22 +82,20 @@ namespace GameEngineTK.Engine
 
 		public void Translate(Vector2 pos)
 		{
-			Position += pos;
+			_position += pos;
 		}
 		public void Translate(float _x, float _y)
 		{
-			Position += new Vector2(_x, _y);
+			_position += new Vector2(_x, _y);
 		}
 		public void TranslateX(float _x)
 		{
-			Position += new Vector2(_x, 0);
+			_position += new Vector2(_x, 0);
 		}
 		public void TranslateY(float _y)
 		{
-			Position += new Vector2(0, _y);
+			_position += new Vector2(0, _y);
 		}
-
-		
 
 		public bool OnObjectClicked()
 		{
@@ -108,7 +121,7 @@ namespace GameEngineTK.Engine
 		public bool IsHover()
 		{
 			Transform _t = ParentObject.GetComponent<Transform>();
-			Vector2 pos = _t.Position;
+			Vector2 pos = _t._position;
 			return Mouse.GetState().X > pos.X &&
 				Mouse.GetState().X < pos.X + _t.Width &&
 				Mouse.GetState().Y > pos.Y &&
@@ -116,10 +129,10 @@ namespace GameEngineTK.Engine
 		}
 		public Vector2 ScreenPosition()
 		{
-			return ((Position) - Camera.Position * Parallax);
+			return ((_position) - Camera.Position * Parallax);
 		}
 
-		Transform _parentTransform;
+		private Transform _parentTransform;
 		public void RotateTowardPosition(Vector2 pos)
 		{
 			ParentObject.GetComponent<Transform>().Rotation = (float)Math.Atan2(
@@ -128,7 +141,7 @@ namespace GameEngineTK.Engine
 		}
 		public void RotateTowardObject(GameObject obj)
 		{
-			RotateTowardPosition(obj.GetComponent<Transform>().Position);
+			RotateTowardPosition(obj.GetComponent<Transform>()._position);
 		}
 		public void RotateClockwise(float angle)
 		{
@@ -144,7 +157,7 @@ namespace GameEngineTK.Engine
 		}
 		public override void Update()
 		{
-			//Position += Velocity;
+			_position += Velocity;
 		}
 	}
 }

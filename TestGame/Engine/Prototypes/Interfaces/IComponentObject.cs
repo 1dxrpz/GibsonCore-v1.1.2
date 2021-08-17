@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.Xna.Framework;
-
-namespace GameEngineTK.Engine.Prototypes.Interfaces
+﻿namespace GameEngineTK.Engine.Prototypes.Interfaces
 {
 	public interface IComponentObject
 	{
+		public bool Enabled { get; set; }
 		public ComponentHandler ParentObject { get; set; }
 		public void Init();
 		public void Update();
+		public void EnableChanged(bool state);
 	}
 }

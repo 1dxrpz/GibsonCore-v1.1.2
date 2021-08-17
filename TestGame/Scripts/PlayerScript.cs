@@ -12,76 +12,66 @@ using GameEngineTK.Engine.Utils;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using VelcroPhysics.Dynamics;
+using tainicom.Aether.Physics2D.Dynamics;
 
 namespace GameEngineTK.Scripts
 {
 	public class PlayerScript : DxScript
 	{
 		public static GameObject Player;
-		public GameObject[] Props = new GameObject[10];
-		Texture2D texture;
-		Texture2D prop;
+		public static GameObject Ground;
+		Texture2D _texture;
+		Texture2D _groundTexture;
 
 		Transform pt;
 		public override void Start()
 		{
-			texture = Game1.contentManager.Load<Texture2D>("Knight");
-			prop = Game1.contentManager.Load<Texture2D>("Prop");
-			Player = new GameObject();
-			Player.AddComponent(new Animation());
-			Player.AddComponent(new Physics());
-			Player.GetComponent<Physics>().BodyType = BodyType.Dynamic;
-			
-			Player.GetComponent<Animation>().SpriteSheet = texture;
-			for (int i = 0; i < 10; i++)
-			{
-				for (int a = 0; a < 10; a++)
-				{
-					Props[i] = new GameObject();
-					Props[i].AddComponent(new Sprite());
-					Props[i].GetComponent<Sprite>().Texture = prop;
+			_texture = Game1.contentManager.Load<Texture2D>("Knight");
+			_groundTexture = Game1.contentManager.Load<Texture2D>("frame");
 
-					Props[i].GetComponent<Transform>().Width = 150;
-					Props[i].GetComponent<Transform>().Height = 150;
-					Props[i].GetComponent<Transform>().Position = new Vector2(a * 150, i * 150);
-					Props[i].GetComponent<Sprite>().OriginPosition = new Vector2(i * -10, 0);
-				}
-			}
+			Player = new GameObject();
+			Ground = new GameObject();
+
+			Player.AddComponent(new Animation());
 			
 			pt = Player.GetComponent<Transform>();
 			pt.Width = 64 * 2;
 			pt.Height = 64 * 2;
+			Ground.AddComponent(new Sprite());
+			Ground.GetComponent<Transform>().Width = 500;
+			Ground.GetComponent<Transform>().Height = 100;
+			Ground.GetComponent<Sprite>().Texture = _groundTexture;
+			Player.GetComponent<Transform>().Position = new Vector2(0, -20);
+
+			Player.GetComponent<Animation>().SpriteSheet = _texture;
 
 			Player.GetComponent<Animation>().FrameCount = 8;
 			Player.GetComponent<Animation>().FrameSize = new Point(32, 32);
 			Player.GetComponent<Animation>().AnimationSpeed = 1;
-			Player.GetComponent<Animation>().OriginPosition = new Vector2(32, 32);
+			//Player.GetComponent<Animation>().OriginPosition = new Vector2(32, 32);
+
+			Ground.AddComponent(new Physics());
+			Ground.GetComponent<Physics>().BodyType = BodyType.Static;
+			Player.AddComponent(new Physics());
+			Player.GetComponent<Physics>().BodyType = BodyType.Dynamic;
+			Ground.GetComponent<Sprite>().OriginPosition = new Vector2(32, 30);
+			//Player.GetComponent<Physics>().OnCollision += collide;
+		}
+
+		private void collide(Body obj)
+		{
+			//obj.ApplyLinearImpulse(new Vector2(0, 10f));
 		}
 
 		public override void Update()
 		{
-			float speed = .5f;
+			
+			float speed = 100f;
 
 			if (Keyboard.GetState().IsKeyDown(Keys.D))
 			{
-				pt.Velocity.X = speed * Time.deltaTime;
+				Player.GetComponent<Physics>().ApplyForce(new Vector2(1000f, 0));
 			}
-			else
-			if (Keyboard.GetState().IsKeyDown(Keys.A))
-			{
-				pt.Velocity.X = -speed * Time.deltaTime;
-			}
-			else
-				pt.Velocity.X = 0;
-
-			if (Keyboard.GetState().IsKeyDown(Keys.S))
-				pt.Velocity.Y = speed * Time.deltaTime;
-			else
-			if (Keyboard.GetState().IsKeyDown(Keys.W))
-				pt.Velocity.Y = -speed * Time.deltaTime;
-			else
-				pt.Velocity.Y = 0;
 			
 		}
 	}

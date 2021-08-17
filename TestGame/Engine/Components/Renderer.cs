@@ -41,7 +41,7 @@ namespace GameEngineTK.Engine.Components
 		public override void Init()
 		{
 			_texture = new Texture2D(ScriptManager.graphicsDevice, 1, 1);
-			Color[] data = new Color[1] { Color.Red };
+			Color[] data = new Color[1] { new Color(100, 100, 100, 100) };
 			_texture.SetData(data);
 			_t = ParentObject.GetComponent<Transform>();
 		}
@@ -59,10 +59,6 @@ namespace GameEngineTK.Engine.Components
 						ScriptManager.ctx.Draw(an.SpriteSheet, new Rectangle(_t.ScreenPosition().ToPoint(), an.size),
 							new Rectangle(an.SourceOffset, an.FrameSize), Color.White, ParentObject.GetComponent<Transform>().Rotation,
 							ParentObject.GetComponent<Animation>().OriginPosition, SpriteEffects.None, 0);
-						ScriptManager.ctx.Draw(
-							_texture,
-							new Rectangle(
-							(_t.ScreenPosition() + ParentObject.GetComponent<Animation>().OriginPosition).ToPoint(), new Point(5, 5)), Color.White);
 					}
 					else if (ParentObject.HasComponent<Sprite>())
 					{
@@ -75,10 +71,6 @@ namespace GameEngineTK.Engine.Components
 							Color.White,
 							ParentObject.GetComponent<Transform>().Rotation,
 							ParentObject.GetComponent<Sprite>().OriginPosition, SpriteEffects.None, 0);
-						ScriptManager.ctx.Draw(
-							_texture,
-							new Rectangle(
-							(_t.ScreenPosition() + ParentObject.GetComponent<Sprite>().OriginPosition).ToPoint(), new Point(5, 5)), Color.White);
 					}
 				}
 			}
