@@ -11,5 +11,4 @@ version: v.1.1
 info: https://kennethgibson.site/
 title: Gibson Game Engine preview
 EnableConsole: true
-EnableDebug: true
 EnsureDefaults: true

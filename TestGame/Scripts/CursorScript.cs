@@ -1,15 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using GameEngineTK.Engine;
+using GameEngineTK.Core;
 using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Graphics;
-using GameEngineTK.Engine.Prototypes.Interfaces;
-using GameEngineTK.Engine.Components;
-using GameEngineTK.Engine.Utils;
-using GameEngineTK.Engine.Rendering;
-using GameEngineTK.Engine.Prototypes.Enums;
+using GameEngineTK.Core.Prototypes.Interfaces;
+using GameEngineTK.Core.Utils;
 
 namespace GameEngineTK.Scripts
 {
@@ -21,7 +14,7 @@ namespace GameEngineTK.Scripts
 		public override void Start()
 		{
 			ScriptManager.Services.GetService<ProjectSettings>().ShowColliders = false;
-			Cursor = new GameObject(cursorTexture);
+			Cursor = new GameObject();
 			Cursor.AddComponent(new Animation());
 			Cursor.GetComponent<Animation>().SpriteSheet = cursorTexture.ToTexture2D();
 			Cursor.GetComponent<Transform>().Parallax = new Vector2(0, 0);

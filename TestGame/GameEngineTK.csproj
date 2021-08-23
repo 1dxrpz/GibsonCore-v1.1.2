@@ -11,17 +11,19 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Remove="Engine\Utils\Keyboard\**" />
-    <EmbeddedResource Remove="Engine\Utils\Keyboard\**" />
-    <None Remove="Engine\Utils\Keyboard\**" />
+    <Compile Remove="Core\Utils\Keyboard\**" />
+    <EmbeddedResource Remove="Core\Utils\Keyboard\**" />
+    <None Remove="Core\Utils\Keyboard\**" />
   </ItemGroup>
   <ItemGroup>
     <TrimmerRootAssembly Include="Microsoft.Xna.Framework.Content.ContentTypeReader" Visible="false" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Aether.Physics2D" Version="1.6.0" />
+    <PackageReference Include="MonoGame.Forms.DX.Content.Builder" Version="2.4.0" />
     <PackageReference Include="MonoGame.Framework.WindowsDX" Version="3.8.0.1641" />
     <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.0.1641" />
+    <PackageReference Include="MonoGame.Penumbra.WindowsDX" Version="2.1.0" />
     <PackageReference Include="VelcroPhysics.MonoGame" Version="0.2.2-CI-20210406-134555" />
   </ItemGroup>
   <ItemGroup>

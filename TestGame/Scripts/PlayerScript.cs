@@ -1,17 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using GameEngineTK.Engine;
-using GameEngineTK.Engine.Components;
-using GameEngineTK.Engine.Prototypes;
-using GameEngineTK.Engine.Prototypes.Enums;
-using GameEngineTK.Engine.Prototypes.Interfaces;
-using GameEngineTK.Engine.Rendering;
-using GameEngineTK.Engine.Utils;
+using GameEngineTK.Core;
+using GameEngineTK.Core.Components;
+using GameEngineTK.Core.Prototypes;
+using GameEngineTK.Core.Prototypes.Enums;
+using GameEngineTK.Core.Prototypes.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Penumbra;
 using tainicom.Aether.Physics2D.Dynamics;
 
 namespace GameEngineTK.Scripts
@@ -26,11 +22,15 @@ namespace GameEngineTK.Scripts
 		Transform pt;
 		public override void Start()
 		{
-			_texture = Game1.contentManager.Load<Texture2D>("Knight");
-			_groundTexture = Game1.contentManager.Load<Texture2D>("frame");
+			ScriptManager.Services.GetService<Lighting>().Enabled = true;
+			ScriptManager.Services.GetService<Lighting>().AmbientColor = Color.Black;
+			ScriptManager.Services.GetService<Lighting>().ApplyLighting();
 
-			Player = new GameObject();
+			_texture = GameEntry.contentManager.Load<Texture2D>("Knight");
+			_groundTexture = GameEntry.contentManager.Load<Texture2D>("frame");
+
 			Ground = new GameObject();
+			Player = new GameObject();
 
 			Player.AddComponent(new Animation());
 			
@@ -41,7 +41,7 @@ namespace GameEngineTK.Scripts
 			Ground.GetComponent<Transform>().Width = 500;
 			Ground.GetComponent<Transform>().Height = 100;
 			Ground.GetComponent<Sprite>().Texture = _groundTexture;
-			Player.GetComponent<Transform>().Position = new Vector2(0, -20);
+			Player.GetComponent<Transform>().Position = new Vector2(0, -200);
 
 			Player.GetComponent<Animation>().SpriteSheet = _texture;
 
@@ -54,23 +54,39 @@ namespace GameEngineTK.Scripts
 			Ground.GetComponent<Physics>().BodyType = BodyType.Static;
 			Player.AddComponent(new Physics());
 			Player.GetComponent<Physics>().BodyType = BodyType.Dynamic;
-			Ground.GetComponent<Sprite>().OriginPosition = new Vector2(32, 30);
-			//Player.GetComponent<Physics>().OnCollision += collide;
+			
+			Player.GetComponent<Animation>().OriginPosition = new Vector2(64, 64);
+			Player.GetComponent<Physics>().OnCollision += collide;
+
+			Ground.AddComponent(new ShadowCaster());
+
+			light = new PointLight()
+			{
+				Scale = new Vector2(500, 500),
+				ShadowType = ShadowType.Occluded,
+				Radius = 100f
+			};
+			ScriptManager.Services.GetService<Lighting>().AddLightSource(light);
 		}
+		Light light;
 
 		private void collide(Body obj)
 		{
-			//obj.ApplyLinearImpulse(new Vector2(0, 10f));
+			//Player.GetComponent<Physics>().ApplyForce(new Vector2(0, -1000f));
 		}
 
 		public override void Update()
 		{
-			
+			light.Position = Mouse.GetState().Position.ToVector2();
+			if (Keyboard.GetState().IsKeyDown(Keys.V))
+			{
+				Player.isVisible = VisibleState.Invisible;
+			}
 			float speed = 100f;
 
 			if (Keyboard.GetState().IsKeyDown(Keys.D))
 			{
-				Player.GetComponent<Physics>().ApplyForce(new Vector2(1000f, 0));
+				Player.GetComponent<Physics>().ApplyForce(new Vector2(10f, 0));
 			}
 			
 		}
