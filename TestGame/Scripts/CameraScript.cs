@@ -1,5 +1,8 @@
-﻿using GameEngineTK.Engine;
-using GameEngineTK.Engine.Prototypes.Interfaces;
+﻿
+using GibsonCore.Components;
+using GibsonCore.Core;
+using GibsonCore.Interfaces;
+using GibsonCore.Utils;
 using Microsoft.Xna.Framework;
 
 namespace GameEngineTK.Scripts
@@ -14,7 +17,7 @@ namespace GameEngineTK.Scripts
 		public override void Update()
 		{
 			Vector2 pos = player.Position;
-			Camera.Position = Vector2.Lerp(Camera.Position,
+			GameWorld.CurrentCamera.Position = Vector2.Lerp(GameWorld.CurrentCamera.Position,
 				pos - new Vector2(
 					1920 / 2,// - player.Width / 2,
 					1080 / 2),// - player.Height / 2),

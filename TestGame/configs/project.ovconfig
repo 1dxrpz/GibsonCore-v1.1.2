@@ -7,9 +7,8 @@
 
 author: Kenneth Gibson
 name: Gibson Game Engine
-version: v.1.01c89e354f
+version: v.1.1
 info: https://kennethgibson.site/
 title: Gibson Game Engine preview
 EnableConsole: true
-EnableDebug: true
 EnsureDefaults: true

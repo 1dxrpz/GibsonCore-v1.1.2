@@ -63,6 +63,12 @@
 /processorParam:TextureFormat=Color
 /build:frame.png;frame
 
+#begin fxeffect.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:fxeffect.fx
+
 #begin ground.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -134,10 +140,4 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:SpriteSheet.png;SpriteSheet
-
-#begin y2mate.com - Oneohtrix Point Never The Fall Into Time HD Vinyl Rip.mp3
-/importer:Mp3Importer
-/processor:SongProcessor
-/processorParam:Quality=Best
-/build:y2mate.com - Oneohtrix Point Never The Fall Into Time HD Vinyl Rip.mp3;Effect.mp3
 
