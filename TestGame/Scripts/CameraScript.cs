@@ -1,5 +1,8 @@
-﻿using GameEngineTK.Core;
-using GameEngineTK.Core.Prototypes.Interfaces;
+﻿
+using GibsonCore.Components;
+using GibsonCore.Core;
+using GibsonCore.Interfaces;
+using GibsonCore.Utils;
 using Microsoft.Xna.Framework;
 
 namespace GameEngineTK.Scripts

@@ -1,9 +1,8 @@
-﻿using System;
-using GameEngineTK.Core;
-using GameEngineTK.Core.Components;
-using GameEngineTK.Core.Prototypes;
-using GameEngineTK.Core.Prototypes.Enums;
-using GameEngineTK.Core.Prototypes.Interfaces;
+﻿using GibsonCore.Abstract;
+using GibsonCore.Components;
+using GibsonCore.Core;
+using GibsonCore.Enums;
+using GibsonCore.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -67,6 +66,15 @@ namespace GameEngineTK.Scripts
 				Radius = 100f
 			};
 			ScriptManager.Services.GetService<Lighting>().AddLightSource(light);
+			Scene s1 = new Scene();
+			ScriptManager.Services.GetService<SceneManager>().Add(s1);
+
+			Scene s2 = new Scene();
+			ScriptManager.Services.GetService<SceneManager>().Add(s2);
+
+			Player.Scene = GameEntry.scene;
+			Ground.Scene = GameEntry.scene;
+
 		}
 		Light light;
 
@@ -82,13 +90,25 @@ namespace GameEngineTK.Scripts
 			{
 				Player.isVisible = VisibleState.Invisible;
 			}
-			float speed = 100f;
 
 			if (Keyboard.GetState().IsKeyDown(Keys.D))
 			{
 				Player.GetComponent<Physics>().ApplyForce(new Vector2(10f, 0));
 			}
-			
+
+			if (Keyboard.GetState().IsKeyDown(Keys.B))
+			{
+				ScriptManager.Services.GetService<SceneManager>().LoadScene(1);
+				ScriptManager.Services.GetService<Lighting>().Enabled = false;
+				ScriptManager.Services.GetService<Lighting>().ApplyLighting();
+			}
+			if (Keyboard.GetState().IsKeyDown(Keys.N))
+			{
+				ScriptManager.Services.GetService<SceneManager>().LoadScene(0);
+				ScriptManager.Services.GetService<Lighting>().Enabled = true;
+				ScriptManager.Services.GetService<Lighting>().ApplyLighting();
+			}
+
 		}
 	}
 }

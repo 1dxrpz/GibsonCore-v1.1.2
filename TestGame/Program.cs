@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using GameEngineTK.Core;
-using GameEngineTK.Core.Prototypes.Interfaces;
-using GameEngineTK.Core.Utils;
 using GameEngineTK.Scripts;
+
+using GibsonCore.Core;
+using GibsonCore.Interfaces;
+using GibsonCore.Utils;
 
 namespace GameEngineTK
 {
