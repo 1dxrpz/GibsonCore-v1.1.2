@@ -8,7 +8,7 @@ using System;
 
 namespace GibsonCore.Components
 {
-	public class Transform : ComponentBase
+	public class Transform : DxComponent
 	{
 		public Action<Vector2> PositionChanged;
 

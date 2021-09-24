@@ -4,7 +4,7 @@ using GibsonCore.Interfaces;
 
 namespace GibsonCore.Abstract
 {
-	public abstract class ComponentBase : IComponentObject
+	public abstract class DxComponent : IComponentObject
 	{
 		protected Transform transform;
 		public Action<bool> EnableStateChanged;
@@ -22,7 +22,7 @@ namespace GibsonCore.Abstract
 			}
 		}
 
-		public ComponentBase()
+		public DxComponent()
 		{
 			EnableStateChanged += EnableChanged;
 			//GameManager.UpdateEvent += this.Update;

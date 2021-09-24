@@ -2,7 +2,7 @@
 
 namespace GibsonCore.Abstract
 {
-	public abstract class SpriteBase : ComponentBase
+	public abstract class SpriteBase : DxComponent
 	{
 		private int width = 32, height = 32;
 		public int Width

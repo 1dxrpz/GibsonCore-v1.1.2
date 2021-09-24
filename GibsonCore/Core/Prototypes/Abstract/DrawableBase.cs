@@ -2,7 +2,7 @@
 
 namespace GibsonCore.Abstract
 {
-	public abstract class DrawableBase : ComponentBase, IDrawableObject
+	public abstract class DrawableBase : DxComponent, IDrawableObject
 	{
 		public DrawableBase()
 		{

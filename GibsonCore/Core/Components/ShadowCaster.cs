@@ -4,7 +4,7 @@ using Penumbra;
 
 namespace GibsonCore.Components
 {
-	public class ShadowCaster : ComponentBase
+	public class ShadowCaster : DxComponent
 	{
 		PenumbraComponent penumbra;
 		Hull hull;

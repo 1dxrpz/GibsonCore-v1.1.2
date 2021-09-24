@@ -2,7 +2,7 @@
 
 namespace GibsonCore.Components
 {
-	internal class ParticleRenderer : ComponentBase
+	internal class ParticleRenderer : DxComponent
 	{
 	}
 }

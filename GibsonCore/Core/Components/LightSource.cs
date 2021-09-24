@@ -4,7 +4,7 @@ using Penumbra;
 namespace GibsonCore.Components
 {
 
-	internal class LightSource : ComponentBase
+	internal class LightSource : DxComponent
 	{
 		Light _light;
 		public override void Init()
