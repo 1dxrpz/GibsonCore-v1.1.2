@@ -8,5 +8,6 @@ namespace GibsonCore.Components
 		public bool isDraggable = false;
 		public bool MouseDown = false;
 		public bool onHover = false;
+		public string Name = "Unnamed object";
 	}
 }

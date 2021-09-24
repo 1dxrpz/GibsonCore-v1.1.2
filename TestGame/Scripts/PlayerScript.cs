@@ -21,7 +21,7 @@ namespace GameEngineTK.Scripts
 		Transform pt;
 		public override void Start()
 		{
-			ScriptManager.Services.GetService<Lighting>().Enabled = true;
+			ScriptManager.Services.GetService<Lighting>().Enabled = false;
 			ScriptManager.Services.GetService<Lighting>().AmbientColor = Color.Black;
 			ScriptManager.Services.GetService<Lighting>().ApplyLighting();
 
@@ -32,6 +32,7 @@ namespace GameEngineTK.Scripts
 			Player = new GameObject();
 
 			Player.AddComponent(new Animation());
+			Player.GetComponent<Renderer>().Opacity = 1f;
 			
 			pt = Player.GetComponent<Transform>();
 			pt.Width = 64 * 2;
@@ -67,10 +68,10 @@ namespace GameEngineTK.Scripts
 			};
 			ScriptManager.Services.GetService<Lighting>().AddLightSource(light);
 			Scene s1 = new Scene();
-			ScriptManager.Services.GetService<SceneManager>().Add(s1);
+			//ScriptManager.Services.GetService<SceneManager>().Add(s1);
 
 			Scene s2 = new Scene();
-			ScriptManager.Services.GetService<SceneManager>().Add(s2);
+			//ScriptManager.Services.GetService<SceneManager>().Add(s2);
 
 			Player.Scene = GameEntry.scene;
 			Ground.Scene = GameEntry.scene;

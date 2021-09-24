@@ -2,6 +2,21 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <PackageId>GibsonCore</PackageId>
+    <Version>1.1.02</Version>
+    <Authors>Kenneth Gibson</Authors>
+    <Company>Gibson</Company>
+    <Product>GibsonGameEngineCore</Product>
+    <Description>Game engine core library for Monogame</Description>
+    <Copyright />
+    <PackageIcon>logo3.png</PackageIcon>
+    <PackageIconUrl />
+    <RepositoryUrl>https://github.com/1dxrpz/Gibson-Game-Engine-v1.1-pre-release</RepositoryUrl>
+    <PackageTags>GameEngine, core, monogame, xna, gamedev</PackageTags>
+    <NeutralLanguage>en</NeutralLanguage>
+    <AssemblyVersion>1.1.0.2</AssemblyVersion>
+    <FileVersion>1.1.0.2</FileVersion>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
@@ -9,6 +24,13 @@
     <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.0.1641" />
     <PackageReference Include="MonoGame.Framework.WindowsDX" Version="3.8.0.1641" />
     <PackageReference Include="MonoGame.Penumbra.WindowsDX" Version="2.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\..\..\Desktop\logo3.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>

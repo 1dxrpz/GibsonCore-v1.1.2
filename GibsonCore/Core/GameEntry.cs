@@ -9,11 +9,17 @@ using Penumbra;
 using Microsoft.Xna.Framework.Input;
 using GibsonCore.Abstract;
 using GibsonCore.Utils;
+using System.Diagnostics;
+using GibsonCore.Interfaces;
 
 namespace GibsonCore.Core
 {
 	public class GameEntry : Game
 	{
+		public void Execute<T>() where T : DxScript, new()
+		{
+			T _script = new T();
+		}
 		[DllImport("kernel32.dll")]
 		private static extern bool AllocConsole();
 
@@ -37,10 +43,7 @@ namespace GibsonCore.Core
 		public GameEntry()
 		{
 			SceneManager = new SceneManager();
-
-			scene = new Scene();
-			Services.AddService<SceneManager>(SceneManager);
-			SceneManager.Add(scene);
+			Services.AddService(SceneManager);
 
 			_graphics = new GraphicsDeviceManager(this);
 			Content.RootDirectory = "Content";
@@ -49,7 +52,10 @@ namespace GibsonCore.Core
 			TargetElapsedTime = TimeSpan.FromMilliseconds(1000 / 60);
 		}
 		protected override void Initialize()
-		{
+		{	
+			scene = new Scene();
+			SceneManager.Add(scene);
+
 			fps = new Frames();
 			GameWorld.World = new tainicom.Aether.Physics2D.Dynamics.World(new tainicom.Aether.Physics2D.Common.Vector2(0, 100f));
 
@@ -111,6 +117,10 @@ namespace GibsonCore.Core
 			GameManager.Update();
 			
 			base.Update(gameTime);
+		}
+		protected override void EndRun()
+		{
+			base.EndRun();
 		}
 		protected override void Dispose(bool disposing)
 		{

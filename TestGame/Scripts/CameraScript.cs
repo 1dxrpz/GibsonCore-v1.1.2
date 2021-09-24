@@ -1,6 +1,4 @@
-﻿
-using GibsonCore.Components;
-using GibsonCore.Core;
+﻿using GibsonCore.Components;
 using GibsonCore.Interfaces;
 using GibsonCore.Utils;
 using Microsoft.Xna.Framework;

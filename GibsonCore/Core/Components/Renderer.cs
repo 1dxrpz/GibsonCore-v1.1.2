@@ -2,14 +2,26 @@
 using GibsonCore.Enums;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 
 namespace GibsonCore.Components
 {
-	internal class Renderer : DrawableBase
+	public class Renderer : DrawableBase
 	{
-		public int Layer = 0;
 		private int _width, _height;
+		private float _opacity = 1f;
 
+		public int Layer = 0;
+		public float Opacity
+		{
+			get => _opacity;
+			set
+			{
+				if (value < 0)
+					throw new Exception($"[{ParentObject.Name}] Opacity out of bounds (0f; 1f)");
+				_opacity = value;
+			}
+		}
 		public int Width
 		{
 			get
@@ -80,7 +92,7 @@ namespace GibsonCore.Components
 						ScriptManager.ctx.Draw(
 							_an.SpriteSheet,
 							new Rectangle((_t.ScreenPosition()).ToPoint(), _an.size),
-							new Rectangle(_an.SourceOffset, _an.FrameSize), Color.White, _t.Rotation,
+							new Rectangle(_an.SourceOffset, _an.FrameSize), new Color(Color.White, _opacity), _t.Rotation,
 							_an.FrameSize.ToVector2() / 2, SpriteEffects.None, Layer);
 					}
 					else if (ParentObject.HasComponent<Sprite>())
