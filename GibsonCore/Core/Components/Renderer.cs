@@ -1,17 +1,18 @@
 ﻿using GibsonCore.Abstract;
 using GibsonCore.Enums;
+using GibsonCore.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 
 namespace GibsonCore.Components
 {
-	public class Renderer : DrawableBase
+	public class Renderer : DefaultRendererBase
 	{
 		private int _width, _height;
 		private float _opacity = 1f;
 
-		public int Layer = 0;
+		public int LayerDepth = 0;
 		public float Opacity
 		{
 			get => _opacity;
@@ -91,9 +92,10 @@ namespace GibsonCore.Components
 						//GameEntry.effect.CurrentTechnique.Passes[0].Apply();
 						ScriptManager.ctx.Draw(
 							_an.SpriteSheet,
-							new Rectangle((_t.ScreenPosition()).ToPoint(), _an.size),
-							new Rectangle(_an.SourceOffset, _an.FrameSize), new Color(Color.White, _opacity), _t.Rotation,
-							_an.FrameSize.ToVector2() / 2, SpriteEffects.None, Layer);
+							new Rectangle((_t.ScreenPosition()).ToPoint(), new Point(_an.Width, _an.Height)),
+							new Rectangle(_an.SourceOffset, _an.FrameSize),
+							new Color(Color.White, _opacity), _t.Rotation,
+							_an.FrameSize.ToVector2() / 2, SpriteEffects.None, LayerDepth);
 					}
 					else if (ParentObject.HasComponent<Sprite>())
 					{
@@ -104,7 +106,7 @@ namespace GibsonCore.Components
 							new Rectangle(0, 0, _s.Texture.Width, _s.Texture.Height),
 							Color.White,
 							_t.Rotation,
-							new Vector2(_s.Texture.Width, _s.Texture.Height) / 2, SpriteEffects.None, Layer);
+							new Vector2(_s.Texture.Width, _s.Texture.Height) / 2, SpriteEffects.None, LayerDepth);
 					}
 				}
 			}

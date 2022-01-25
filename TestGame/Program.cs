@@ -19,14 +19,12 @@ namespace GameEngineTK
 				game.Execute<CameraScript>();
 				game.Execute<CursorScript>();
 				
-				game.Window.IsBorderless = true;
+				game.Window.IsBorderless = false;
 				game.Window.AllowAltF4 = true;
 				game.IsMouseVisible = true;
 				game.Window.AllowUserResizing = true;
 
 				game.Run();
-				//gameEngineApp.Run();
-				
 			}
 		}
 	}

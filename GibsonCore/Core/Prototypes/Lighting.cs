@@ -12,7 +12,7 @@ namespace GibsonCore.Core
 		PenumbraComponent penumbra;
 		public Lighting()
 		{
-			penumbra = Services.GetService<PenumbraComponent>();
+			penumbra = ScriptManager.Services.GetService<PenumbraComponent>();
 		}
 		public void ApplyLighting()
 		{

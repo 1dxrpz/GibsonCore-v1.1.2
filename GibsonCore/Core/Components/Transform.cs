@@ -1,6 +1,7 @@
 ﻿using GibsonCore.Abstract;
 using GibsonCore.Core;
 using GibsonCore.Enums;
+using GibsonCore.Interfaces;
 using GibsonCore.Utils;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
@@ -8,7 +9,7 @@ using System;
 
 namespace GibsonCore.Components
 {
-	public class Transform : DxComponent
+	public class Transform : DefaultComponent
 	{
 		public Action<Vector2> PositionChanged;
 

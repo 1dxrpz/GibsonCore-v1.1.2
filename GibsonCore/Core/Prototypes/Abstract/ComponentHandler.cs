@@ -10,11 +10,21 @@ namespace GibsonCore.Abstract
 	public abstract class ComponentHandler : ObjectParametrs, IDisposable
 	{
 		public readonly Dictionary<Type, IComponentObject> Components = new Dictionary<Type, IComponentObject>();
-		protected GameServiceContainer Services = ScriptManager.Services;
 		public SceneManager sceneManager;
 
 		private Scene _scene = GameEntry.scene;
 
+		public ComponentHandler()
+		{
+			Transform _t = new Transform();
+			_t.ParentObject = this;
+			Components.Add(_t.GetType(), _t);
+			_t.Init();
+			Renderer _r = new Renderer();
+			_r.ParentObject = this;
+			Components.Add(_r.GetType(), _r);
+			_r.Init();
+		}
 		public Scene Scene
 		{
 			get => _scene;
@@ -41,21 +51,20 @@ namespace GibsonCore.Abstract
 			}
 		}
 
-		public void AddComponent(IComponentObject c)
+		public void AddComponent<T>() where T : DxComponent, new()
+		{
+			T _c = new T();
+			_c.ParentObject = this;
+			Components.Add(_c.GetType(), _c);
+			_c.Init();
+		}
+		public void AddComponent(DxComponent c)
 		{
 			c.ParentObject = this;
 			Components.Add(c.GetType(), c);
-
 			c.Init();
 		}
-		public void AddComponent(IDrawableObject c)
-		{
-			c.ParentObject = this;
-			Components.Add(c.GetType(), c);
-			
-			c.Init();
-		}
-		public void RemoveComponent(IComponentObject c)
+		public void RemoveComponent(DxComponent c)
 		{
 			Components.Remove(c.GetType());
 		}

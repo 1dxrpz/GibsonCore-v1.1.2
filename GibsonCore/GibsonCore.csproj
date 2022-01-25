@@ -3,19 +3,19 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <PackageId>GibsonCore</PackageId>
-    <Version>1.1.02</Version>
+    <Version>1.2.01</Version>
     <Authors>Kenneth Gibson</Authors>
     <Company>Gibson</Company>
     <Product>GibsonGameEngineCore</Product>
     <Description>Game engine core library for Monogame</Description>
     <Copyright />
-    <PackageIcon>logo3.png</PackageIcon>
+    <PackageIcon>CoreLogo.png</PackageIcon>
     <PackageIconUrl />
     <RepositoryUrl>https://github.com/1dxrpz/Gibson-Game-Engine-v1.1-pre-release</RepositoryUrl>
     <PackageTags>GameEngine, core, monogame, xna, gamedev</PackageTags>
     <NeutralLanguage>en</NeutralLanguage>
-    <AssemblyVersion>1.1.0.2</AssemblyVersion>
-    <FileVersion>1.1.0.2</FileVersion>
+    <AssemblyVersion>1.2.0.1</AssemblyVersion>
+    <FileVersion>1.2.0.1</FileVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
@@ -27,10 +27,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\..\..\..\Desktop\logo3.png">
+    <None Include="CoreLogo.png">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
   </ItemGroup>
-
+  
 </Project>

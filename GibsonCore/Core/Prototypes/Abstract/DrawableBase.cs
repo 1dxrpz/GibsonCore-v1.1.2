@@ -11,4 +11,13 @@ namespace GibsonCore.Abstract
 		public virtual void Draw() { }
 		public virtual void Unload() { }
 	}
+	public abstract class DefaultRendererBase : DefaultComponent, IDrawableObject
+	{
+		public DefaultRendererBase()
+		{
+
+		}
+		public virtual void Draw() { }
+		public virtual void Unload() { }
+	}
 }
