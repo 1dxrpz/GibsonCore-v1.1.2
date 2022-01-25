@@ -17,7 +17,7 @@ namespace GibsonCore.Utils
 		/// <returns>Dictionary&lt;key, value&gt;();</returns>
 		static public Dictionary<string, string> Parse(string name)
 		{
-			var config = File.ReadAllText(Path.Combine("../../../configs/", name + ".ovconfig"));
+			var config = File.ReadAllText(Path.Combine("../../../configs/", name + ".cfg"));
 			List<string> trimmed = new List<string>();
 			Dictionary<string, string> result = new Dictionary<string, string>();
 			var lines = config.Split('\n').ToList();

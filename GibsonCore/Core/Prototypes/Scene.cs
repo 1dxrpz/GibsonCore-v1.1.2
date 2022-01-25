@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GibsonCore.Abstract;
+using System;
 
 namespace GibsonCore.Core
 {
@@ -20,7 +21,8 @@ namespace GibsonCore.Core
 
 		public Scene()
 		{
-			
+			//SceneManager a = ScriptManager.Services.GetService<SceneManager>();
+			//a.Add(this);
 		}
 	}
 }

@@ -11,8 +11,6 @@ namespace GibsonCore.Core
 		public GameObject()
 		{
 			Scene = GameEntry.scene;
-			AddComponent(new Transform());
-			AddComponent(new Renderer());
 			
 			this.EnsureDefaults();
 			sceneManager = ScriptManager.Services.GetService<SceneManager>();

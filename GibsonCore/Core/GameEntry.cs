@@ -9,11 +9,17 @@ using Penumbra;
 using Microsoft.Xna.Framework.Input;
 using GibsonCore.Abstract;
 using GibsonCore.Utils;
+using System.Diagnostics;
+using GibsonCore.Interfaces;
 
 namespace GibsonCore.Core
 {
 	public class GameEntry : Game
 	{
+		public void Execute<T>() where T : DxScript, new()
+		{
+			T _script = new T();
+		}
 		[DllImport("kernel32.dll")]
 		private static extern bool AllocConsole();
 
@@ -36,11 +42,10 @@ namespace GibsonCore.Core
 
 		public GameEntry()
 		{
+			ScriptManager.Services = Services;
 			SceneManager = new SceneManager();
-
-			scene = new Scene();
-			Services.AddService<SceneManager>(SceneManager);
-			SceneManager.Add(scene);
+			Services.AddService(SceneManager);
+			
 
 			_graphics = new GraphicsDeviceManager(this);
 			Content.RootDirectory = "Content";
@@ -50,6 +55,10 @@ namespace GibsonCore.Core
 		}
 		protected override void Initialize()
 		{
+			
+			scene = new Scene();
+			SceneManager.Add(scene);
+
 			fps = new Frames();
 			GameWorld.World = new tainicom.Aether.Physics2D.Dynamics.World(new tainicom.Aether.Physics2D.Common.Vector2(0, 100f));
 
@@ -62,10 +71,7 @@ namespace GibsonCore.Core
 			Window.Position = Point.Zero;
 
 			Services.AddService<ProjectSettings>(new ProjectSettings());
-
 			
-
-			ScriptManager.Services = Services;
 			ScriptManager.Content = Content;
 			ctx = new SpriteBatch(GraphicsDevice);
 			ScriptManager.ctx = ctx;
@@ -84,13 +90,14 @@ namespace GibsonCore.Core
 			var config = ConfigReader.Parse("project");
 			settings = Services.GetService<ProjectSettings>();
 			
-			GameManager.Init();
 			_graphics.PreferredBackBufferHeight = settings.WindowHeight;
 			_graphics.PreferredBackBufferWidth = settings.WindowWidth;
 			_graphics.SynchronizeWithVerticalRetrace = settings.VSync;
 			_graphics.ApplyChanges();
-			base.IsFixedTimeStep = settings.FixedTS;
 
+			GameManager.Init();
+
+			base.IsFixedTimeStep = settings.FixedTS;
 			base.Initialize();
 		}
 
@@ -112,6 +119,10 @@ namespace GibsonCore.Core
 			
 			base.Update(gameTime);
 		}
+		protected override void EndRun()
+		{
+			base.EndRun();
+		}
 		protected override void Dispose(bool disposing)
 		{
 			Content.Dispose();
@@ -126,31 +137,22 @@ namespace GibsonCore.Core
 
 		protected override void Draw(GameTime gameTime)
 		{
-
-
 			//ProjectSettings settings = Services.GetService<ProjectSettings>();
 			penumbra.BeginDraw();
 			fps.Update(gameTime);
 
 			//GraphicsDevice.SetRenderTarget(_renderTarget);
+			
 			GraphicsDevice.Clear(Color.SkyBlue);
-			//ctx.DrawString(font, $"fps: {TDebug.FPS}", new Vector2(10, 10), Color.White);
 
 			//ctx.Begin(SpriteSortMode.Texture, BlendState.NonPremultiplied, SamplerState.PointClamp);
 			//GameManager.DrawFX();
 			//ctx.End();
 
-			ctx.Begin(SpriteSortMode.BackToFront, BlendState.NonPremultiplied, SamplerState.PointClamp);
+			ctx.Begin(SpriteSortMode.FrontToBack, BlendState.NonPremultiplied, SamplerState.PointClamp);
+			ctx.DrawString(font, $"fps: {Frames.FPS}", new Vector2(10, 10), Color.White);
 			GameManager.DrawDefault();
 			ctx.End();
-
-			//GraphicsDevice.SetRenderTarget(null);
-			//GraphicsDevice.Clear(Color.SkyBlue);
-			//ctx.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp);
-
-			//ctx.Draw(_renderTarget, Camera.ScalePosition, null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
-
-			//ctx.End();
 
 			base.Draw(gameTime);
 		}

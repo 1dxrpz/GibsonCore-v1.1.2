@@ -15,13 +15,14 @@ namespace GameEngineTK.Scripts
 	{
 		public static GameObject Player;
 		public static GameObject Ground;
+		public static GameObject rect;
 		Texture2D _texture;
 		Texture2D _groundTexture;
 
 		Transform pt;
 		public override void Start()
 		{
-			ScriptManager.Services.GetService<Lighting>().Enabled = true;
+			ScriptManager.Services.GetService<Lighting>().Enabled = false;
 			ScriptManager.Services.GetService<Lighting>().AmbientColor = Color.Black;
 			ScriptManager.Services.GetService<Lighting>().ApplyLighting();
 
@@ -30,8 +31,17 @@ namespace GameEngineTK.Scripts
 
 			Ground = new GameObject();
 			Player = new GameObject();
+			rect = new GameObject();
 
-			Player.AddComponent(new Animation());
+			rect.AddComponent(new Sprite());
+
+			rect.GetComponent<Sprite>().Texture = _groundTexture;
+			rect.GetComponent<Transform>().Width = 100;
+			rect.GetComponent<Transform>().Height = 100;
+			rect.GetComponent<Transform>().Position = new Vector2(0, -200);
+
+			Player.AddComponent<Animation>();
+			Player.GetComponent<Renderer>().Opacity = 1f;
 			
 			pt = Player.GetComponent<Transform>();
 			pt.Width = 64 * 2;
@@ -74,7 +84,10 @@ namespace GameEngineTK.Scripts
 
 			Player.Scene = GameEntry.scene;
 			Ground.Scene = GameEntry.scene;
+			rect.Scene = GameEntry.scene;
 
+			Player.GetComponent<Renderer>().LayerDepth = 1;
+			rect.GetComponent<Renderer>().LayerDepth = 0;
 		}
 		Light light;
 
@@ -99,14 +112,10 @@ namespace GameEngineTK.Scripts
 			if (Keyboard.GetState().IsKeyDown(Keys.B))
 			{
 				ScriptManager.Services.GetService<SceneManager>().LoadScene(1);
-				ScriptManager.Services.GetService<Lighting>().Enabled = false;
-				ScriptManager.Services.GetService<Lighting>().ApplyLighting();
 			}
 			if (Keyboard.GetState().IsKeyDown(Keys.N))
 			{
 				ScriptManager.Services.GetService<SceneManager>().LoadScene(0);
-				ScriptManager.Services.GetService<Lighting>().Enabled = true;
-				ScriptManager.Services.GetService<Lighting>().ApplyLighting();
 			}
 
 		}

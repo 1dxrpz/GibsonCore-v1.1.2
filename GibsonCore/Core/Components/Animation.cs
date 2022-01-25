@@ -1,5 +1,4 @@
 ﻿using GibsonCore.Abstract;
-using GibsonCore.Core;
 using GibsonCore.Utils;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -9,29 +8,43 @@ namespace GibsonCore.Components
 {
 	public class Animation : SpriteBase
 	{
+		private int _currentFrame = 0;
+		private int _currentAnimation = 0;
+
 		public Texture2D SpriteSheet;
-		public int CurrentFrame = 0;
+		public int CurrentFrame
+		{
+			get => _currentFrame;
+			set {
+				SourceOffset.X = value * FrameSize.X;
+				_currentFrame = value;
+			}
+		}
+		public int CurrentAnimation
+		{
+			get => _currentAnimation;
+			set
+			{
+				SourceOffset.Y = value * FrameSize.Y;
+				_currentAnimation = value;
+			}
+		}
+
 		public int FrameCount = 1;
 		public Point FrameSize;
 		public Vector2 OriginPosition = new Vector2();
-		public int CurrentAnimation = 0;
 		public int AnimationCount = 1;
 		public double AnimationSpeed = 1.0;
-		public Point size;
-		public Point SourceOffset;
+		public Point SourceOffset = new Point(0, 0);
 
 		public Animation()
 		{
-			size.X = Width;
-			size.Y = Height;
 			FrameSize = new Point(32, 32);
 		}
 
 		public Animation(Texture2D texture)
 		{
 			SpriteSheet = texture;
-			size.X = Width;
-			size.Y = Height;
 			FrameSize = new Point(texture.Width, texture.Height);
 		}
 
@@ -43,9 +56,6 @@ namespace GibsonCore.Components
 				CurrentFrame = (int)Math.Round(_counter);
 			Width = ParentObject.GetComponent<Transform>().Width;
 			Height = ParentObject.GetComponent<Transform>().Height;
-			size = new Point(Width, Height);
-			SourceOffset.X = CurrentFrame * FrameSize.X;
-			SourceOffset.Y = CurrentAnimation * FrameSize.Y;
 		}
 	}
 }
